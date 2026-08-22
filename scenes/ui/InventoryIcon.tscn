@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" uid="uid://oe8bsnaj7psg" path="res://textures/units/unit_placeholder.tres" id="1_icon"]
+
+[node name="InventoryIcon" type="TextureRect"]
+custom_minimum_size = Vector2(80, 80)
+texture = ExtResource("1_icon")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2

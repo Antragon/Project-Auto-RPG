@@ -1,0 +1,242 @@
+[gd_scene format=3 uid="uid://do2afiy5486mw"]
+
+[ext_resource type="PackedScene" path="res://scenes/ui/InventoryIcon.tscn" id="1_inventory_icon"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inventory"]
+bg_color = Color(0.08, 0.1, 0.14, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.32, 0.38, 0.48, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_section"]
+bg_color = Color(0.12, 0.15, 0.2, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.3, 0.38, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="InventoryUI" type="Panel" unique_id=1504871046]
+custom_minimum_size = Vector2(1200, 300)
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -320.0
+offset_right = 1220.0
+offset_bottom = -20.0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_inventory")
+
+[node name="CharactersPanel" type="Panel" parent="." unique_id=1841914908]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 396.0
+offset_bottom = 288.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_section")
+
+[node name="Title" type="Label" parent="CharactersPanel" unique_id=1798423217]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 5.0
+offset_right = 374.0
+offset_bottom = 29.0
+theme_override_colors/font_color = Color(0.45, 0.75, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "Characters"
+
+[node name="Scroll" type="ScrollContainer" parent="CharactersPanel" unique_id=1015424533]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 34.0
+offset_right = 376.0
+offset_bottom = 268.0
+horizontal_scroll_mode = 0
+
+[node name="Grid" type="GridContainer" parent="CharactersPanel/Scroll" unique_id=314883801]
+custom_minimum_size = Vector2(350, 0)
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 4
+
+[node name="Icon1" parent="CharactersPanel/Scroll/Grid" unique_id=1638654086 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon2" parent="CharactersPanel/Scroll/Grid" unique_id=1108862292 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon3" parent="CharactersPanel/Scroll/Grid" unique_id=509320661 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon4" parent="CharactersPanel/Scroll/Grid" unique_id=2032454593 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon5" parent="CharactersPanel/Scroll/Grid" unique_id=404527453 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon6" parent="CharactersPanel/Scroll/Grid" unique_id=1961823511 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon7" parent="CharactersPanel/Scroll/Grid" unique_id=1433376420 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon8" parent="CharactersPanel/Scroll/Grid" unique_id=33141113 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon9" parent="CharactersPanel/Scroll/Grid" unique_id=1772110070 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon10" parent="CharactersPanel/Scroll/Grid" unique_id=2101355148 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon11" parent="CharactersPanel/Scroll/Grid" unique_id=476766940 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon12" parent="CharactersPanel/Scroll/Grid" unique_id=577919957 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="SkillsPanel" type="Panel" parent="." unique_id=1108043756]
+layout_mode = 0
+offset_left = 408.0
+offset_top = 12.0
+offset_right = 792.0
+offset_bottom = 288.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_section")
+
+[node name="Title" type="Label" parent="SkillsPanel" unique_id=1487918693]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 5.0
+offset_right = 374.0
+offset_bottom = 29.0
+theme_override_colors/font_color = Color(0.75, 0.6, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "Skills"
+
+[node name="Scroll" type="ScrollContainer" parent="SkillsPanel" unique_id=1547218620]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 34.0
+offset_right = 376.0
+offset_bottom = 268.0
+horizontal_scroll_mode = 0
+
+[node name="Grid" type="GridContainer" parent="SkillsPanel/Scroll" unique_id=1534940104]
+custom_minimum_size = Vector2(350, 0)
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 4
+
+[node name="Icon1" parent="SkillsPanel/Scroll/Grid" unique_id=1245893497 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon2" parent="SkillsPanel/Scroll/Grid" unique_id=1891407333 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon3" parent="SkillsPanel/Scroll/Grid" unique_id=1290708775 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon4" parent="SkillsPanel/Scroll/Grid" unique_id=603784611 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon5" parent="SkillsPanel/Scroll/Grid" unique_id=709500401 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon6" parent="SkillsPanel/Scroll/Grid" unique_id=1144400548 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon7" parent="SkillsPanel/Scroll/Grid" unique_id=2078123965 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon8" parent="SkillsPanel/Scroll/Grid" unique_id=443200890 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon9" parent="SkillsPanel/Scroll/Grid" unique_id=2073946696 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon10" parent="SkillsPanel/Scroll/Grid" unique_id=859008609 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon11" parent="SkillsPanel/Scroll/Grid" unique_id=860267285 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon12" parent="SkillsPanel/Scroll/Grid" unique_id=407209600 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="EquipmentPanel" type="Panel" parent="." unique_id=2115238001]
+layout_mode = 0
+offset_left = 804.0
+offset_top = 12.0
+offset_right = 1188.0
+offset_bottom = 288.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_section")
+
+[node name="Title" type="Label" parent="EquipmentPanel" unique_id=495193495]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 5.0
+offset_right = 374.0
+offset_bottom = 29.0
+theme_override_colors/font_color = Color(1, 0.72, 0.42, 1)
+theme_override_font_sizes/font_size = 16
+text = "Equipment"
+
+[node name="Scroll" type="ScrollContainer" parent="EquipmentPanel" unique_id=1126242386]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 34.0
+offset_right = 376.0
+offset_bottom = 268.0
+horizontal_scroll_mode = 0
+
+[node name="Grid" type="GridContainer" parent="EquipmentPanel/Scroll" unique_id=1497804042]
+custom_minimum_size = Vector2(350, 0)
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 4
+
+[node name="Icon1" parent="EquipmentPanel/Scroll/Grid" unique_id=1793618072 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon2" parent="EquipmentPanel/Scroll/Grid" unique_id=224625160 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon3" parent="EquipmentPanel/Scroll/Grid" unique_id=2051333429 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon4" parent="EquipmentPanel/Scroll/Grid" unique_id=901152078 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon5" parent="EquipmentPanel/Scroll/Grid" unique_id=1966376493 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon6" parent="EquipmentPanel/Scroll/Grid" unique_id=1746650188 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon7" parent="EquipmentPanel/Scroll/Grid" unique_id=1521065230 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon8" parent="EquipmentPanel/Scroll/Grid" unique_id=1720138283 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon9" parent="EquipmentPanel/Scroll/Grid" unique_id=1745191485 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon10" parent="EquipmentPanel/Scroll/Grid" unique_id=1179001404 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon11" parent="EquipmentPanel/Scroll/Grid" unique_id=289628486 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2
+
+[node name="Icon12" parent="EquipmentPanel/Scroll/Grid" unique_id=1688854206 instance=ExtResource("1_inventory_icon")]
+layout_mode = 2

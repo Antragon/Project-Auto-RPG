@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://r5xiw6rrc6ys"]
 
 [ext_resource type="PackedScene" uid="uid://bl3yp28n31he" path="res://scenes/dungeon/UnitSlot.tscn" id="1_unit_slot"]
+[ext_resource type="PackedScene" uid="uid://do2afiy5486mw" path="res://scenes/ui/InventoryUI.tscn" id="2_inventory_ui"]
 
 [node name="Dungeon" type="Node2D" unique_id=373558476]
 
@@ -33,3 +34,8 @@ position = Vector2(280, -1)
 
 [node name="EnemySlot4" parent="EnemyFormation" unique_id=2030880023 instance=ExtResource("1_unit_slot")]
 position = Vector2(420, 0)
+
+[node name="Interface" type="CanvasLayer" parent="." unique_id=1774537139]
+layer = 10
+
+[node name="InventoryUI" parent="Interface" unique_id=784927610 instance=ExtResource("2_inventory_ui")]
