@@ -11,8 +11,18 @@ config_version=5
 [application]
 
 config/name="Project Auto RPG"
-config/features=PackedStringArray("4.6", "GL Compatibility")
+run/main_scene="res://scenes/dungeon/Dungeon.tscn"
+config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=1600
+window/size/viewport_height=900
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
 
 [dotnet]
 
