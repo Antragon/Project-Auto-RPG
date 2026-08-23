@@ -26,7 +26,7 @@ window/stretch/aspect="expand"
 
 [dotnet]
 
-project/assembly_name="Project Auto RPG"
+project/assembly_name="ProjectAutoRPG"
 
 [physics]
 
