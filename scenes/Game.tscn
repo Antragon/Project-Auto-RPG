@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://tc6mg3evh1f3"]
+
+[ext_resource type="Script" uid="uid://bq36cr0d5yh45" path="res://scripts/GameRoot.cs" id="1_qbsmt"]
+[ext_resource type="PackedScene" uid="uid://r5xiw6rrc6ys" path="res://scenes/dungeon/Dungeon.tscn" id="2_cpr0p"]
+
+[node name="Game" type="Node" unique_id=578501718]
+script = ExtResource("1_qbsmt")
+
+[node name="Dungeon" parent="." unique_id=871353155 instance=ExtResource("2_cpr0p")]

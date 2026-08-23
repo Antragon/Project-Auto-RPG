@@ -1,0 +1,8 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://chwtiogjgrep"]
+
+[ext_resource type="Texture2D" uid="uid://df7k0id1p36xr" path="res://textures/craftpix/craftpix-net-453698-free-shinobi-sprites-pixel-art/Samurai/Idle.png" id="1_samurai_idle"]
+
+[resource]
+atlas = ExtResource("1_samurai_idle")
+region = Rect2(48, 40, 32, 32)
+margin = Rect2(0, -4, 0, 0)
