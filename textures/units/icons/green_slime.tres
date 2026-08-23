@@ -1,0 +1,8 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://bfw6r6wh7vkfo"]
+
+[ext_resource type="Texture2D" uid="uid://k57j837vihf8" path="res://textures/craftpix/free-slime-sprite-sheets-pixel-art/Green_Slime/Idle.png" id="1_idle"]
+
+[resource]
+atlas = ExtResource("1_idle")
+region = Rect2(32, 78, 60, 50)
+margin = Rect2(0, 0, 0, 10)
