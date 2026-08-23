@@ -8,6 +8,7 @@ using Godot;
 public sealed class SaveRepository
 {
     private const string SavePath = "user://save.json";
+    private const string CharacterName = "shinobi";
 
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
@@ -34,7 +35,7 @@ public sealed class SaveRepository
             var saveData = JsonSerializer.Deserialize<SaveData>(file.GetAsText());
             file.Close();
 
-            if (saveData is null)
+            if (saveData?.Characters is null)
             {
                 throw new JsonException("Save file contains invalid character data.");
             }
@@ -57,7 +58,7 @@ public sealed class SaveRepository
         {
             Characters =
             [
-                new SavedCharacter { Name = "starter" },
+                new SavedCharacter { Name = CharacterName },
             ],
         };
     }
