@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bl3yp28n31he"]
 
-[ext_resource type="Texture2D" uid="uid://oe8bsnaj7psg" path="res://textures/units/unit_placeholder.tres" id="1_b3lxv"]
+[ext_resource type="Texture2D" uid="uid://oe8bsnaj7psg" path="res://textures/units/icons/placeholder.tres" id="1_b3lxv"]
 
 [node name="UnitSlot" type="Node2D" unique_id=12019991]
 
