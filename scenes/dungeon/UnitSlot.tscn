@@ -1,9 +1,25 @@
 [gd_scene format=3 uid="uid://bl3yp28n31he"]
 
-[ext_resource type="Texture2D" uid="uid://oe8bsnaj7psg" path="res://textures/units/icons/placeholder.tres" id="1_b3lxv"]
+[ext_resource type="Texture2D" uid="uid://dwe1jh82b0pk1" path="res://textures/ui/unit_drop_indicator.tres" id="2_jbyso"]
+[ext_resource type="Script" uid="uid://6iem7uva84wc" path="res://scripts/Dungeon/UnitSlot.cs" id="2_unit_slot"]
+[ext_resource type="Script" uid="uid://bg0srd3lugply" path="res://scripts/Dungeon/UnitSlotDropTarget.cs" id="3_drop_target"]
 
 [node name="UnitSlot" type="Node2D" unique_id=12019991]
+script = ExtResource("2_unit_slot")
 
-[node name="UnitSprite" type="Sprite2D" parent="." unique_id=1995396495]
-texture = ExtResource("1_b3lxv")
+[node name="UnitSprite" type="AnimatedSprite2D" parent="." unique_id=2144976736]
+visible = false
+
+[node name="DropIndicatorSprite" type="Sprite2D" parent="." unique_id=1995396495]
+visible = false
+texture = ExtResource("2_jbyso")
 offset = Vector2(0, -48)
+
+[node name="DropTarget" type="Control" parent="." unique_id=-2127103762]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -64.0
+offset_top = -128.0
+offset_right = 64.0
+mouse_default_cursor_shape = 2
+script = ExtResource("3_drop_target")

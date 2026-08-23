@@ -9,7 +9,7 @@ public partial class UnitData : Resource
 {
     [Export] public Array<string> Tags { get; set; } = [];
 
-    [Export] public SkillTargetData BaseAttack { get; set; } = new();
+    [Export] public SkillData BaseAttack { get; set; } = new();
 
     [Export] public int Vitality { get; set; }
 

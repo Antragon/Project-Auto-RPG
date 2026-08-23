@@ -11,15 +11,22 @@
 position = Vector2(-150, -50)
 
 [node name="CharacterSlot1" parent="CharacterFormation" unique_id=1287608153 instance=ExtResource("1_unit_slot")]
+AcceptsCharacters = true
 
 [node name="CharacterSlot2" parent="CharacterFormation" unique_id=470108265 instance=ExtResource("1_unit_slot")]
 position = Vector2(-140, 0)
+SlotIndex = 1
+AcceptsCharacters = true
 
 [node name="CharacterSlot3" parent="CharacterFormation" unique_id=1299068291 instance=ExtResource("1_unit_slot")]
 position = Vector2(-280, 0)
+SlotIndex = 2
+AcceptsCharacters = true
 
 [node name="CharacterSlot4" parent="CharacterFormation" unique_id=302027364 instance=ExtResource("1_unit_slot")]
 position = Vector2(-420, 0)
+SlotIndex = 3
+AcceptsCharacters = true
 
 [node name="EnemyFormation" type="Node2D" parent="." unique_id=1276685455]
 position = Vector2(150, -50)
