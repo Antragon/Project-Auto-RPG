@@ -1,14 +1,23 @@
 [gd_scene format=3 uid="uid://r5xiw6rrc6ys"]
 
 [ext_resource type="PackedScene" uid="uid://bl3yp28n31he" path="res://scenes/dungeon/UnitSlot.tscn" id="1_unit_slot"]
+[ext_resource type="TileSet" uid="uid://su02sqm4pu1x" path="res://textures/backgrounds/forest.tres" id="1_wbjle"]
 [ext_resource type="PackedScene" uid="uid://do2afiy5486mw" path="res://scenes/ui/InventoryUI.tscn" id="2_inventory_ui"]
+[ext_resource type="Script" uid="uid://bnnmwutx347nq" path="res://scripts/Dungeon/DungeonBackground.cs" id="4_dungeon_background"]
 
 [node name="Dungeon" type="Node2D" unique_id=373558476]
+
+[node name="Background" type="TileMapLayer" parent="." unique_id=1910635666]
+z_index = -100
+position = Vector2(-1600, -450)
+scale = Vector2(0.463, 0.463)
+tile_set = ExtResource("1_wbjle")
+script = ExtResource("4_dungeon_background")
 
 [node name="DungeonCamera" type="Camera2D" parent="." unique_id=222073036]
 
 [node name="CharacterFormation" type="Node2D" parent="." unique_id=417323637]
-position = Vector2(-150, -50)
+position = Vector2(-150, 75)
 
 [node name="CharacterSlot1" parent="CharacterFormation" unique_id=1287608153 instance=ExtResource("1_unit_slot")]
 AcceptsCharacters = true
@@ -29,7 +38,7 @@ SlotIndex = 3
 AcceptsCharacters = true
 
 [node name="EnemyFormation" type="Node2D" parent="." unique_id=1276685455]
-position = Vector2(150, -50)
+position = Vector2(150, 75)
 
 [node name="EnemySlot1" parent="EnemyFormation" unique_id=1045756000 instance=ExtResource("1_unit_slot")]
 

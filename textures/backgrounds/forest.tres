@@ -1,0 +1,12 @@
+[gd_resource type="TileSet" format=3 uid="uid://su02sqm4pu1x"]
+
+[ext_resource type="Texture2D" uid="uid://c0guaiq86cax3" path="res://textures/craftpix/forest-and-trees-free-pixel-backgrounds/6/2304x1296.png" id="1_0emrg"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ysnhk"]
+texture = ExtResource("1_0emrg")
+texture_region_size = Vector2i(2304, 1296)
+0:0/0 = 0
+
+[resource]
+tile_size = Vector2i(2304, 1296)
+sources/0 = SubResource("TileSetAtlasSource_ysnhk")
