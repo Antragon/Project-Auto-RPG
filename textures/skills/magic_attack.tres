@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://4j657b04nxvo"]
+
+[ext_resource type="Texture2D" uid="uid://dyw8juf0wsfbg" path="res://textures/game-icons.net/crystal-wand.png" id="1_88bpb"]
+
+[resource]
+atlas = ExtResource("1_88bpb")
+region = Rect2(0, 0, 512, 512)

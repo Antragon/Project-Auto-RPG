@@ -4,12 +4,21 @@
 [ext_resource type="Script" uid="uid://6iem7uva84wc" path="res://scripts/Dungeon/UnitSlot.cs" id="2_unit_slot"]
 [ext_resource type="Script" uid="uid://bg0srd3lugply" path="res://scripts/Dungeon/UnitSlotDropTarget.cs" id="3_drop_target"]
 [ext_resource type="Script" uid="uid://be0phhmrvhqp" path="res://scripts/Dungeon/UnitHealthBar.cs" id="4_health_bar"]
+[ext_resource type="Script" uid="uid://b2pjwpadtpm7m" path="res://scripts/Dungeon/UnitSkillSlots.cs" id="5_skill_slots"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health_background"]
 bg_color = Color(0.35, 0.35, 0.35, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health_fill"]
 bg_color = Color(0.85, 0.08, 0.08, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_skill_slot"]
+bg_color = Color(0.15, 0.19, 0.26, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.3, 0.4, 0.54, 1)
 
 [node name="UnitSlot" type="Node2D" unique_id=12019991]
 script = ExtResource("2_unit_slot")
@@ -34,6 +43,53 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_health_fill")
 value = 100.0
 show_percentage = false
 script = ExtResource("4_health_bar")
+
+[node name="SkillSlots" type="HBoxContainer" parent="." unique_id=158914530]
+offset_left = -64.0
+offset_top = 16.0
+offset_right = 64.0
+offset_bottom = 44.0
+theme_override_constants/separation = 4
+script = ExtResource("5_skill_slots")
+
+[node name="Slot1" type="Panel" parent="SkillSlots" unique_id=100316243]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_skill_slot")
+
+[node name="Icon" type="TextureRect" parent="SkillSlots/Slot1" unique_id=208167914]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Slot2" type="Panel" parent="SkillSlots" unique_id=173954815]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_skill_slot")
+
+[node name="Slot3" type="Panel" parent="SkillSlots" unique_id=259782316]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_skill_slot")
+
+[node name="Slot4" type="Panel" parent="SkillSlots" unique_id=349178425]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_skill_slot")
 
 [node name="DropTarget" type="Control" parent="." unique_id=-2127103762]
 layout_mode = 3

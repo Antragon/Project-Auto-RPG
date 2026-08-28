@@ -1,10 +1,12 @@
 [gd_resource type="Resource" script_class="UnitData" format=3 uid="uid://b4sma6ydbrmdr"]
 
+[ext_resource type="Texture2D" uid="uid://4j657b04nxvo" path="res://textures/skills/magic_attack.tres" id="1_05mdq"]
 [ext_resource type="Script" uid="uid://ti7s6ptdsbvr" path="res://scripts/Skills/SkillData.cs" id="1_t40fl"]
 [ext_resource type="Script" uid="uid://dr61qdn2hdvyo" path="res://scripts/Units/UnitData.cs" id="1_unit_data"]
 
 [sub_resource type="Resource" id="Resource_w861l"]
 script = ExtResource("1_t40fl")
+Icon = ExtResource("1_05mdq")
 Selection = 3
 Power = 10
 metadata/_custom_type_script = "uid://ti7s6ptdsbvr"
