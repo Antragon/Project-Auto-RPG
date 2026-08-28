@@ -12,8 +12,8 @@ public enum SkillTargetSelection
 
 public enum SkillTarget
 {
-    Enemy,
-    Character,
+    Opponent,
+    Ally,
 }
 
 public enum SkillEffect
@@ -25,11 +25,11 @@ public enum SkillEffect
 [GlobalClass]
 public partial class SkillData : Resource
 {
-    [Export] public SkillTarget Target { get; set; } = SkillTarget.Enemy;
+    [Export] public SkillTarget Target { get; set; } = SkillTarget.Opponent;
 
     [Export] public SkillTargetSelection Selection { get; set; } = SkillTargetSelection.First;
 
     [Export] public SkillEffect Effect { get; set; } = SkillEffect.Damage;
 
-    [Export] public int Amount { get; set; }
+    [Export] public int Power { get; set; }
 }

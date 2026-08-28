@@ -1,10 +1,15 @@
-[gd_resource type="Resource" script_class="UnitData" format=3 uid="uid://bdsdn7hnlv4x7"]
+[gd_resource type="Resource" script_class="UnitData" format=3 uid="uid://b4sma6ydbrmdr"]
 
 [ext_resource type="Script" uid="uid://ti7s6ptdsbvr" path="res://scripts/Skills/SkillData.cs" id="1_t40fl"]
 [ext_resource type="Script" uid="uid://dr61qdn2hdvyo" path="res://scripts/Units/UnitData.cs" id="1_unit_data"]
 
-[sub_resource type="Resource" id="Resource_mpjbw"]
+[sub_resource type="Resource" id="Resource_w861l"]
 script = ExtResource("1_t40fl")
+Selection = 3
+Power = 10
+metadata/_custom_type_script = "uid://ti7s6ptdsbvr"
 
 [resource]
 script = ExtResource("1_unit_data")
+BaseSkill = SubResource("Resource_w861l")
+metadata/_custom_type_script = "uid://dr61qdn2hdvyo"

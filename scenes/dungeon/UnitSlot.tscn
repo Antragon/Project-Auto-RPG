@@ -3,6 +3,13 @@
 [ext_resource type="Texture2D" uid="uid://dwe1jh82b0pk1" path="res://textures/ui/unit_drop_indicator.tres" id="2_jbyso"]
 [ext_resource type="Script" uid="uid://6iem7uva84wc" path="res://scripts/Dungeon/UnitSlot.cs" id="2_unit_slot"]
 [ext_resource type="Script" uid="uid://bg0srd3lugply" path="res://scripts/Dungeon/UnitSlotDropTarget.cs" id="3_drop_target"]
+[ext_resource type="Script" uid="uid://be0phhmrvhqp" path="res://scripts/Dungeon/UnitHealthBar.cs" id="4_health_bar"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health_background"]
+bg_color = Color(0.35, 0.35, 0.35, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health_fill"]
+bg_color = Color(0.85, 0.08, 0.08, 1)
 
 [node name="UnitSlot" type="Node2D" unique_id=12019991]
 script = ExtResource("2_unit_slot")
@@ -14,6 +21,19 @@ visible = false
 visible = false
 texture = ExtResource("2_jbyso")
 offset = Vector2(0, -48)
+
+[node name="HealthBar" type="ProgressBar" parent="." unique_id=304113768]
+custom_minimum_size = Vector2(64, 8)
+offset_left = -32.0
+offset_top = -144.0
+offset_right = 32.0
+offset_bottom = -136.0
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_health_background")
+theme_override_styles/fill = SubResource("StyleBoxFlat_health_fill")
+value = 100.0
+show_percentage = false
+script = ExtResource("4_health_bar")
 
 [node name="DropTarget" type="Control" parent="." unique_id=-2127103762]
 layout_mode = 3
