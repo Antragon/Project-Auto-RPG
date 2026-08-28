@@ -2,35 +2,37 @@ namespace Game.scripts.Units;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Extensions;
 
 public sealed class CharacterFormationService
 {
     public const int SlotCount = 4;
 
-    private readonly List<string?> _characters = [null, null, null, null];
+    private readonly List<UnitData?> _units = [null, null, null, null];
 
     public event Action? Changed;
 
-    public IReadOnlyList<string?> Characters => field ??= _characters.AsReadOnly();
+    public IReadOnlyList<UnitData?> Units => field ??= _units.AsReadOnly();
 
-    public string? GetCharacter(int slotIndex)
+    public UnitData? GetUnitData(int slotIndex)
     {
-        return (uint)slotIndex < _characters.Count ? _characters[slotIndex] : null;
+        return (uint)slotIndex < _units.Count ? _units[slotIndex] : null;
     }
 
     public bool IsSlotted(string characterName)
     {
-        return _characters.Contains(characterName);
+        return _units.Any(unitData => unitData?.Name == characterName);
     }
 
-    public void Assign(string characterName, int targetSlotIndex)
+    public void Assign(UnitData unitData, int targetSlotIndex)
     {
-        if (string.IsNullOrWhiteSpace(characterName) || (uint)targetSlotIndex >= SlotCount)
+        if ((uint)targetSlotIndex >= SlotCount)
         {
             return;
         }
 
-        var sourceSlotIndex = _characters.IndexOf(characterName);
+        var sourceSlotIndex = _units.FindIndex(assignedUnitData => assignedUnitData?.Name == unitData.Name);
         if (sourceSlotIndex == targetSlotIndex)
         {
             return;
@@ -38,10 +40,10 @@ public sealed class CharacterFormationService
 
         if (sourceSlotIndex >= 0)
         {
-            _characters[sourceSlotIndex] = null;
+            _units[sourceSlotIndex] = null;
         }
 
-        _characters[targetSlotIndex] = characterName;
+        _units[targetSlotIndex] = unitData;
         Changed?.Invoke();
     }
 }

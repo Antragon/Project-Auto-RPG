@@ -16,6 +16,8 @@ public partial class UnitSlot : Node2D
 
     [Export] public bool AcceptsCharacters { get; set; }
 
+    public Unit? Unit { get; private set; }
+
     public override void _Ready()
     {
         if (AcceptsCharacters)
@@ -37,7 +39,7 @@ public partial class UnitSlot : Node2D
 
     public bool CanAcceptCharacter(Variant data)
     {
-        return AcceptsCharacters && TryGetCharacterName(data, out _);
+        return AcceptsCharacters && TryGetUnitData(data, out _);
     }
 
     public void SetDropIndicatorVisible(bool visible)
@@ -50,9 +52,9 @@ public partial class UnitSlot : Node2D
 
     public void AcceptCharacter(Variant data)
     {
-        if (TryGetCharacterName(data, out var characterName))
+        if (TryGetUnitData(data, out var unitData))
         {
-            CharacterFormation.Assign(characterName, SlotIndex);
+            CharacterFormation.Assign(unitData, SlotIndex);
         }
     }
 
@@ -63,8 +65,10 @@ public partial class UnitSlot : Node2D
             return;
         }
 
-        var characterName = CharacterFormation.GetCharacter(SlotIndex);
-        if (characterName is null)
+        var unitData = CharacterFormation.GetUnitData(SlotIndex);
+        Unit = unitData is null ? null : new Unit(unitData);
+
+        if (unitData is null)
         {
             UnitSprite.Stop();
             UnitSprite.SpriteFrames = null;
@@ -72,10 +76,10 @@ public partial class UnitSlot : Node2D
             return;
         }
 
-        var spriteFrames = GD.Load<SpriteFrames>($"res://textures/units/{characterName}.tres");
+        var spriteFrames = UnitSpriteFramesRepository.Load(unitData.Name);
         if (spriteFrames is null)
         {
-            GD.PushWarning($"Could not load SpriteFrames for character '{characterName}'.");
+            GD.PushWarning($"Could not load SpriteFrames for character '{unitData.Name}'.");
             UnitSprite.Stop();
             UnitSprite.SpriteFrames = null;
             UnitSprite.Visible = false;
@@ -90,15 +94,20 @@ public partial class UnitSlot : Node2D
         UnitSprite.Play("idle");
     }
 
-    private static bool TryGetCharacterName(Variant data, out string characterName)
+    private static bool TryGetUnitData(Variant data, out UnitData unitData)
     {
-        characterName = string.Empty;
-        if (data.VariantType != Variant.Type.String)
+        unitData = null!;
+        if (data.VariantType != Variant.Type.Object)
         {
             return false;
         }
 
-        characterName = data.AsString();
-        return !string.IsNullOrWhiteSpace(characterName);
+        if (data.AsGodotObject() is not UnitData dataUnitData)
+        {
+            return false;
+        }
+
+        unitData = dataUnitData;
+        return true;
     }
 }

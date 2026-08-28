@@ -13,9 +13,12 @@ public partial class InventoryIcon : Panel
 
     public string CharacterName => _characterName;
 
+    public UnitData? UnitData { get; private set; }
+
     public void SetCharacter(string name)
     {
         _characterName = name;
+        UnitData = UnitDataRepository.Load(name);
         Icon.Texture = IconRepository.GetUnit(name);
     }
 
@@ -41,6 +44,11 @@ public partial class InventoryIcon : Panel
             SetDragPreview(preview);
         }
 
-        return _characterName;
+        if (UnitData is { } unitData)
+        {
+            return unitData;
+        }
+
+        return default;
     }
 }

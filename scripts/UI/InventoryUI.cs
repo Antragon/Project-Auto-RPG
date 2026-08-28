@@ -4,6 +4,7 @@ using Extensions;
 using Godot;
 using Persistence;
 using Units;
+using Game.scripts;
 
 public partial class InventoryUI : Panel
 {
@@ -13,7 +14,7 @@ public partial class InventoryUI : Panel
 
     private GridContainer CharactersGrid => field ??= GetNode<GridContainer>("CharactersPanel/Scroll/Grid");
 
-    private PackedScene InventoryIconScene => field ??= GD.Load<PackedScene>("res://scenes/ui/InventoryIcon.tscn")!;
+    private PackedScene InventoryIconScene => field ??= SceneRepository.Load("ui/InventoryIcon")!;
 
     public override void _Ready()
     {
