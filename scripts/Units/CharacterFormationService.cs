@@ -1,49 +1,75 @@
 namespace Game.scripts.Units;
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using Dungeon;
 using Extensions;
+using Godot;
 
-public sealed class CharacterFormationService
+public partial class CharacterFormationService : Node2D
 {
-    public const int SlotCount = 4;
+    private UnitSlot CharacterSlot1 => field ??= GetNode<UnitSlot>("CharacterSlot1");
 
-    private readonly List<UnitData?> _units = [null, null, null, null];
+    private UnitSlot CharacterSlot2 => field ??= GetNode<UnitSlot>("CharacterSlot2");
+
+    private UnitSlot CharacterSlot3 => field ??= GetNode<UnitSlot>("CharacterSlot3");
+
+    private UnitSlot CharacterSlot4 => field ??= GetNode<UnitSlot>("CharacterSlot4");
+
+    private UnitSlot[] CharacterSlots => field ??= [CharacterSlot1, CharacterSlot2, CharacterSlot3, CharacterSlot4];
+
+    private bool _reconciling;
 
     public event Action? Changed;
 
-    public IReadOnlyList<UnitData?> Units => field ??= _units.AsReadOnly();
-
-    public UnitData? GetUnitData(int slotIndex)
+    public override void _Ready()
     {
-        return (uint)slotIndex < _units.Count ? _units[slotIndex] : null;
+        foreach (var characterSlot in CharacterSlots)
+        {
+            characterSlot.Changed += OnCharacterSlotChanged;
+        }
+    }
+
+    public override void _ExitTree()
+    {
+        foreach (var characterSlot in CharacterSlots)
+        {
+            characterSlot.Changed -= OnCharacterSlotChanged;
+        }
     }
 
     public bool IsSlotted(string characterName)
     {
-        return _units.Any(unitData => unitData?.Name == characterName);
+        return CharacterSlots.Any(slot => slot.Unit?.UnitData.Name == characterName);
     }
 
-    public void Assign(UnitData unitData, int targetSlotIndex)
+    private void OnCharacterSlotChanged(UnitSlot changedSlot)
     {
-        if ((uint)targetSlotIndex >= SlotCount)
+        if (_reconciling)
         {
             return;
         }
 
-        var sourceSlotIndex = _units.FindIndex(assignedUnitData => assignedUnitData?.Name == unitData.Name);
-        if (sourceSlotIndex == targetSlotIndex)
+        _reconciling = true;
+        try
         {
-            return;
+            var changedUnit = changedSlot.Unit;
+            if (changedUnit is not null)
+            {
+                foreach (var characterSlot in CharacterSlots)
+                {
+                    if (characterSlot != changedSlot && characterSlot.Unit?.UnitData.Name == changedUnit.UnitData.Name)
+                    {
+                        characterSlot.Clear();
+                    }
+                }
+            }
+        }
+        finally
+        {
+            _reconciling = false;
         }
 
-        if (sourceSlotIndex >= 0)
-        {
-            _units[sourceSlotIndex] = null;
-        }
-
-        _units[targetSlotIndex] = unitData;
         Changed?.Invoke();
     }
 }

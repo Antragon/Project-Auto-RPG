@@ -4,8 +4,11 @@
 [ext_resource type="TileSet" uid="uid://su02sqm4pu1x" path="res://textures/backgrounds/forest.tres" id="1_wbjle"]
 [ext_resource type="PackedScene" uid="uid://do2afiy5486mw" path="res://scenes/ui/InventoryUI.tscn" id="2_inventory_ui"]
 [ext_resource type="Script" uid="uid://bnnmwutx347nq" path="res://scripts/Dungeon/DungeonBackground.cs" id="4_dungeon_background"]
+[ext_resource type="Script" uid="uid://cnv1yd18uxlm3" path="res://scripts/Dungeon/Dungeon.cs" id="5_dungeon"]
+[ext_resource type="Script" uid="uid://c3r3v3qi7i278" path="res://scripts/Units/CharacterFormationService.cs" id="6_character_formation"]
 
 [node name="Dungeon" type="Node2D" unique_id=373558476]
+script = ExtResource("5_dungeon")
 
 [node name="Background" type="TileMapLayer" parent="." unique_id=1910635666]
 z_index = -100
@@ -18,6 +21,7 @@ script = ExtResource("4_dungeon_background")
 
 [node name="CharacterFormation" type="Node2D" parent="." unique_id=417323637]
 position = Vector2(-150, 75)
+script = ExtResource("6_character_formation")
 
 [node name="CharacterSlot1" parent="CharacterFormation" unique_id=1287608153 instance=ExtResource("1_unit_slot")]
 AcceptsCharacters = true

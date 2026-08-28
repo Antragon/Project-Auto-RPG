@@ -1,13 +1,12 @@
 namespace Game.scripts.Dungeon;
 
+using System;
 using Extensions;
 using Godot;
 using Units;
 
 public partial class UnitSlot : Node2D
 {
-    private CharacterFormationService CharacterFormation => field ??= this.Root.Get<CharacterFormationService>();
-
     private AnimatedSprite2D UnitSprite => field ??= GetNode<AnimatedSprite2D>("UnitSprite");
 
     private Sprite2D DropIndicatorSprite => field ??= GetNode<Sprite2D>("DropIndicatorSprite");
@@ -18,22 +17,13 @@ public partial class UnitSlot : Node2D
 
     public Unit? Unit { get; private set; }
 
+    public event Action<UnitSlot>? Changed;
+
     public override void _Ready()
     {
         if (AcceptsCharacters)
         {
             AddToGroup("character_drop_indicators");
-            CharacterFormation.Changed += Refresh;
-        }
-
-        Refresh();
-    }
-
-    public override void _ExitTree()
-    {
-        if (AcceptsCharacters)
-        {
-            CharacterFormation.Changed -= Refresh;
         }
     }
 
@@ -50,32 +40,37 @@ public partial class UnitSlot : Node2D
         }
     }
 
-    public void AcceptCharacter(Variant data)
+    public void Assign(Variant data)
     {
         if (TryGetUnitData(data, out var unitData))
         {
-            CharacterFormation.Assign(unitData, SlotIndex);
+            Assign(unitData);
         }
     }
 
-    private void Refresh()
+    public void Assign(UnitData unitData)
     {
-        if (!AcceptsCharacters)
+        Unit = new Unit(unitData);
+        RefreshSprite(unitData);
+        Changed?.Invoke(this);
+    }
+
+    public void Clear()
+    {
+        if (Unit is null)
         {
             return;
         }
 
-        var unitData = CharacterFormation.GetUnitData(SlotIndex);
-        Unit = unitData is null ? null : new Unit(unitData);
+        Unit = null;
+        UnitSprite.Stop();
+        UnitSprite.SpriteFrames = null;
+        UnitSprite.Visible = false;
+        Changed?.Invoke(this);
+    }
 
-        if (unitData is null)
-        {
-            UnitSprite.Stop();
-            UnitSprite.SpriteFrames = null;
-            UnitSprite.Visible = false;
-            return;
-        }
-
+    private void RefreshSprite(UnitData unitData)
+    {
         var spriteFrames = UnitSpriteFramesRepository.Load(unitData.Name);
         if (spriteFrames is null)
         {

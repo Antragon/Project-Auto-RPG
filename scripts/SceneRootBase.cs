@@ -24,10 +24,10 @@ public abstract partial class SceneRootBase : Node, ISceneRoot
         return ServiceProvider.GetRequiredKeyedService<T>(serviceKey);
     }
 
-    protected static T GetDescendant<T>(Node node)
+    protected T GetDescendant<T>()
     {
         var queue = new Queue<Node>();
-        foreach (var child in node.GetChildren())
+        foreach (var child in GetChildren())
         {
             queue.Enqueue(child);
         }

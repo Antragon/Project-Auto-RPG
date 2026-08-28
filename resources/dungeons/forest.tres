@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="DungeonData" format=3]
+
+[ext_resource type="Script" path="res://scripts/Dungeon/DungeonData.cs" id="1_dungeon_data"]
+
+[resource]
+script = ExtResource("1_dungeon_data")
+Enemies = ["green_slime"]

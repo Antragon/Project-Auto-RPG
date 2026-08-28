@@ -4,7 +4,6 @@ using Extensions;
 using Godot;
 using Persistence;
 using Units;
-using Game.scripts;
 
 public partial class InventoryUI : Panel
 {

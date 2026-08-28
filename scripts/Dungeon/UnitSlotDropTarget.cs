@@ -21,7 +21,7 @@ public partial class UnitSlotDropTarget : Control
 
     public override void _DropData(Vector2 atPosition, Variant data)
     {
-        UnitSlot.AcceptCharacter(data);
+        UnitSlot.Assign(data);
         GetTree().CallGroup("character_drop_indicators", nameof(UnitSlot.SetDropIndicatorVisible), false);
     }
 }
