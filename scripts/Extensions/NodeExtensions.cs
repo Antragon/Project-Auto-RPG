@@ -1,6 +1,7 @@
 ﻿namespace Game.scripts.Extensions;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
@@ -34,6 +35,11 @@ public static class NodeExtensions
         public T GetChildOfType<T>()
         {
             return node.GetChildren().OfType<T>().First();
+        }
+
+        public T[] GetChildrenOfType<T>()
+        {
+            return [.. node.GetChildren().OfType<T>()];
         }
 
         public void ExecuteSafely(Action action)

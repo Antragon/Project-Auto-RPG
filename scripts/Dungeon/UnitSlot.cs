@@ -55,6 +55,14 @@ public partial class UnitSlot : Node2D
         Changed?.Invoke(this);
     }
 
+    public void PlayAnimation(StringName animationName)
+    {
+        if (Unit is not null)
+        {
+            UnitSprite.Play(animationName);
+        }
+    }
+
     public void Clear()
     {
         if (Unit is null)

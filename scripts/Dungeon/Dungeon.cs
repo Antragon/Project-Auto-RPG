@@ -1,55 +1,92 @@
 namespace Game.scripts.Dungeon;
 
-using System.Linq;
+using System;
+using Extensions;
 using Godot;
 using Units;
 
 public partial class Dungeon : Node2D
 {
-    private Node2D EnemyFormation => field ??= GetNode<Node2D>("EnemyFormation");
+    private const float WalkSpeed = 200f;
 
-    private UnitSlot[] EnemySlots => field ??= [.. EnemyFormation.GetChildren().OfType<UnitSlot>()];
+    private DungeonBackground Background => field ??= GetNode<DungeonBackground>("Background");
 
-    private RandomNumberGenerator Random => field ??= CreateRandomNumberGenerator();
+    private CharacterFormation CharacterFormation => field ??= this.GetChildOfType<CharacterFormation>();
 
+    private EnemyFormation EnemyFormation => field ??= this.GetChildOfType<EnemyFormation>();
+
+    private Vector2 _backgroundDefaultPosition;
+    private Vector2 _enemyFormationDefaultPosition;
+    private DungeonState _dungeonState;
     private DungeonData? _dungeonData;
+
+    public override void _Ready()
+    {
+        _backgroundDefaultPosition = Background.Position;
+        _enemyFormationDefaultPosition = EnemyFormation.Position;
+    }
 
     public override void _Process(double delta)
     {
-        if (_dungeonData is null || EnemySlots.Any(slot => slot.Unit is not null) || _dungeonData.Enemies.Count == 0)
+        var currentState = _dungeonState;
+        switch (_dungeonState)
         {
-            return;
+            case DungeonState.Idle:
+                UpdateIdle();
+                break;
+            case DungeonState.Walking:
+                UpdateWalking(delta);
+                break;
+            case DungeonState.Combat:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
 
-        var enemyName = _dungeonData.Enemies[Random.RandiRange(0, _dungeonData.Enemies.Count - 1)];
-        var enemyData = UnitDataRepository.Load(enemyName);
-        if (enemyData is null)
+        if (currentState != _dungeonState)
         {
-            GD.PushWarning($"Could not load enemy unit '{enemyName}'.");
-            return;
+            PushStateToFormations();
         }
-
-        EnemySlots[0].Assign(enemyData);
     }
 
     public void Enter(string name)
     {
         _dungeonData = DungeonDataRepository.Load(name);
-        if (_dungeonData is null)
-        {
-            GD.PushWarning($"Could not load dungeon '{name}'.");
-        }
+        _dungeonState = DungeonState.Idle;
+        Background.Position = _backgroundDefaultPosition;
+        PushStateToFormations();
+    }
 
-        foreach (var enemySlot in EnemySlots)
+    private void UpdateIdle()
+    {
+        if (_dungeonData is not null && CharacterFormation.CanStartEncounter)
         {
-            enemySlot.Clear();
+            EnemyFormation.SpawnEnemy(_dungeonData);
+            _dungeonState = DungeonState.Walking;
         }
     }
 
-    private static RandomNumberGenerator CreateRandomNumberGenerator()
+    private void UpdateWalking(double delta)
     {
-        var random = new RandomNumberGenerator();
-        random.Randomize();
-        return random;
+        var nextX = Background.Position.X - WalkSpeed * (float)delta;
+        var tileWidth = Background.TileSet.TileSize.X * Background.Scale.X;
+
+        if (nextX <= _backgroundDefaultPosition.X - tileWidth)
+        {
+            nextX += tileWidth;
+        }
+
+        Background.Position = new Vector2(nextX, _backgroundDefaultPosition.Y);
+
+        if (Mathf.IsEqualApprox(EnemyFormation.Position.X, _enemyFormationDefaultPosition.X))
+        {
+            _dungeonState = DungeonState.Combat;
+        }
+    }
+
+    private void PushStateToFormations()
+    {
+        CharacterFormation.Update(_dungeonState);
+        EnemyFormation.Update(_dungeonState);
     }
 }

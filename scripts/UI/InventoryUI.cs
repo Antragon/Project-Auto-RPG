@@ -9,7 +9,7 @@ public partial class InventoryUI : Panel
 {
     private SaveRepository SaveRepository => field ??= this.Root.Get<SaveRepository>();
 
-    private CharacterFormationService CharacterFormation => field ??= this.Root.Get<CharacterFormationService>();
+    private CharacterFormation CharacterFormation => field ??= this.Root.Get<CharacterFormation>();
 
     private GridContainer CharactersGrid => field ??= GetNode<GridContainer>("CharactersPanel/Scroll/Grid");
 

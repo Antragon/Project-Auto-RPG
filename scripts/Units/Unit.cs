@@ -17,6 +17,8 @@ public sealed class Unit
 
     public int MaxHp { get; }
 
+    public bool IsDead => Hp <= 0;
+
     public event Action? Changed;
 
     public void SetHp(int hp)
