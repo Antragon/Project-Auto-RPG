@@ -34,6 +34,8 @@ public partial class CharacterFormation : UnitFormation
 
     public override void Update(DungeonState dungeonState)
     {
+        PushStateToSlots(dungeonState);
+
         if (_dungeonState == dungeonState)
         {
             return;

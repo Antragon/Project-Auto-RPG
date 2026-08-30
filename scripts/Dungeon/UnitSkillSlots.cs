@@ -1,12 +1,13 @@
 namespace Game.scripts.Dungeon;
 
 using Godot;
+using Units;
 
 public partial class UnitSkillSlots : HBoxContainer
 {
     private UnitSlot UnitSlot => field ??= GetParent<UnitSlot>();
 
-    private TextureRect BaseSkillIcon => field ??= GetNode<TextureRect>("Slot1/Icon");
+    private SkillSlot BaseSkillSlot => field ??= GetNode<SkillSlot>("Slot1");
 
     public override void _Ready()
     {
@@ -19,10 +20,15 @@ public partial class UnitSkillSlots : HBoxContainer
         UnitSlot.Changed -= Refresh;
     }
 
+    public void SetActive(bool active)
+    {
+        BaseSkillSlot.SetActive(active);
+    }
+
     private void Refresh(UnitSlot changedSlot)
     {
         var unit = changedSlot.Unit;
         Visible = unit is not null;
-        BaseSkillIcon.Texture = unit?.UnitData.BaseSkill.Icon;
+        BaseSkillSlot.SetSkill(unit?.UnitData.BaseSkill);
     }
 }

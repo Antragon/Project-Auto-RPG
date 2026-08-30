@@ -11,6 +11,8 @@ public partial class UnitSlot : Node2D
 
     private Sprite2D DropIndicatorSprite => field ??= GetNode<Sprite2D>("DropIndicatorSprite");
 
+    private UnitSkillSlots SkillSlots => field ??= GetNode<UnitSkillSlots>("SkillSlots");
+
     [Export] public int SlotIndex { get; set; }
 
     [Export] public bool AcceptsCharacters { get; set; }
@@ -25,6 +27,11 @@ public partial class UnitSlot : Node2D
         {
             AddToGroup("character_drop_indicators");
         }
+    }
+
+    public void SetState(DungeonState dungeonState)
+    {
+        SkillSlots.SetActive(dungeonState == DungeonState.Combat);
     }
 
     public bool CanAcceptCharacter(Variant data)

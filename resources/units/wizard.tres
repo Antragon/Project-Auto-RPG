@@ -7,6 +7,7 @@
 [sub_resource type="Resource" id="Resource_w861l"]
 script = ExtResource("1_t40fl")
 Icon = ExtResource("1_05mdq")
+Cooldown = 2.0
 Selection = 3
 Power = 10
 metadata/_custom_type_script = "uid://ti7s6ptdsbvr"
