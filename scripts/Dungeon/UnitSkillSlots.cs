@@ -1,7 +1,6 @@
 namespace Game.scripts.Dungeon;
 
 using Godot;
-using Units;
 
 public partial class UnitSkillSlots : HBoxContainer
 {
@@ -11,18 +10,21 @@ public partial class UnitSkillSlots : HBoxContainer
 
     public override void _Ready()
     {
-        UnitSlot.Changed += Refresh;
+        UnitSlot.UnitChanged += Refresh;
+        UnitSlot.StateChanged += OnStateChanged;
         Refresh(UnitSlot);
+        OnStateChanged();
     }
 
     public override void _ExitTree()
     {
-        UnitSlot.Changed -= Refresh;
+        UnitSlot.UnitChanged -= Refresh;
+        UnitSlot.StateChanged -= OnStateChanged;
     }
 
-    public void SetActive(bool active)
+    private void OnStateChanged()
     {
-        BaseSkillSlot.SetActive(active);
+        BaseSkillSlot.SetActive(UnitSlot.DungeonState == DungeonState.Combat);
     }
 
     private void Refresh(UnitSlot changedSlot)

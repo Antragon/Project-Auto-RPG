@@ -20,7 +20,7 @@ public partial class CharacterFormation : UnitFormation
     {
         foreach (var characterSlot in Slots)
         {
-            characterSlot.Changed += OnCharacterSlotChanged;
+            characterSlot.UnitChanged += OnCharacterSlotChanged;
         }
     }
 
@@ -28,36 +28,14 @@ public partial class CharacterFormation : UnitFormation
     {
         foreach (var characterSlot in Slots)
         {
-            characterSlot.Changed -= OnCharacterSlotChanged;
+            characterSlot.UnitChanged -= OnCharacterSlotChanged;
         }
     }
 
     public override void Update(DungeonState dungeonState)
     {
         PushStateToSlots(dungeonState);
-
-        if (_dungeonState == dungeonState)
-        {
-            return;
-        }
-
         _dungeonState = dungeonState;
-        var animationName = dungeonState switch
-        {
-            DungeonState.Walking => "walk",
-            DungeonState.Combat => "idle",
-            _ => null,
-        };
-
-        if (animationName is null)
-        {
-            return;
-        }
-
-        foreach (var characterSlot in Slots)
-        {
-            characterSlot.PlayAnimation(animationName);
-        }
     }
 
     public bool IsSlotted(string characterName)
@@ -90,11 +68,6 @@ public partial class CharacterFormation : UnitFormation
         finally
         {
             _reconciling = false;
-        }
-
-        if (_dungeonState == DungeonState.Walking && changedSlot.Unit is not null)
-        {
-            changedSlot.PlayAnimation("walk");
         }
 
         Changed?.Invoke();

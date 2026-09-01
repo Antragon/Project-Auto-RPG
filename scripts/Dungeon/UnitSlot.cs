@@ -11,15 +11,17 @@ public partial class UnitSlot : Node2D
 
     private Sprite2D DropIndicatorSprite => field ??= GetNode<Sprite2D>("DropIndicatorSprite");
 
-    private UnitSkillSlots SkillSlots => field ??= GetNode<UnitSkillSlots>("SkillSlots");
-
     [Export] public int SlotIndex { get; set; }
 
     [Export] public bool AcceptsCharacters { get; set; }
 
     public Unit? Unit { get; private set; }
 
-    public event Action<UnitSlot>? Changed;
+    public DungeonState DungeonState { get; private set; }
+
+    public event Action<UnitSlot>? UnitChanged;
+
+    public event Action? StateChanged;
 
     public override void _Ready()
     {
@@ -31,7 +33,13 @@ public partial class UnitSlot : Node2D
 
     public void SetState(DungeonState dungeonState)
     {
-        SkillSlots.SetActive(dungeonState == DungeonState.Combat);
+        if (DungeonState == dungeonState)
+        {
+            return;
+        }
+
+        DungeonState = dungeonState;
+        StateChanged?.Invoke();
     }
 
     public bool CanAcceptCharacter(Variant data)
@@ -59,15 +67,7 @@ public partial class UnitSlot : Node2D
     {
         Unit = new Unit(unitData);
         RefreshSprite(unitData);
-        Changed?.Invoke(this);
-    }
-
-    public void PlayAnimation(StringName animationName)
-    {
-        if (Unit is not null)
-        {
-            UnitSprite.Play(animationName);
-        }
+        UnitChanged?.Invoke(this);
     }
 
     public void Clear()
@@ -78,10 +78,9 @@ public partial class UnitSlot : Node2D
         }
 
         Unit = null;
-        UnitSprite.Stop();
         UnitSprite.SpriteFrames = null;
         UnitSprite.Visible = false;
-        Changed?.Invoke(this);
+        UnitChanged?.Invoke(this);
     }
 
     private void RefreshSprite(UnitData unitData)
@@ -90,7 +89,6 @@ public partial class UnitSlot : Node2D
         if (spriteFrames is null)
         {
             GD.PushWarning($"Could not load SpriteFrames for character '{unitData.Name}'.");
-            UnitSprite.Stop();
             UnitSprite.SpriteFrames = null;
             UnitSprite.Visible = false;
             return;
@@ -101,7 +99,6 @@ public partial class UnitSlot : Node2D
         UnitSprite.Offset = new Vector2(0, -spriteSize.Y / 2f);
         UnitSprite.Scale = Vector2.One * (256f / spriteSize.Y);
         UnitSprite.Visible = true;
-        UnitSprite.Play("idle");
     }
 
     private static bool TryGetUnitData(Variant data, out UnitData unitData)

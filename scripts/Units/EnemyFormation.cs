@@ -45,8 +45,13 @@ public partial class EnemyFormation : UnitFormation
 
     public override void Update(DungeonState dungeonState)
     {
-        PushStateToSlots(dungeonState);
         _dungeonState = dungeonState;
+
+        if (dungeonState != DungeonState.Walking)
+        {
+            PushStateToSlots(dungeonState);
+        }
+
         if (_dungeonState == DungeonState.Idle)
         {
             Reset();

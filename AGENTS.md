@@ -23,3 +23,7 @@
 - Use reasonable defaults and proceed without asking for routine confirmation.
 - Ask questions only when blocked, when a decision materially changes the outcome, or before destructive or external actions.
 - Infer minor implementation details from the repository and the user's request.
+
+## Testing
+
+- Do not run Godot for testing unless the user explicitly asks for it.

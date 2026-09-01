@@ -12,13 +12,13 @@ public partial class UnitHealthBar : ProgressBar
     public override void _Ready()
     {
         MaxValue = 100;
-        UnitSlot.Changed += OnUnitSlotChanged;
+        UnitSlot.UnitChanged += OnUnitSlotChanged;
         SubscribeToUnit(UnitSlot.Unit);
     }
 
     public override void _ExitTree()
     {
-        UnitSlot.Changed -= OnUnitSlotChanged;
+        UnitSlot.UnitChanged -= OnUnitSlotChanged;
         SubscribeToUnit(null);
     }
 
