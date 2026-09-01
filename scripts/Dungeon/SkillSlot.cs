@@ -1,5 +1,6 @@
 namespace Game.scripts.Dungeon;
 
+using System;
 using Godot;
 using Skills;
 
@@ -14,6 +15,8 @@ public partial class SkillSlot : Panel
     private float _cooldownRemaining;
 
     private bool _active;
+
+    public event Action? SkillTriggered;
 
     public override void _Process(double delta)
     {
@@ -57,6 +60,7 @@ public partial class SkillSlot : Panel
     {
         _cooldownRemaining = Mathf.Max(0, _skillData!.Cooldown);
         RefreshCooldown();
+        SkillTriggered?.Invoke();
     }
 
     private void ResetCooldown()

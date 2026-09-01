@@ -1,14 +1,11 @@
 namespace Game.scripts.Dungeon;
 
 using System;
-using Extensions;
 using Godot;
 using Units;
 
 public partial class UnitSlot : Node2D
 {
-    private AnimatedSprite2D UnitSprite => field ??= GetNode<AnimatedSprite2D>("UnitSprite");
-
     private Sprite2D DropIndicatorSprite => field ??= GetNode<Sprite2D>("DropIndicatorSprite");
 
     [Export] public int SlotIndex { get; set; }
@@ -66,7 +63,6 @@ public partial class UnitSlot : Node2D
     public void Assign(UnitData unitData)
     {
         Unit = new Unit(unitData);
-        RefreshSprite(unitData);
         UnitChanged?.Invoke(this);
     }
 
@@ -78,27 +74,7 @@ public partial class UnitSlot : Node2D
         }
 
         Unit = null;
-        UnitSprite.SpriteFrames = null;
-        UnitSprite.Visible = false;
         UnitChanged?.Invoke(this);
-    }
-
-    private void RefreshSprite(UnitData unitData)
-    {
-        var spriteFrames = UnitSpriteFramesRepository.Load(unitData.Name);
-        if (spriteFrames is null)
-        {
-            GD.PushWarning($"Could not load SpriteFrames for character '{unitData.Name}'.");
-            UnitSprite.SpriteFrames = null;
-            UnitSprite.Visible = false;
-            return;
-        }
-
-        UnitSprite.SpriteFrames = spriteFrames;
-        var spriteSize = spriteFrames.GetFrameTexture("idle", 0).GetSize();
-        UnitSprite.Offset = new Vector2(0, -spriteSize.Y / 2f);
-        UnitSprite.Scale = Vector2.One * (256f / spriteSize.Y);
-        UnitSprite.Visible = true;
     }
 
     private static bool TryGetUnitData(Variant data, out UnitData unitData)

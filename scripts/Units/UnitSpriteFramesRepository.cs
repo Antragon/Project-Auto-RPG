@@ -6,6 +6,12 @@ public static class UnitSpriteFramesRepository
 {
     public static SpriteFrames? Load(string name)
     {
-        return GD.Load<SpriteFrames>($"res://textures/units/{name}.tres");
+        var spriteFrames = GD.Load<SpriteFrames>($"res://textures/units/{name}.tres");
+        if (spriteFrames is null)
+        {
+            GD.PushWarning($"Could not load SpriteFrames for character '{name}'.");
+        }
+
+        return spriteFrames;
     }
 }
