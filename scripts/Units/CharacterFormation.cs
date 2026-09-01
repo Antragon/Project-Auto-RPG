@@ -20,7 +20,7 @@ public partial class CharacterFormation : UnitFormation
     {
         foreach (var characterSlot in Slots)
         {
-            characterSlot.UnitChanged += OnCharacterSlotChanged;
+            characterSlot.PropertyChanged += OnCharacterSlotPropertyChanged;
         }
     }
 
@@ -28,7 +28,7 @@ public partial class CharacterFormation : UnitFormation
     {
         foreach (var characterSlot in Slots)
         {
-            characterSlot.UnitChanged -= OnCharacterSlotChanged;
+            characterSlot.PropertyChanged -= OnCharacterSlotPropertyChanged;
         }
     }
 
@@ -43,8 +43,13 @@ public partial class CharacterFormation : UnitFormation
         return Slots.Any(slot => slot.Unit?.UnitData.Name == characterName);
     }
 
-    private void OnCharacterSlotChanged(UnitSlot changedSlot)
+    private void OnCharacterSlotPropertyChanged(UnitSlot sender, string propertyName)
     {
+        if (propertyName != nameof(UnitSlot.Unit))
+        {
+            return;
+        }
+
         if (_reconciling)
         {
             return;
@@ -53,12 +58,12 @@ public partial class CharacterFormation : UnitFormation
         _reconciling = true;
         try
         {
-            var changedUnit = changedSlot.Unit;
+            var changedUnit = sender.Unit;
             if (changedUnit is not null)
             {
                 foreach (var characterSlot in Slots)
                 {
-                    if (characterSlot != changedSlot && characterSlot.Unit?.UnitData.Name == changedUnit.UnitData.Name)
+                    if (characterSlot != sender && characterSlot.Unit?.UnitData.Name == changedUnit.UnitData.Name)
                     {
                         characterSlot.Clear();
                     }

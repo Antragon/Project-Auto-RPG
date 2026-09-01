@@ -19,8 +19,7 @@ public partial class UnitSkillSlots : HBoxContainer
             slot.SkillTriggered += OnSkillTriggered;
         }
 
-        UnitSlot.UnitChanged += Refresh;
-        UnitSlot.StateChanged += OnStateChanged;
+        UnitSlot.PropertyChanged += OnUnitSlotPropertyChanged;
         Refresh(UnitSlot);
         OnStateChanged();
     }
@@ -32,13 +31,25 @@ public partial class UnitSkillSlots : HBoxContainer
             skillSlot.SkillTriggered -= OnSkillTriggered;
         }
 
-        UnitSlot.UnitChanged -= Refresh;
-        UnitSlot.StateChanged -= OnStateChanged;
+        UnitSlot.PropertyChanged -= OnUnitSlotPropertyChanged;
     }
 
     private void OnSkillTriggered()
     {
         SkillTriggered?.Invoke();
+    }
+
+    private void OnUnitSlotPropertyChanged(UnitSlot sender, string propertyName)
+    {
+        if (propertyName == nameof(UnitSlot.Unit))
+        {
+            Refresh(sender);
+        }
+
+        if (propertyName == nameof(UnitSlot.DungeonState))
+        {
+            OnStateChanged();
+        }
     }
 
     private void OnStateChanged()

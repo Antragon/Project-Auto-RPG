@@ -10,25 +10,31 @@ public partial class UnitAnimation : AnimatedSprite2D
 
     private UnitSkillSlots UnitSkillSlots => field ??= this.GetSibling<UnitSkillSlots>();
 
-    private Vector2 _defaultPosition;
-    private Tween? _bumpTween;
-
     public override void _Ready()
     {
-        _defaultPosition = Position;
-        UnitSlot.StateChanged += OnStateChanged;
-        UnitSlot.UnitChanged += OnUnitChanged;
+        UnitSlot.PropertyChanged += OnUnitSlotPropertyChanged;
         UnitSkillSlots.SkillTriggered += OnSkillTriggered;
         AnimationFinished += OnAnimationFinished;
     }
 
     public override void _ExitTree()
     {
-        UnitSlot.StateChanged -= OnStateChanged;
-        UnitSlot.UnitChanged -= OnUnitChanged;
+        UnitSlot.PropertyChanged -= OnUnitSlotPropertyChanged;
         UnitSkillSlots.SkillTriggered -= OnSkillTriggered;
         AnimationFinished -= OnAnimationFinished;
-        _bumpTween?.Kill();
+    }
+
+    private void OnUnitSlotPropertyChanged(UnitSlot sender, string propertyName)
+    {
+        if (propertyName == nameof(UnitSlot.Unit))
+        {
+            RefreshSprite(sender.Unit);
+        }
+
+        if (propertyName == nameof(UnitSlot.DungeonState))
+        {
+            OnStateChanged();
+        }
     }
 
     private void OnStateChanged()
@@ -37,11 +43,6 @@ public partial class UnitAnimation : AnimatedSprite2D
         {
             UpdateAnimation();
         }
-    }
-
-    private void OnUnitChanged(UnitSlot changedSlot)
-    {
-        RefreshSprite(changedSlot.Unit);
     }
 
     private void OnSkillTriggered()

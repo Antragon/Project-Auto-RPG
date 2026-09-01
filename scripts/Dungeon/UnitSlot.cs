@@ -1,6 +1,5 @@
 namespace Game.scripts.Dungeon;
 
-using System;
 using Godot;
 using Units;
 
@@ -16,9 +15,7 @@ public partial class UnitSlot : Node2D
 
     public DungeonState DungeonState { get; private set; }
 
-    public event Action<UnitSlot>? UnitChanged;
-
-    public event Action? StateChanged;
+    public event PropertyChangedEventHandler<UnitSlot>? PropertyChanged;
 
     public override void _Ready()
     {
@@ -36,7 +33,7 @@ public partial class UnitSlot : Node2D
         }
 
         DungeonState = dungeonState;
-        StateChanged?.Invoke();
+        PropertyChanged?.Invoke(this, nameof(DungeonState));
     }
 
     public bool CanAcceptCharacter(Variant data)
@@ -63,7 +60,7 @@ public partial class UnitSlot : Node2D
     public void Assign(UnitData unitData)
     {
         Unit = new Unit(unitData);
-        UnitChanged?.Invoke(this);
+        PropertyChanged?.Invoke(this, nameof(Unit));
     }
 
     public void Clear()
@@ -74,7 +71,7 @@ public partial class UnitSlot : Node2D
         }
 
         Unit = null;
-        UnitChanged?.Invoke(this);
+        PropertyChanged?.Invoke(this, nameof(Unit));
     }
 
     private static bool TryGetUnitData(Variant data, out UnitData unitData)

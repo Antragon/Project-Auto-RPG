@@ -12,19 +12,22 @@ public partial class UnitHealthBar : ProgressBar
     public override void _Ready()
     {
         MaxValue = 100;
-        UnitSlot.UnitChanged += OnUnitSlotChanged;
+        UnitSlot.PropertyChanged += OnUnitSlotPropertyChanged;
         SubscribeToUnit(UnitSlot.Unit);
     }
 
     public override void _ExitTree()
     {
-        UnitSlot.UnitChanged -= OnUnitSlotChanged;
+        UnitSlot.PropertyChanged -= OnUnitSlotPropertyChanged;
         SubscribeToUnit(null);
     }
 
-    private void OnUnitSlotChanged(UnitSlot changedSlot)
+    private void OnUnitSlotPropertyChanged(UnitSlot sender, string propertyName)
     {
-        SubscribeToUnit(changedSlot.Unit);
+        if (propertyName == nameof(UnitSlot.Unit))
+        {
+            SubscribeToUnit(sender.Unit);
+        }
     }
 
     private void SubscribeToUnit(Unit? unit)
