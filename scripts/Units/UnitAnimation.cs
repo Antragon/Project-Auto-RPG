@@ -87,18 +87,19 @@ public partial class UnitAnimation : AnimatedSprite2D
     {
         if (_subscribedUnit is not null)
         {
-            _subscribedUnit.Changed -= OnUnitChanged;
+            _subscribedUnit.HpChanged -= OnUnitHpChanged;
         }
 
         _subscribedUnit = unit;
         if (_subscribedUnit is not null)
         {
-            _subscribedUnit.Changed += OnUnitChanged;
+            _subscribedUnit.HpChanged += OnUnitHpChanged;
         }
     }
 
-    private void OnUnitChanged()
+    private void OnUnitHpChanged()
     {
+        UnitIsDead = false;
         if (_subscribedUnit is { IsDead: true })
         {
             PlayDeath();

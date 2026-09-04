@@ -34,19 +34,19 @@ public partial class UnitHealthBar : ProgressBar
     {
         if (_subscribedUnit is not null)
         {
-            _subscribedUnit.Changed -= OnUnitChanged;
+            _subscribedUnit.HpChanged -= OnUnitHpChanged;
         }
 
         _subscribedUnit = unit;
         if (_subscribedUnit is not null)
         {
-            _subscribedUnit.Changed += OnUnitChanged;
+            _subscribedUnit.HpChanged += OnUnitHpChanged;
         }
 
         Refresh();
     }
 
-    private void OnUnitChanged()
+    private void OnUnitHpChanged()
     {
         Refresh();
     }

@@ -17,9 +17,9 @@ public sealed class Unit
 
     public int MaxHp { get; }
 
-    public bool IsDead => Hp <= 0;
+    public bool IsDead { get; private set; }
 
-    public event Action? Changed;
+    public event Action? HpChanged;
 
     public void SetHp(int hp)
     {
@@ -30,6 +30,15 @@ public sealed class Unit
         }
 
         Hp = newHp;
-        Changed?.Invoke();
+        if (Hp == 0)
+        {
+            IsDead = true;
+        }
+        else if (Hp == MaxHp)
+        {
+            IsDead = false;
+        }
+
+        HpChanged?.Invoke();
     }
 }

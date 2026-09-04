@@ -63,17 +63,17 @@ public partial class UnitSkillSlots : HBoxContainer
     {
         if (_subscribedUnit is not null)
         {
-            _subscribedUnit.Changed -= OnUnitChanged;
+            _subscribedUnit.HpChanged -= OnUnitHpChanged;
         }
 
         _subscribedUnit = unit;
         if (_subscribedUnit is not null)
         {
-            _subscribedUnit.Changed += OnUnitChanged;
+            _subscribedUnit.HpChanged += OnUnitHpChanged;
         }
     }
 
-    private void OnUnitChanged()
+    private void OnUnitHpChanged()
     {
         OnStateChanged();
     }
