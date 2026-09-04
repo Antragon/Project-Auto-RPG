@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://c3r3v3qi7i278" path="res://scripts/Units/CharacterFormation.cs" id="6_character_formation"]
 [ext_resource type="Script" uid="uid://57iwuia4pq1h" path="res://scripts/Dungeon/DungeonCombat.cs" id="6_dungeon_combat"]
 [ext_resource type="Script" uid="uid://wce2vvvacgno" path="res://scripts/Units/EnemyFormation.cs" id="6_ptmvy"]
+[ext_resource type="Script" uid="uid://d1n4f4c70ry" path="res://scripts/Units/EnemyFactory.cs" id="7_enemy_factory"]
 
 [node name="Dungeon" type="Node2D" unique_id=373558476]
 script = ExtResource("5_dungeon")
@@ -23,6 +24,9 @@ script = ExtResource("4_dungeon_background")
 
 [node name="Combat" type="Node" parent="." unique_id=1013089224]
 script = ExtResource("6_dungeon_combat")
+
+[node name="EnemyFactory" type="Node" parent="." unique_id=1830192737]
+script = ExtResource("7_enemy_factory")
 
 [node name="CharacterFormation" type="Node2D" parent="." unique_id=417323637]
 position = Vector2(-150, 75)

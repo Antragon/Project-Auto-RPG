@@ -7,86 +7,83 @@ using Units;
 
 public partial class Dungeon : Node2D
 {
-    private const float WalkSpeed = 200f;
-
-    private DungeonBackground Background => field ??= GetNode<DungeonBackground>("Background");
-
     private CharacterFormation CharacterFormation => field ??= this.GetChildOfType<CharacterFormation>();
 
     private EnemyFormation EnemyFormation => field ??= this.GetChildOfType<EnemyFormation>();
 
-    private Vector2 _backgroundDefaultPosition;
     private Vector2 _enemyFormationDefaultPosition;
-    private DungeonState _dungeonState;
-    private DungeonData? _dungeonData;
+
+    public event Action<DungeonState>? StateChanged;
+
+    public DungeonData? Data { get; private set; }
+
+    public DungeonState State { get; private set; }
 
     public override void _Ready()
     {
-        _backgroundDefaultPosition = Background.Position;
         _enemyFormationDefaultPosition = EnemyFormation.Position;
     }
 
     public override void _Process(double delta)
     {
-        var currentState = _dungeonState;
-        switch (_dungeonState)
+        var currentState = State;
+        switch (State)
         {
             case DungeonState.Idle:
                 UpdateIdle();
                 break;
             case DungeonState.Walking:
-                UpdateWalking(delta);
+                UpdateWalking();
                 break;
             case DungeonState.Combat:
+                UpdateCombat();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
 
-        if (currentState != _dungeonState)
+        if (currentState != State)
         {
             PushStateToFormations();
+            StateChanged?.Invoke(State);
         }
     }
 
     public void Enter(string name)
     {
-        _dungeonData = DungeonDataRepository.Load(name);
-        _dungeonState = DungeonState.Idle;
-        Background.Position = _backgroundDefaultPosition;
+        Data = DungeonDataRepository.Load(name);
+        State = DungeonState.Idle;
         PushStateToFormations();
+        StateChanged?.Invoke(State);
     }
 
     private void UpdateIdle()
     {
-        if (_dungeonData is not null && CharacterFormation.CanStartEncounter)
+        if (Data is not null && CharacterFormation.CanStartEncounter)
         {
-            EnemyFormation.SpawnEnemy(_dungeonData);
-            _dungeonState = DungeonState.Walking;
+            State = DungeonState.Walking;
         }
     }
 
-    private void UpdateWalking(double delta)
+    private void UpdateWalking()
     {
-        var nextX = Background.Position.X - WalkSpeed * (float)delta;
-        var tileWidth = Background.TileSet.TileSize.X * Background.Scale.X;
-
-        if (nextX <= _backgroundDefaultPosition.X - tileWidth)
-        {
-            nextX += tileWidth;
-        }
-
-        Background.Position = new Vector2(nextX, _backgroundDefaultPosition.Y);
-
         if (Mathf.IsEqualApprox(EnemyFormation.Position.X, _enemyFormationDefaultPosition.X))
         {
-            _dungeonState = DungeonState.Combat;
+            State = DungeonState.Combat;
+        }
+    }
+
+    private void UpdateCombat()
+    {
+        if (EnemyFormation.AllUnitsDead || CharacterFormation.AllUnitsDead)
+        {
+            State = DungeonState.Idle;
         }
     }
 
     private void PushStateToFormations()
     {
-        CharacterFormation.Update(_dungeonState);
-        EnemyFormation.Update(_dungeonState);
+        CharacterFormation.Update(State);
+        EnemyFormation.Update(State);
     }
 }

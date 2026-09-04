@@ -4,12 +4,15 @@ using System;
 using Extensions;
 using Godot;
 using Skills;
+using Units;
 
 public partial class UnitSkillSlots : HBoxContainer
 {
     private UnitSlot UnitSlot => field ??= GetParent<UnitSlot>();
 
     private SkillSlot[] Slots => field ??= this.GetChildrenOfType<SkillSlot>();
+
+    private Unit? _subscribedUnit;
 
     public event Action<SkillData>? SkillTriggered;
 
@@ -21,6 +24,7 @@ public partial class UnitSkillSlots : HBoxContainer
         }
 
         UnitSlot.PropertyChanged += OnUnitSlotPropertyChanged;
+        SubscribeToUnit(UnitSlot.Unit);
         Refresh(UnitSlot);
         OnStateChanged();
     }
@@ -33,6 +37,7 @@ public partial class UnitSkillSlots : HBoxContainer
         }
 
         UnitSlot.PropertyChanged -= OnUnitSlotPropertyChanged;
+        SubscribeToUnit(null);
     }
 
     private void OnSkillTriggered(SkillData skillData)
@@ -44,6 +49,7 @@ public partial class UnitSkillSlots : HBoxContainer
     {
         if (propertyName == nameof(UnitSlot.Unit))
         {
+            SubscribeToUnit(sender.Unit);
             Refresh(sender);
         }
 
@@ -53,11 +59,32 @@ public partial class UnitSkillSlots : HBoxContainer
         }
     }
 
+    private void SubscribeToUnit(Unit? unit)
+    {
+        if (_subscribedUnit is not null)
+        {
+            _subscribedUnit.Changed -= OnUnitChanged;
+        }
+
+        _subscribedUnit = unit;
+        if (_subscribedUnit is not null)
+        {
+            _subscribedUnit.Changed += OnUnitChanged;
+        }
+    }
+
+    private void OnUnitChanged()
+    {
+        OnStateChanged();
+    }
+
     private void OnStateChanged()
     {
+        var active = UnitSlot is { DungeonState: DungeonState.Combat, Unit.IsDead: false };
+
         foreach (var slot in Slots)
         {
-            slot.SetActive(UnitSlot.DungeonState == DungeonState.Combat);
+            slot.SetActive(active);
         }
     }
 
