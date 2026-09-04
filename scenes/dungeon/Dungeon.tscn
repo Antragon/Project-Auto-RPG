@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://bnnmwutx347nq" path="res://scripts/Dungeon/DungeonBackground.cs" id="4_dungeon_background"]
 [ext_resource type="Script" uid="uid://cnv1yd18uxlm3" path="res://scripts/Dungeon/Dungeon.cs" id="5_dungeon"]
 [ext_resource type="Script" uid="uid://c3r3v3qi7i278" path="res://scripts/Units/CharacterFormation.cs" id="6_character_formation"]
+[ext_resource type="Script" uid="uid://57iwuia4pq1h" path="res://scripts/Dungeon/DungeonCombat.cs" id="6_dungeon_combat"]
 [ext_resource type="Script" uid="uid://wce2vvvacgno" path="res://scripts/Units/EnemyFormation.cs" id="6_ptmvy"]
 
 [node name="Dungeon" type="Node2D" unique_id=373558476]
@@ -19,6 +20,9 @@ tile_set = ExtResource("1_wbjle")
 script = ExtResource("4_dungeon_background")
 
 [node name="DungeonCamera" type="Camera2D" parent="." unique_id=222073036]
+
+[node name="Combat" type="Node" parent="." unique_id=1013089224]
+script = ExtResource("6_dungeon_combat")
 
 [node name="CharacterFormation" type="Node2D" parent="." unique_id=417323637]
 position = Vector2(-150, 75)

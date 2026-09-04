@@ -3,6 +3,7 @@ namespace Game.scripts.Units;
 using Dungeon;
 using Extensions;
 using Godot;
+using Skills;
 
 public partial class UnitAnimation : AnimatedSprite2D
 {
@@ -45,7 +46,7 @@ public partial class UnitAnimation : AnimatedSprite2D
         }
     }
 
-    private void OnSkillTriggered()
+    private void OnSkillTriggered(SkillData skillData)
     {
         if (SpriteFrames is null || !Visible)
         {

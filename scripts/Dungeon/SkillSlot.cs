@@ -16,7 +16,7 @@ public partial class SkillSlot : Panel
 
     private bool _active;
 
-    public event Action? SkillTriggered;
+    public event Action<SkillData>? SkillTriggered;
 
     public override void _Process(double delta)
     {
@@ -60,7 +60,7 @@ public partial class SkillSlot : Panel
     {
         _cooldownRemaining = Mathf.Max(0, _skillData!.Cooldown);
         RefreshCooldown();
-        SkillTriggered?.Invoke();
+        SkillTriggered?.Invoke(_skillData);
     }
 
     private void ResetCooldown()

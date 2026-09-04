@@ -3,6 +3,7 @@ namespace Game.scripts.Dungeon;
 using System;
 using Extensions;
 using Godot;
+using Skills;
 
 public partial class UnitSkillSlots : HBoxContainer
 {
@@ -10,7 +11,7 @@ public partial class UnitSkillSlots : HBoxContainer
 
     private SkillSlot[] Slots => field ??= this.GetChildrenOfType<SkillSlot>();
 
-    public event Action? SkillTriggered;
+    public event Action<SkillData>? SkillTriggered;
 
     public override void _Ready()
     {
@@ -34,9 +35,9 @@ public partial class UnitSkillSlots : HBoxContainer
         UnitSlot.PropertyChanged -= OnUnitSlotPropertyChanged;
     }
 
-    private void OnSkillTriggered()
+    private void OnSkillTriggered(SkillData skillData)
     {
-        SkillTriggered?.Invoke();
+        SkillTriggered?.Invoke(skillData);
     }
 
     private void OnUnitSlotPropertyChanged(UnitSlot sender, string propertyName)
