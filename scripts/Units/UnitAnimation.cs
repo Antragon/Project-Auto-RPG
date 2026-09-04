@@ -17,56 +17,19 @@ public partial class UnitAnimation : AnimatedSprite2D
 
     public override void _Ready()
     {
-        UnitSlot.PropertyChanged += OnUnitSlotPropertyChanged;
-        UnitSkillSlots.SkillTriggered += OnSkillTriggered;
         AnimationFinished += OnAnimationFinished;
-        SubscribeToUnit(UnitSlot.Unit);
+        UnitSkillSlots.SkillTriggered += OnSkillTriggered;
+        UnitSlot.PropertyChanged += OnUnitSlotPropertyChanged;
+        _subscribedUnit = UnitSlot.Unit;
+        _subscribedUnit?.HpChanged += OnUnitHpChanged;
     }
 
     public override void _ExitTree()
     {
-        UnitSlot.PropertyChanged -= OnUnitSlotPropertyChanged;
-        UnitSkillSlots.SkillTriggered -= OnSkillTriggered;
         AnimationFinished -= OnAnimationFinished;
-        SubscribeToUnit(null);
-    }
-
-    private void OnUnitSlotPropertyChanged(UnitSlot sender, string propertyName)
-    {
-        if (propertyName == nameof(UnitSlot.Unit))
-        {
-            SubscribeToUnit(sender.Unit);
-            RefreshSprite(sender.Unit);
-        }
-
-        if (propertyName == nameof(UnitSlot.DungeonState))
-        {
-            OnStateChanged();
-        }
-    }
-
-    private void OnStateChanged()
-    {
-        if (UnitSlot.Unit is { IsDead: true })
-        {
-            PlayDeath();
-            return;
-        }
-
-        if (SpriteFrames is not null && Visible)
-        {
-            UpdateAnimation();
-        }
-    }
-
-    private void OnSkillTriggered(SkillData skillData)
-    {
-        if (SpriteFrames is null || !Visible || UnitSlot.Unit is not { IsDead: false })
-        {
-            return;
-        }
-
-        Play("attack");
+        UnitSkillSlots.SkillTriggered -= OnSkillTriggered;
+        UnitSlot.PropertyChanged -= OnUnitSlotPropertyChanged;
+        _subscribedUnit?.HpChanged -= OnUnitHpChanged;
     }
 
     private void OnAnimationFinished()
@@ -74,52 +37,55 @@ public partial class UnitAnimation : AnimatedSprite2D
         if (Animation == "death")
         {
             UnitIsDead = true;
-            return;
         }
-
-        if (Animation == "attack")
+        else if (Animation == "attack")
         {
             UpdateAnimation();
         }
     }
 
-    private void SubscribeToUnit(Unit? unit)
+    private void OnSkillTriggered(SkillData skillData)
     {
-        if (_subscribedUnit is not null)
-        {
-            _subscribedUnit.HpChanged -= OnUnitHpChanged;
-        }
+        PlayAnimation("attack");
+    }
 
-        _subscribedUnit = unit;
-        if (_subscribedUnit is not null)
+    private void OnUnitSlotPropertyChanged(UnitSlot sender, string propertyName)
+    {
+        if (propertyName == nameof(UnitSlot.Unit))
         {
-            _subscribedUnit.HpChanged += OnUnitHpChanged;
+            _subscribedUnit?.HpChanged -= OnUnitHpChanged;
+            _subscribedUnit = UnitSlot.Unit;
+            _subscribedUnit?.HpChanged += OnUnitHpChanged;
+            RefreshSprite();
+            if (UnitSlot.Unit?.IsDead == true)
+            {
+                PlayAnimation("death");
+            }
+            else
+            {
+                UpdateAnimation();
+            }
+        }
+        else if (propertyName == nameof(UnitSlot.DungeonState) && UnitSlot.Unit?.IsDead == false)
+        {
+            UpdateAnimation();
         }
     }
 
     private void OnUnitHpChanged()
     {
-        UnitIsDead = false;
-        if (_subscribedUnit is { IsDead: true })
+        if (!UnitIsDead && _subscribedUnit is { IsDead: true })
         {
-            PlayDeath();
+            PlayAnimation("death");
         }
     }
 
-    private void RefreshSprite(Unit? unit)
+    private void RefreshSprite()
     {
         UnitIsDead = false;
 
-        if (unit is null)
-        {
-            Stop();
-            SpriteFrames = null;
-            Visible = false;
-            return;
-        }
-
-        var spriteFrames = UnitSpriteFramesRepository.Load(unit.UnitData.Name);
-        if (spriteFrames is null)
+        var unit = UnitSlot.Unit;
+        if (unit is null || !UnitSpriteFramesRepository.TryLoad(unit.UnitData.Name, out var spriteFrames))
         {
             Stop();
             SpriteFrames = null;
@@ -133,24 +99,10 @@ public partial class UnitAnimation : AnimatedSprite2D
         Scale = Vector2.One * (256f / spriteSize.Y);
         FlipH = UnitSlot.GetParent() is EnemyFormation;
         Visible = true;
-
-        if (unit.IsDead)
-        {
-            PlayDeath();
-        }
-        else
-        {
-            UpdateAnimation();
-        }
     }
 
     private void UpdateAnimation()
     {
-        if (UnitSlot.Unit?.IsDead == true)
-        {
-            return;
-        }
-
         Stop();
 
         var animationName = UnitSlot.DungeonState == DungeonState.Walking
@@ -162,17 +114,15 @@ public partial class UnitAnimation : AnimatedSprite2D
             return;
         }
 
-        Play(animationName);
+        PlayAnimation(animationName);
     }
 
-    private void PlayDeath()
+    private void PlayAnimation(string animationName)
     {
-        if (SpriteFrames is null || !Visible || Animation == "death")
-        {
-            return;
-        }
-
         UnitIsDead = false;
-        Play("death");
+        if (SpriteFrames is not null && Visible)
+        {
+            Play(animationName);
+        }
     }
 }

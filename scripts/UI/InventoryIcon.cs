@@ -9,16 +9,14 @@ public partial class InventoryIcon : Panel
 
     private Panel Tick => field ??= GetNode<Panel>("Tick");
 
-    private string _characterName = string.Empty;
+    public string CharacterName { get; private set; } = string.Empty;
 
-    public string CharacterName => _characterName;
+    private Unit? Unit { get; set; }
 
-    public UnitData? UnitData { get; private set; }
-
-    public void SetCharacter(string name)
+    public void SetCharacter(string name, Unit unit)
     {
-        _characterName = name;
-        UnitData = UnitDataRepository.Load(name);
+        CharacterName = name;
+        Unit = unit;
         Icon.Texture = IconRepository.GetUnit(name);
     }
 
@@ -29,7 +27,7 @@ public partial class InventoryIcon : Panel
 
     public override Variant _GetDragData(Vector2 atPosition)
     {
-        if (string.IsNullOrWhiteSpace(_characterName))
+        if (string.IsNullOrWhiteSpace(CharacterName))
         {
             return default;
         }
@@ -44,9 +42,9 @@ public partial class InventoryIcon : Panel
             SetDragPreview(preview);
         }
 
-        if (UnitData is { } unitData)
+        if (Unit is not null)
         {
-            return unitData;
+            return CharacterName;
         }
 
         return default;

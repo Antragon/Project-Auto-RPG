@@ -36,9 +36,9 @@ public partial class UnitSlot : Node2D
         PropertyChanged?.Invoke(this, nameof(DungeonState));
     }
 
-    public bool CanAcceptCharacter(Variant data)
+    public bool CanAcceptCharacter(Unit unit)
     {
-        return AcceptsCharacters && TryGetUnitData(data, out _);
+        return AcceptsCharacters;
     }
 
     public void SetDropIndicatorVisible(bool visible)
@@ -49,17 +49,9 @@ public partial class UnitSlot : Node2D
         }
     }
 
-    public void Assign(Variant data)
+    public void Assign(Unit unit)
     {
-        if (TryGetUnitData(data, out var unitData))
-        {
-            Assign(unitData);
-        }
-    }
-
-    public void Assign(UnitData unitData)
-    {
-        Unit = new Unit(unitData);
+        Unit = unit;
         PropertyChanged?.Invoke(this, nameof(Unit));
     }
 
@@ -74,20 +66,4 @@ public partial class UnitSlot : Node2D
         PropertyChanged?.Invoke(this, nameof(Unit));
     }
 
-    private static bool TryGetUnitData(Variant data, out UnitData unitData)
-    {
-        unitData = null!;
-        if (data.VariantType != Variant.Type.Object)
-        {
-            return false;
-        }
-
-        if (data.AsGodotObject() is not UnitData dataUnitData)
-        {
-            return false;
-        }
-
-        unitData = dataUnitData;
-        return true;
-    }
 }

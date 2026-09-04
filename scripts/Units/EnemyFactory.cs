@@ -47,11 +47,10 @@ public partial class EnemyFactory : Node
         var enemyData = UnitDataRepository.Load(enemyName);
         if (enemyData is null)
         {
-            GD.PushWarning($"Could not load enemy unit '{enemyName}'.");
             return false;
         }
 
-        EnemyFormation.Slots[0].Assign(enemyData);
+        EnemyFormation.Slots[0].Assign(new Unit(enemyData));
         return true;
     }
 

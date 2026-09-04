@@ -9,6 +9,8 @@ public partial class InventoryUI : Panel
 {
     private SaveRepository SaveRepository => field ??= this.Root.Get<SaveRepository>();
 
+    private CharacterRoster CharacterRoster => field ??= this.Root.Get<CharacterRoster>();
+
     private CharacterFormation CharacterFormation => field ??= this.Root.Get<CharacterFormation>();
 
     private GridContainer CharactersGrid => field ??= GetNode<GridContainer>("CharactersPanel/Scroll/Grid");
@@ -35,9 +37,14 @@ public partial class InventoryUI : Panel
 
         foreach (var character in SaveRepository.Characters)
         {
+            if (!CharacterRoster.TryGetUnit(character.Name, out var unit))
+            {
+                continue;
+            }
+
             var icon = InventoryIconScene.Instantiate<InventoryIcon>();
             CharactersGrid.AddChild(icon);
-            icon.SetCharacter(character.Name);
+            icon.SetCharacter(character.Name, unit);
         }
 
         RefreshSlottedStates();

@@ -63,7 +63,7 @@ public partial class CharacterFormation : UnitFormation
             {
                 foreach (var characterSlot in Slots)
                 {
-                    if (characterSlot != sender && characterSlot.Unit?.UnitData.Name == changedUnit.UnitData.Name)
+                    if (characterSlot != sender && ReferenceEquals(characterSlot.Unit, changedUnit))
                     {
                         characterSlot.Clear();
                     }
