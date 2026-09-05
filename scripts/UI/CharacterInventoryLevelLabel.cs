@@ -3,15 +3,14 @@ namespace Game.scripts.UI;
 using Godot;
 using Units;
 
-public partial class CharacterInventoryDamageIndicator : ProgressBar
+public partial class CharacterInventoryLevelLabel : Label
 {
-    private CharacterInventoryIcon CharacterInventoryIcon => field ??= GetParent<CharacterInventoryIcon>();
+    private CharacterInventoryIcon CharacterInventoryIcon => GetParent<CharacterInventoryIcon>();
 
     private Unit Unit => CharacterInventoryIcon.Character.Unit;
 
     public override void _Ready()
     {
-        MaxValue = 100;
         Unit.PropertyChanged += OnUnitPropertyChanged;
         Refresh();
     }
@@ -23,7 +22,7 @@ public partial class CharacterInventoryDamageIndicator : ProgressBar
 
     private void OnUnitPropertyChanged(Unit unit, string propertyName)
     {
-        if (propertyName == nameof(Unit.Hp))
+        if (propertyName == nameof(Unit.Level))
         {
             Refresh();
         }
@@ -31,9 +30,6 @@ public partial class CharacterInventoryDamageIndicator : ProgressBar
 
     private void Refresh()
     {
-        var unit = Unit;
-        Value = unit.MaxHp > 0
-            ? (unit.MaxHp - unit.Hp) / (double)unit.MaxHp * 100
-            : 0;
+        Text = $"Lv. {Unit.Level}";
     }
 }

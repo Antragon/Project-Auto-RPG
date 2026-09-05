@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://b2pjwpadtpm7m" path="res://scripts/Dungeon/UnitSkillSlots.cs" id="5_skill_slots"]
 [ext_resource type="PackedScene" uid="uid://bl7ajuv0jbmh1" path="res://scenes/dungeon/SkillSlot.tscn" id="6_skill_slot"]
 [ext_resource type="Script" uid="uid://dunitanim8x40" path="res://scripts/Units/UnitAnimation.cs" id="6_unit_animation"]
+[ext_resource type="Script" path="res://scripts/Dungeon/UnitLevelLabel.cs" id="7_level_label"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health_background"]
 bg_color = Color(0.35, 0.35, 0.35, 1)
@@ -38,6 +39,18 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_health_fill")
 value = 100.0
 show_percentage = false
 script = ExtResource("4_health_bar")
+
+[node name="LevelLabel" type="Label" parent="." unique_id=425178630]
+offset_left = 36.0
+offset_top = -148.0
+offset_right = 84.0
+offset_bottom = -132.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 10
+vertical_alignment = 1
+text = "Lv. 1"
+script = ExtResource("7_level_label")
 
 [node name="SkillSlots" type="HBoxContainer" parent="." unique_id=158914530]
 offset_left = -64.0

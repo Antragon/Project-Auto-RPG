@@ -5,35 +5,31 @@ using Units;
 
 public partial class CharacterInventoryDeadMarker : Node2D
 {
-    private Character? Character { get; set; }
+    private CharacterInventoryIcon CharacterInventoryIcon => GetParent<CharacterInventoryIcon>();
+
+    private Unit Unit => CharacterInventoryIcon.Character.Unit;
+
+    public override void _Ready()
+    {
+        Unit.PropertyChanged += OnUnitPropertyChanged;
+        Refresh();
+    }
 
     public override void _ExitTree()
     {
-        if (Character is not null)
-        {
-            Character.Unit.PropertyChanged -= OnUnitPropertyChanged;
-        }
-    }
-
-    public void SetCharacter(Character character)
-    {
-        if (Character is not null)
-        {
-            Character.Unit.PropertyChanged -= OnUnitPropertyChanged;
-        }
-
-        Character = character;
-        Character.Unit.PropertyChanged += OnUnitPropertyChanged;
-        Refresh();
+        Unit.PropertyChanged -= OnUnitPropertyChanged;
     }
 
     private void OnUnitPropertyChanged(Unit unit, string propertyName)
     {
-        Refresh();
+        if (propertyName == nameof(Units.Unit.IsDead))
+        {
+            Refresh();
+        }
     }
 
     private void Refresh()
     {
-        Visible = Character?.Unit.IsDead == true;
+        Visible = Unit.IsDead;
     }
 }

@@ -4,6 +4,8 @@
 [ext_resource type="Script" uid="uid://ddhcej7txw2dr" path="res://scripts/UI/CharacterInventoryIcon.cs" id="2_script"]
 [ext_resource type="Script" uid="uid://df5co8y5f0j10" path="res://scripts/UI/CharacterInventoryDamageIndicator.cs" id="3_health_bar"]
 [ext_resource type="Script" uid="uid://c7xu7qdct7w81" path="res://scripts/UI/CharacterInventoryDeadMarker.cs" id="4_dead_marker"]
+[ext_resource type="Script" uid="uid://dmyxknelw8bbn" path="res://scripts/UI/CharacterInventoryExperienceIndicator.cs" id="5_experience"]
+[ext_resource type="Script" uid="uid://bf6c74h2sm8dr" path="res://scripts/UI/CharacterInventoryLevelLabel.cs" id="6_level"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_medallion"]
 bg_color = Color(0.15, 0.19, 0.26, 1)
@@ -49,6 +51,12 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_circle_mask"]
 shader = SubResource("Shader_circle_mask")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_experience_background"]
+bg_color = Color(0, 0, 0, 0.45)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_experience_fill"]
+bg_color = Color(0.81594115, 0.7047851, 0.009759761, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tick"]
 bg_color = Color(0.2, 0.7, 0.42, 1)
@@ -100,6 +108,37 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("1_icon")
 expand_mode = 1
+
+[node name="Experience" type="ProgressBar" parent="." unique_id=1818182841]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = -7.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_experience_background")
+theme_override_styles/fill = SubResource("StyleBoxFlat_experience_fill")
+show_percentage = false
+script = ExtResource("5_experience")
+
+[node name="Level" type="Label" parent="." unique_id=1818182842]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 4.0
+offset_right = 42.0
+offset_bottom = 20.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.8)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 10
+text = "Lv. 1"
+script = ExtResource("6_level")
 
 [node name="Tick" type="Panel" parent="." unique_id=1972704132]
 visible = false

@@ -5,24 +5,18 @@ using Units;
 
 public partial class CharacterInventoryIcon : Panel
 {
-    private CharacterInventoryDamageIndicator Damage => field ??= GetNode<CharacterInventoryDamageIndicator>("Damage");
-
     private TextureRect Icon => field ??= GetNode<TextureRect>("Icon");
 
     private Panel Tick => field ??= GetNode<Panel>("Tick");
 
-    private CharacterInventoryDeadMarker DeadMarker => field ??= GetNode<CharacterInventoryDeadMarker>("DeadMarker");
-
     public string CharacterName { get; private set; } = string.Empty;
 
-    private Character? Character { get; set; }
+    public Character Character { get; private set; } = null!;
 
     public void SetCharacter(string name, Character character)
     {
         CharacterName = name;
         Character = character;
-        Damage.SetCharacter(character);
-        DeadMarker.SetCharacter(character);
         Icon.Texture = IconRepository.GetUnit(name);
     }
 
@@ -33,11 +27,6 @@ public partial class CharacterInventoryIcon : Panel
 
     public override Variant _GetDragData(Vector2 atPosition)
     {
-        if (string.IsNullOrWhiteSpace(CharacterName))
-        {
-            return default;
-        }
-
         GetTree().CallGroup("character_drop_indicators", "SetDropIndicatorVisible", true);
 
         if (Duplicate() is CharacterInventoryIcon preview)
@@ -48,12 +37,6 @@ public partial class CharacterInventoryIcon : Panel
             SetDragPreview(preview);
         }
 
-        if (Character is not null)
-        {
-            return CharacterName;
-        }
-
-        return default;
+        return CharacterName;
     }
-
 }

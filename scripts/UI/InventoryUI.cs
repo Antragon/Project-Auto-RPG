@@ -43,8 +43,8 @@ public partial class InventoryUI : Panel
             }
 
             var icon = CharacterInventoryIconScene.Instantiate<CharacterInventoryIcon>();
-            CharactersGrid.AddChild(icon);
             icon.SetCharacter(character.Name, playableCharacter);
+            CharactersGrid.AddChild(icon);
         }
 
         RefreshSlottedStates();

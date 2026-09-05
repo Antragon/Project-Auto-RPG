@@ -19,10 +19,19 @@ public sealed class Character
         get;
         private set
         {
-            field = Math.Max(0, value);
+            var newXp = Math.Max(0, value);
+            if (field == newXp)
+            {
+                return;
+            }
+
+            field = newXp;
+            PropertyChanged?.Invoke(this, nameof(Xp));
             Unit.Level = CalculateLevel(field);
         }
     }
+
+    public event PropertyChangedEventHandler<Character>? PropertyChanged;
 
     public int XpToNextLevel => CalculateTotalXpForLevel(Unit.Level + 1);
 
