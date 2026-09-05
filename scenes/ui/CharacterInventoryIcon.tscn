@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://2a8s2ncp2dxu"]
 
 [ext_resource type="Texture2D" uid="uid://oe8bsnaj7psg" path="res://textures/units/icons/placeholder.tres" id="1_icon"]
-[ext_resource type="Script" uid="uid://ddhcej7txw2dr" path="res://scripts/UI/InventoryIcon.cs" id="2_script"]
+[ext_resource type="Script" uid="uid://ddhcej7txw2dr" path="res://scripts/UI/CharacterInventoryIcon.cs" id="2_script"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_medallion"]
 bg_color = Color(0.15, 0.19, 0.26, 1)
@@ -16,6 +16,12 @@ corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 shadow_color = Color(0, 0, 0, 0.3)
 shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_damage_background"]
+bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_damage"]
+bg_color = Color(0.85, 0.12, 0.12, 0.55)
 
 [sub_resource type="Shader" id="Shader_circle_mask"]
 code = "shader_type canvas_item;
@@ -54,11 +60,27 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[node name="InventoryIcon" type="Panel" unique_id=462916141]
+[node name="CharacterInventoryIcon" type="Panel" unique_id=462916141]
 custom_minimum_size = Vector2(80, 80)
 clip_contents = true
 theme_override_styles/panel = SubResource("StyleBoxFlat_medallion")
 script = ExtResource("2_script")
+
+[node name="Damage" type="ProgressBar" parent="." unique_id=1118754435]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_damage_background")
+theme_override_styles/fill = SubResource("StyleBoxFlat_damage")
+show_percentage = false
 
 [node name="Icon" type="TextureRect" parent="." unique_id=1110112684]
 material = SubResource("ShaderMaterial_circle_mask")
@@ -89,4 +111,20 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_tick")
 [node name="Checkmark" type="Line2D" parent="Tick" unique_id=2123198071]
 points = PackedVector2Array(4, 10, 8, 14, 16, 6)
 width = 2.0
+antialiased = true
+
+[node name="DeadMarker" type="Node2D" parent="." unique_id=733439912]
+visible = false
+z_index = 5
+
+[node name="Line1" type="Line2D" parent="DeadMarker" unique_id=1041021966]
+points = PackedVector2Array(16, 16, 64, 64)
+width = 6.0
+default_color = Color(0.95, 0.08, 0.08, 1)
+antialiased = true
+
+[node name="Line2" type="Line2D" parent="DeadMarker" unique_id=896557350]
+points = PackedVector2Array(64, 16, 16, 64)
+width = 6.0
+default_color = Color(0.95, 0.08, 0.08, 1)
 antialiased = true

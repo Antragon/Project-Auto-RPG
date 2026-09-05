@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://do2afiy5486mw"]
 
-[ext_resource type="PackedScene" uid="uid://2a8s2ncp2dxu" path="res://scenes/ui/InventoryIcon.tscn" id="1_inventory_icon"]
+[ext_resource type="PackedScene" uid="uid://2a8s2ncp2dxu" path="res://scenes/ui/CharacterInventoryIcon.tscn" id="1_inventory_icon"]
 [ext_resource type="Script" uid="uid://bno7jewidqtd5" path="res://scripts/UI/InventoryUI.cs" id="2_script"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inventory"]

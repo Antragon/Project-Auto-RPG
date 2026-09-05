@@ -15,7 +15,7 @@ public partial class InventoryUI : Panel
 
     private GridContainer CharactersGrid => field ??= GetNode<GridContainer>("CharactersPanel/Scroll/Grid");
 
-    private PackedScene InventoryIconScene => field ??= SceneRepository.Load("ui/InventoryIcon")!;
+    private PackedScene CharacterInventoryIconScene => field ??= SceneRepository.Load("ui/CharacterInventoryIcon")!;
 
     public override void _Ready()
     {
@@ -42,7 +42,7 @@ public partial class InventoryUI : Panel
                 continue;
             }
 
-            var icon = InventoryIconScene.Instantiate<InventoryIcon>();
+            var icon = CharacterInventoryIconScene.Instantiate<CharacterInventoryIcon>();
             CharactersGrid.AddChild(icon);
             icon.SetCharacter(character.Name, playableCharacter);
         }
@@ -54,7 +54,7 @@ public partial class InventoryUI : Panel
     {
         foreach (var child in CharactersGrid.GetChildren())
         {
-            if (child is InventoryIcon icon)
+            if (child is CharacterInventoryIcon icon)
             {
                 icon.SetSlotted(CharacterFormation.IsSlotted(icon.CharacterName));
             }
