@@ -5,7 +5,7 @@ using Godot;
 
 public partial class EnemyFormation : UnitFormation
 {
-    private const float EnemyApproachDistance = 600f;
+    private const float EnemyApproachDistance = 1000f;
     private const float WalkSpeed = 200f;
 
     private Vector2 _defaultPosition;

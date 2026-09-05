@@ -9,6 +9,7 @@ script = ExtResource("1_uouaw")
 Icon = ExtResource("3_attack_icon")
 Selection = 1
 Power = 10
+Scaling = 1
 metadata/_custom_type_script = "uid://ti7s6ptdsbvr"
 
 [resource]

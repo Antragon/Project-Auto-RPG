@@ -7,10 +7,15 @@
 [sub_resource type="Resource" id="Resource_w861l"]
 script = ExtResource("1_pk1ja")
 Icon = ExtResource("3_attack_icon")
+Cooldown = 2.5
 Power = 5
 metadata/_custom_type_script = "uid://ti7s6ptdsbvr"
 
 [resource]
 script = ExtResource("1_unit_data")
 BaseSkill = SubResource("Resource_w861l")
+Vitality = 2
+Strength = 1
+Dexterity = 1
+Magic = 1
 metadata/_custom_type_script = "uid://dr61qdn2hdvyo"

@@ -53,7 +53,7 @@ public partial class DungeonCombat : Node
         }
 
         var targetFormation = GetTargetFormation(sourceSlot.GetParent<UnitFormation>(), skillData.Target);
-        var power = Math.Max(0, skillData.Power);
+        var power = CalculatePower(sourceSlot.Unit, skillData);
 
         foreach (var targetSlot in SelectTargets(targetFormation, skillData.Selection))
         {
@@ -108,6 +108,25 @@ public partial class DungeonCombat : Node
             default:
                 throw new ArgumentOutOfRangeException(nameof(effect), effect, null);
         }
+    }
+
+    private static int CalculatePower(Unit sourceUnit, SkillData skillData)
+    {
+        var power = Math.Max(0, skillData.Power);
+        if (skillData.Effect != SkillEffect.Damage)
+        {
+            return power;
+        }
+
+        var scalingStat = skillData.Scaling switch
+        {
+            SkillScaling.Strength => sourceUnit.UnitData.Strength,
+            SkillScaling.Dexterity => sourceUnit.UnitData.Dexterity,
+            SkillScaling.Magic => sourceUnit.UnitData.Magic,
+            _ => throw new ArgumentOutOfRangeException(nameof(skillData.Scaling), skillData.Scaling, null),
+        };
+
+        return (int)Math.Floor(power * Math.Pow(1.1, scalingStat));
     }
 
     private static RandomNumberGenerator CreateRandomNumberGenerator()

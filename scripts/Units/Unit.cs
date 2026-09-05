@@ -7,7 +7,7 @@ public sealed class Unit
     public Unit(UnitData unitData)
     {
         UnitData = unitData;
-        MaxHp = 100 + unitData.Vitality * 10;
+        MaxHp = (int)Math.Floor(100 * Math.Pow(1.1, unitData.Vitality));
         Hp = MaxHp;
     }
 

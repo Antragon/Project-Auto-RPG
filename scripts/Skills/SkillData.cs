@@ -22,6 +22,13 @@ public enum SkillEffect
     Heal,
 }
 
+public enum SkillScaling
+{
+    Strength,
+    Dexterity,
+    Magic,
+}
+
 [GlobalClass]
 public partial class SkillData : Resource
 {
@@ -36,4 +43,6 @@ public partial class SkillData : Resource
     [Export] public SkillEffect Effect { get; set; } = SkillEffect.Damage;
 
     [Export] public int Power { get; set; }
+
+    [Export] public SkillScaling Scaling { get; set; }
 }

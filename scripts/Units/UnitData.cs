@@ -17,7 +17,7 @@ public partial class UnitData : Resource
 
     [Export] public int Dexterity { get; set; }
 
-    [Export] public int Power { get; set; }
+    [Export] public int Magic { get; set; }
 
     [Export] public int Speed { get; set; }
 }
