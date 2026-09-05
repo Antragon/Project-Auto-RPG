@@ -11,8 +11,6 @@ public partial class UnitAnimation : AnimatedSprite2D
 
     private UnitSkillSlots UnitSkillSlots => field ??= this.GetSibling<UnitSkillSlots>();
 
-    private Unit? _subscribedUnit;
-
     public bool UnitIsDead { get; private set; }
 
     public override void _Ready()
@@ -20,8 +18,7 @@ public partial class UnitAnimation : AnimatedSprite2D
         AnimationFinished += OnAnimationFinished;
         UnitSkillSlots.SkillTriggered += OnSkillTriggered;
         UnitSlot.PropertyChanged += OnUnitSlotPropertyChanged;
-        _subscribedUnit = UnitSlot.Unit;
-        _subscribedUnit?.HpChanged += OnUnitHpChanged;
+        UnitSlot.UnitPropertyChanged += OnUnitPropertyChanged;
     }
 
     public override void _ExitTree()
@@ -29,7 +26,7 @@ public partial class UnitAnimation : AnimatedSprite2D
         AnimationFinished -= OnAnimationFinished;
         UnitSkillSlots.SkillTriggered -= OnSkillTriggered;
         UnitSlot.PropertyChanged -= OnUnitSlotPropertyChanged;
-        _subscribedUnit?.HpChanged -= OnUnitHpChanged;
+        UnitSlot.UnitPropertyChanged -= OnUnitPropertyChanged;
     }
 
     private void OnAnimationFinished()
@@ -53,9 +50,6 @@ public partial class UnitAnimation : AnimatedSprite2D
     {
         if (propertyName == nameof(UnitSlot.Unit))
         {
-            _subscribedUnit?.HpChanged -= OnUnitHpChanged;
-            _subscribedUnit = UnitSlot.Unit;
-            _subscribedUnit?.HpChanged += OnUnitHpChanged;
             RefreshSprite();
             if (UnitSlot.Unit?.IsDead == true)
             {
@@ -72,9 +66,9 @@ public partial class UnitAnimation : AnimatedSprite2D
         }
     }
 
-    private void OnUnitHpChanged()
+    private void OnUnitPropertyChanged(UnitSlot sender, string propertyName)
     {
-        if (!UnitIsDead && _subscribedUnit is { IsDead: true })
+        if (propertyName == nameof(Unit.IsDead) && !UnitIsDead && sender.Unit?.IsDead == true)
         {
             PlayAnimation("death");
         }

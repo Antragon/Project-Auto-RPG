@@ -1,7 +1,5 @@
 namespace Game.scripts.Dungeon;
 
-using System;
-using System.Collections.Generic;
 using Extensions;
 using Godot;
 using Units;
@@ -16,14 +14,11 @@ public partial class CharacterExperience : Node
 
     private EnemyFormation EnemyFormation => field ??= GetParent<Dungeon>().GetChildOfType<EnemyFormation>();
 
-    private readonly Dictionary<UnitSlot, (Unit Unit, Action Handler)> _enemySubscriptions = [];
-
     public override void _Ready()
     {
         foreach (var enemySlot in EnemyFormation.Slots)
         {
-            enemySlot.PropertyChanged += OnEnemySlotPropertyChanged;
-            SubscribeToEnemy(enemySlot);
+            enemySlot.UnitPropertyChanged += OnEnemyUnitPropertyChanged;
         }
     }
 
@@ -31,46 +26,13 @@ public partial class CharacterExperience : Node
     {
         foreach (var enemySlot in EnemyFormation.Slots)
         {
-            enemySlot.PropertyChanged -= OnEnemySlotPropertyChanged;
-            UnsubscribeFromEnemy(enemySlot);
+            enemySlot.UnitPropertyChanged -= OnEnemyUnitPropertyChanged;
         }
     }
 
-    private void OnEnemySlotPropertyChanged(UnitSlot sender, string propertyName)
+    private void OnEnemyUnitPropertyChanged(UnitSlot sender, string propertyName)
     {
-        if (propertyName == nameof(UnitSlot.Unit))
-        {
-            SubscribeToEnemy(sender);
-        }
-    }
-
-    private void SubscribeToEnemy(UnitSlot enemySlot)
-    {
-        UnsubscribeFromEnemy(enemySlot);
-
-        if (enemySlot.Unit is not { } enemy)
-        {
-            return;
-        }
-
-        var handler = () => OnEnemyHpChanged(enemy);
-        _enemySubscriptions.Add(enemySlot, (enemy, handler));
-        enemy.HpChanged += handler;
-    }
-
-    private void UnsubscribeFromEnemy(UnitSlot enemySlot)
-    {
-        if (!_enemySubscriptions.Remove(enemySlot, out var subscription))
-        {
-            return;
-        }
-
-        subscription.Unit.HpChanged -= subscription.Handler;
-    }
-
-    private void OnEnemyHpChanged(Unit enemy)
-    {
-        if (!enemy.IsDead)
+        if (propertyName != nameof(Unit.IsDead) || sender.Unit?.IsDead != true)
         {
             return;
         }

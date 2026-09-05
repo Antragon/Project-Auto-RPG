@@ -1,52 +1,34 @@
 namespace Game.scripts.Dungeon;
 
 using Godot;
-using Units;
 
 public partial class UnitHealthBar : ProgressBar
 {
     private UnitSlot UnitSlot => field ??= GetParent<UnitSlot>();
 
-    private Unit? _subscribedUnit;
-
     public override void _Ready()
     {
         MaxValue = 100;
         UnitSlot.PropertyChanged += OnUnitSlotPropertyChanged;
-        SubscribeToUnit(UnitSlot.Unit);
+        UnitSlot.UnitPropertyChanged += OnUnitPropertyChanged;
+        Refresh();
     }
 
     public override void _ExitTree()
     {
         UnitSlot.PropertyChanged -= OnUnitSlotPropertyChanged;
-        SubscribeToUnit(null);
+        UnitSlot.UnitPropertyChanged -= OnUnitPropertyChanged;
     }
 
     private void OnUnitSlotPropertyChanged(UnitSlot sender, string propertyName)
     {
         if (propertyName == nameof(UnitSlot.Unit))
         {
-            SubscribeToUnit(sender.Unit);
+            Refresh();
         }
     }
 
-    private void SubscribeToUnit(Unit? unit)
-    {
-        if (_subscribedUnit is not null)
-        {
-            _subscribedUnit.HpChanged -= OnUnitHpChanged;
-        }
-
-        _subscribedUnit = unit;
-        if (_subscribedUnit is not null)
-        {
-            _subscribedUnit.HpChanged += OnUnitHpChanged;
-        }
-
-        Refresh();
-    }
-
-    private void OnUnitHpChanged()
+    private void OnUnitPropertyChanged(UnitSlot sender, string propertyName)
     {
         Refresh();
     }
