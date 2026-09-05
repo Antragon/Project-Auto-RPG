@@ -12,8 +12,6 @@ public partial class UnitSkillSlots : HBoxContainer
 
     private SkillSlot[] Slots => field ??= this.GetChildrenOfType<SkillSlot>();
 
-    private Unit? _subscribedUnit;
-
     public event Action<SkillData>? SkillTriggered;
 
     public override void _Ready()
@@ -24,7 +22,7 @@ public partial class UnitSkillSlots : HBoxContainer
         }
 
         UnitSlot.PropertyChanged += OnUnitSlotPropertyChanged;
-        SubscribeToUnit(UnitSlot.Unit);
+        UnitSlot.UnitPropertyChanged += OnUnitPropertyChanged;
         Refresh(UnitSlot);
         OnStateChanged();
     }
@@ -37,7 +35,7 @@ public partial class UnitSkillSlots : HBoxContainer
         }
 
         UnitSlot.PropertyChanged -= OnUnitSlotPropertyChanged;
-        SubscribeToUnit(null);
+        UnitSlot.UnitPropertyChanged -= OnUnitPropertyChanged;
     }
 
     private void OnSkillTriggered(SkillData skillData)
@@ -49,7 +47,6 @@ public partial class UnitSkillSlots : HBoxContainer
     {
         if (propertyName == nameof(UnitSlot.Unit))
         {
-            SubscribeToUnit(sender.Unit);
             Refresh(sender);
         }
 
@@ -59,21 +56,7 @@ public partial class UnitSkillSlots : HBoxContainer
         }
     }
 
-    private void SubscribeToUnit(Unit? unit)
-    {
-        if (_subscribedUnit is not null)
-        {
-            _subscribedUnit.HpChanged -= OnUnitHpChanged;
-        }
-
-        _subscribedUnit = unit;
-        if (_subscribedUnit is not null)
-        {
-            _subscribedUnit.HpChanged += OnUnitHpChanged;
-        }
-    }
-
-    private void OnUnitHpChanged()
+    private void OnUnitPropertyChanged(UnitSlot sender, string propertyName)
     {
         OnStateChanged();
     }

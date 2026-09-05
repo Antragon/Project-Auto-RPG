@@ -7,6 +7,7 @@ public sealed class Unit
     public Unit(UnitData unitData)
     {
         UnitData = unitData;
+        MaxHp = CalculateMaxHp();
         Hp = MaxHp;
     }
 
@@ -15,27 +16,50 @@ public sealed class Unit
     public int Level
     {
         get;
-        internal set
+        set
         {
-            if (field == value)
-            {
-                return;
-            }
-
-            field = Math.Max(1, value);
+            if (field == value) return;
+            field = value;
+            MaxHp = CalculateMaxHp();
             Hp = MaxHp;
-            IsDead = false;
-            HpChanged?.Invoke();
+            PropertyChanged?.Invoke(this, nameof(Level));
         }
     } = 1;
 
-    public int Hp { get; private set; }
+    public int Hp
+    {
+        get;
+        private set
+        {
+            if (field == value) return;
+            field = value;
+            PropertyChanged?.Invoke(this, nameof(Hp));
+        }
+    }
 
-    public int MaxHp => CalculateMaxHp();
+    public int MaxHp
+    {
+        get;
+        private set
+        {
+            if (field == value) return;
+            field = value;
+            PropertyChanged?.Invoke(this, nameof(MaxHp));
+        }
+    }
 
-    public bool IsDead { get; private set; }
+    public bool IsDead
+    {
+        get;
+        private set
+        {
+            if (field == value) return;
+            field = value;
+            PropertyChanged?.Invoke(this, nameof(IsDead));
+        }
+    }
 
-    public event Action? HpChanged;
+    public event PropertyChangedEventHandler<Unit>? PropertyChanged;
 
     private int CalculateMaxHp()
     {
@@ -59,7 +83,5 @@ public sealed class Unit
         {
             IsDead = false;
         }
-
-        HpChanged?.Invoke();
     }
 }

@@ -26,12 +26,12 @@ public partial class UnitSlot : Node2D
             AddToGroup("character_drop_indicators");
         }
 
-        Unit?.HpChanged += OnUnitHpChanged;
+        Unit?.PropertyChanged += OnUnitPropertyChanged;
     }
 
     public override void _ExitTree()
     {
-        Unit?.HpChanged -= OnUnitHpChanged;
+        Unit?.PropertyChanged -= OnUnitPropertyChanged;
     }
 
     public void SetState(DungeonState dungeonState)
@@ -60,9 +60,9 @@ public partial class UnitSlot : Node2D
 
     public void Assign(Unit unit)
     {
-        Unit?.HpChanged -= OnUnitHpChanged;
+        Unit?.PropertyChanged -= OnUnitPropertyChanged;
         Unit = unit;
-        Unit.HpChanged += OnUnitHpChanged;
+        Unit.PropertyChanged += OnUnitPropertyChanged;
         PropertyChanged?.Invoke(this, nameof(Unit));
     }
 
@@ -73,23 +73,13 @@ public partial class UnitSlot : Node2D
             return;
         }
 
-        Unit.HpChanged -= OnUnitHpChanged;
+        Unit.PropertyChanged -= OnUnitPropertyChanged;
         Unit = null;
         PropertyChanged?.Invoke(this, nameof(Unit));
     }
 
-    private void OnUnitHpChanged()
+    private void OnUnitPropertyChanged(Unit sender, string propertyName)
     {
-        if (Unit is null)
-        {
-            return;
-        }
-
-        UnitPropertyChanged?.Invoke(this, nameof(Unit.Hp));
-
-        if (Unit.IsDead)
-        {
-            UnitPropertyChanged?.Invoke(this, nameof(Unit.IsDead));
-        }
+        UnitPropertyChanged?.Invoke(this, propertyName);
     }
 }

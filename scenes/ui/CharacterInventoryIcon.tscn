@@ -2,6 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://oe8bsnaj7psg" path="res://textures/units/icons/placeholder.tres" id="1_icon"]
 [ext_resource type="Script" uid="uid://ddhcej7txw2dr" path="res://scripts/UI/CharacterInventoryIcon.cs" id="2_script"]
+[ext_resource type="Script" uid="uid://df5co8y5f0j10" path="res://scripts/UI/CharacterInventoryDamageIndicator.cs" id="3_health_bar"]
+[ext_resource type="Script" uid="uid://c7xu7qdct7w81" path="res://scripts/UI/CharacterInventoryDeadMarker.cs" id="4_dead_marker"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_medallion"]
 bg_color = Color(0.15, 0.19, 0.26, 1)
@@ -81,6 +83,7 @@ mouse_filter = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_damage_background")
 theme_override_styles/fill = SubResource("StyleBoxFlat_damage")
 show_percentage = false
+script = ExtResource("3_health_bar")
 
 [node name="Icon" type="TextureRect" parent="." unique_id=1110112684]
 material = SubResource("ShaderMaterial_circle_mask")
@@ -116,6 +119,7 @@ antialiased = true
 [node name="DeadMarker" type="Node2D" parent="." unique_id=733439912]
 visible = false
 z_index = 5
+script = ExtResource("4_dead_marker")
 
 [node name="Line1" type="Line2D" parent="DeadMarker" unique_id=1041021966]
 points = PackedVector2Array(16, 16, 64, 64)
