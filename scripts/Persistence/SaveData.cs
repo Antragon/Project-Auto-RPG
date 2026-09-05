@@ -13,4 +13,7 @@ public sealed class SavedCharacter
 {
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
+
+    [JsonPropertyName("xp")]
+    public int Xp { get; set; }
 }

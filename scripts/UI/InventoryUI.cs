@@ -37,14 +37,14 @@ public partial class InventoryUI : Panel
 
         foreach (var character in SaveRepository.Characters)
         {
-            if (!CharacterRoster.TryGetUnit(character.Name, out var unit))
+            if (!CharacterRoster.TryGetCharacter(character.Name, out var playableCharacter))
             {
                 continue;
             }
 
             var icon = InventoryIconScene.Instantiate<InventoryIcon>();
             CharactersGrid.AddChild(icon);
-            icon.SetCharacter(character.Name, unit);
+            icon.SetCharacter(character.Name, playableCharacter);
         }
 
         RefreshSlottedStates();

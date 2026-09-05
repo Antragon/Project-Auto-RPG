@@ -11,12 +11,12 @@ public partial class InventoryIcon : Panel
 
     public string CharacterName { get; private set; } = string.Empty;
 
-    private Unit? Unit { get; set; }
+    private Character? Character { get; set; }
 
-    public void SetCharacter(string name, Unit unit)
+    public void SetCharacter(string name, Character character)
     {
         CharacterName = name;
-        Unit = unit;
+        Character = character;
         Icon.Texture = IconRepository.GetUnit(name);
     }
 
@@ -42,7 +42,7 @@ public partial class InventoryIcon : Panel
             SetDragPreview(preview);
         }
 
-        if (Unit is not null)
+        if (Character is not null)
         {
             return CharacterName;
         }

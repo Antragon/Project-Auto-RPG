@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://wce2vvvacgno" path="res://scripts/Units/EnemyFormation.cs" id="6_ptmvy"]
 [ext_resource type="Script" uid="uid://d1n4f4c70ry" path="res://scripts/Units/EnemyFactory.cs" id="7_enemy_factory"]
 [ext_resource type="Script" uid="uid://d6f3w8r2k1m4" path="res://scripts/Dungeon/CharacterRegenerator.cs" id="8_character_regenerator"]
+[ext_resource type="Script" uid="uid://ds8wld3ryar18" path="res://scripts/Dungeon/CharacterExperience.cs" id="9_character_experience"]
 
 [node name="Dungeon" type="Node2D" unique_id=373558476]
 script = ExtResource("5_dungeon")
@@ -31,6 +32,9 @@ script = ExtResource("7_enemy_factory")
 
 [node name="CharacterRegenerator" type="Node" parent="." unique_id=1403264089]
 script = ExtResource("8_character_regenerator")
+
+[node name="CharacterExperience" type="Node" parent="." unique_id=1577772517]
+script = ExtResource("9_character_experience")
 
 [node name="CharacterFormation" type="Node2D" parent="." unique_id=417323637]
 position = Vector2(-150, 75)

@@ -20,23 +20,23 @@ public partial class UnitSlotDropTarget : Control
 
     public override bool _CanDropData(Vector2 atPosition, Variant data)
     {
-        return TryGetUnit(data, out var unit) && UnitSlot.CanAcceptCharacter(unit);
+        return TryGetCharacter(data, out var character) && UnitSlot.CanAcceptCharacter(character.Unit);
     }
 
     public override void _DropData(Vector2 atPosition, Variant data)
     {
-        if (TryGetUnit(data, out var unit))
+        if (TryGetCharacter(data, out var character))
         {
-            UnitSlot.Assign(unit);
+            UnitSlot.Assign(character.Unit);
         }
 
         GetTree().CallGroup("character_drop_indicators", nameof(UnitSlot.SetDropIndicatorVisible), false);
     }
 
-    private bool TryGetUnit(Variant data, out Unit unit)
+    private bool TryGetCharacter(Variant data, out Character character)
     {
-        unit = null!;
+        character = null!;
         return data.VariantType == Variant.Type.String
-            && CharacterRoster.TryGetUnit(data.AsString(), out unit);
+            && CharacterRoster.TryGetCharacter(data.AsString(), out character);
     }
 }

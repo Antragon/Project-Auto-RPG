@@ -8,7 +8,7 @@ using Godot;
 public sealed class SaveRepository
 {
     private const string SavePath = "user://save.json";
-    private const string CharacterName = "shinobi";
+    private const string CharacterName = "knight";
 
     private static readonly JsonSerializerOptions JsonOptions = new()
     {

@@ -126,7 +126,7 @@ public partial class DungeonCombat : Node
             _ => throw new ArgumentOutOfRangeException(nameof(skillData.Scaling), skillData.Scaling, null),
         };
 
-        return (int)Math.Floor(power * Math.Pow(1.1, scalingStat));
+        return (int)Math.Floor(power * Math.Pow(1.1, scalingStat * sourceUnit.Level));
     }
 
     private static RandomNumberGenerator CreateRandomNumberGenerator()
