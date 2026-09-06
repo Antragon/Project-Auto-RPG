@@ -7,7 +7,8 @@
 [ext_resource type="Script" uid="uid://b2pjwpadtpm7m" path="res://scripts/Dungeon/UnitSkillSlots.cs" id="5_skill_slots"]
 [ext_resource type="PackedScene" uid="uid://bl7ajuv0jbmh1" path="res://scenes/dungeon/SkillSlot.tscn" id="6_skill_slot"]
 [ext_resource type="Script" uid="uid://dunitanim8x40" path="res://scripts/Units/UnitAnimation.cs" id="6_unit_animation"]
-[ext_resource type="Script" path="res://scripts/Dungeon/UnitLevelLabel.cs" id="7_level_label"]
+[ext_resource type="Script" uid="uid://sut0mb115uud" path="res://scripts/Dungeon/UnitLevelLabel.cs" id="7_level_label"]
+[ext_resource type="Script" uid="uid://c7uketrddcf67" path="res://scripts/Dungeon/UnitHpChangeLabel.cs" id="8_hp_change_label"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health_background"]
 bg_color = Color(0.35, 0.35, 0.35, 1)
@@ -45,12 +46,23 @@ offset_left = 36.0
 offset_top = -148.0
 offset_right = 84.0
 offset_bottom = -132.0
-mouse_filter = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 10
-vertical_alignment = 1
 text = "Lv. 1"
+vertical_alignment = 1
 script = ExtResource("7_level_label")
+
+[node name="HpChangeLabel" type="Label" parent="." unique_id=425178631]
+offset_left = -32.0
+offset_top = -160.0
+offset_right = 32.0
+offset_bottom = -136.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.8)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("8_hp_change_label")
 
 [node name="SkillSlots" type="HBoxContainer" parent="." unique_id=158914530]
 offset_left = -64.0

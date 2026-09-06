@@ -26,16 +26,16 @@ public sealed class Character
             }
 
             field = newXp;
+            Unit.Level = CalculateLevel();
             PropertyChanged?.Invoke(this, nameof(Xp));
-            Unit.Level = CalculateLevel(field);
         }
     }
 
     public event PropertyChangedEventHandler<Character>? PropertyChanged;
 
-    public int XpToNextLevel => CalculateTotalXpForLevel(Unit.Level + 1);
+    public int XpInCurrentLevel => Xp - CalculateXpThresholdForLevel(Unit.Level - 1);
 
-    public int XpUntilLevelUp => XpToNextLevel - Xp;
+    public int XpToNextLevel => BaseXpPerLevel * Fibonacci.Get(Unit.Level - 1);
 
     public void AddXp(int xp)
     {
@@ -47,10 +47,10 @@ public sealed class Character
         Xp += xp;
     }
 
-    private static int CalculateLevel(int xp)
+    private int CalculateLevel()
     {
         var level = 1;
-        while (xp >= CalculateTotalXpForLevel(level + 1))
+        while (Xp >= CalculateXpThresholdForLevel(level))
         {
             level++;
         }
@@ -58,8 +58,10 @@ public sealed class Character
         return level;
     }
 
-    private static int CalculateTotalXpForLevel(int level)
+    private static int CalculateXpThresholdForLevel(int level)
     {
-        return BaseXpPerLevel * (level - 1) * level / 2;
+        return level == 0
+            ? 0
+            : BaseXpPerLevel * Fibonacci.GetCumulative(level - 1);
     }
 }

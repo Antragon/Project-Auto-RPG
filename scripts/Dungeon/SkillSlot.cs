@@ -65,7 +65,7 @@ public partial class SkillSlot : Panel
 
     private void ResetCooldown()
     {
-        _cooldownRemaining = 0;
+        _cooldownRemaining = _skillData?.Cooldown ?? 0;
         RefreshCooldown();
     }
 

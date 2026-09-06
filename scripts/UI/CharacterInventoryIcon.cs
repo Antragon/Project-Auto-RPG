@@ -9,6 +9,8 @@ public partial class CharacterInventoryIcon : Panel
 
     private Panel Tick => field ??= GetNode<Panel>("Tick");
 
+    private PackedScene DragIconScene => field ??= SceneRepository.Load("ui/DragIcon")!;
+
     public string CharacterName { get; private set; } = string.Empty;
 
     public Character Character { get; private set; } = null!;
@@ -29,13 +31,14 @@ public partial class CharacterInventoryIcon : Panel
     {
         GetTree().CallGroup("character_drop_indicators", "SetDropIndicatorVisible", true);
 
-        if (Duplicate() is CharacterInventoryIcon preview)
-        {
-            preview.MouseFilter = MouseFilterEnum.Ignore;
-            preview.SetSlotted(false);
-            preview.Size = Size;
-            SetDragPreview(preview);
-        }
+        var preview = DragIconScene.Instantiate<Panel>();
+        preview.MouseFilter = MouseFilterEnum.Ignore;
+
+        var previewIcon = preview.GetNode<TextureRect>("Icon");
+        previewIcon.Texture = Icon.Texture;
+        previewIcon.Material = Icon.Material;
+        preview.Size = Size;
+        SetDragPreview(preview);
 
         return CharacterName;
     }

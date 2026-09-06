@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://do2afiy5486mw"]
 
-[ext_resource type="PackedScene" uid="uid://2a8s2ncp2dxu" path="res://scenes/ui/CharacterInventoryIcon.tscn" id="1_inventory_icon"]
 [ext_resource type="Script" uid="uid://bno7jewidqtd5" path="res://scripts/UI/InventoryUI.cs" id="2_script"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inventory"]
@@ -102,54 +101,6 @@ theme_override_constants/h_separation = 8
 theme_override_constants/v_separation = 8
 columns = 4
 
-[node name="Icon1" parent="SkillsPanel/Scroll/Grid" unique_id=1245893497 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null
-
-[node name="Icon2" parent="SkillsPanel/Scroll/Grid" unique_id=1891407333 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null
-
-[node name="Icon3" parent="SkillsPanel/Scroll/Grid" unique_id=1290708775 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null
-
-[node name="Icon4" parent="SkillsPanel/Scroll/Grid" unique_id=603784611 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null
-
-[node name="Icon5" parent="SkillsPanel/Scroll/Grid" unique_id=709500401 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null
-
-[node name="Icon6" parent="SkillsPanel/Scroll/Grid" unique_id=1144400548 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null
-
-[node name="Icon7" parent="SkillsPanel/Scroll/Grid" unique_id=2078123965 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null
-
-[node name="Icon8" parent="SkillsPanel/Scroll/Grid" unique_id=443200890 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null
-
-[node name="Icon9" parent="SkillsPanel/Scroll/Grid" unique_id=2073946696 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null
-
-[node name="Icon10" parent="SkillsPanel/Scroll/Grid" unique_id=859008609 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null
-
-[node name="Icon11" parent="SkillsPanel/Scroll/Grid" unique_id=860267285 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null
-
-[node name="Icon12" parent="SkillsPanel/Scroll/Grid" unique_id=407209600 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null
-
 [node name="EquipmentPanel" type="Panel" parent="." unique_id=2115238001]
 layout_mode = 0
 offset_left = 804.0
@@ -182,51 +133,3 @@ layout_mode = 2
 theme_override_constants/h_separation = 8
 theme_override_constants/v_separation = 8
 columns = 4
-
-[node name="Icon1" parent="EquipmentPanel/Scroll/Grid" unique_id=1793618072 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null
-
-[node name="Icon2" parent="EquipmentPanel/Scroll/Grid" unique_id=224625160 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null
-
-[node name="Icon3" parent="EquipmentPanel/Scroll/Grid" unique_id=2051333429 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null
-
-[node name="Icon4" parent="EquipmentPanel/Scroll/Grid" unique_id=901152078 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null
-
-[node name="Icon5" parent="EquipmentPanel/Scroll/Grid" unique_id=1966376493 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null
-
-[node name="Icon6" parent="EquipmentPanel/Scroll/Grid" unique_id=1746650188 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null
-
-[node name="Icon7" parent="EquipmentPanel/Scroll/Grid" unique_id=1521065230 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null
-
-[node name="Icon8" parent="EquipmentPanel/Scroll/Grid" unique_id=1720138283 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null
-
-[node name="Icon9" parent="EquipmentPanel/Scroll/Grid" unique_id=1745191485 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null
-
-[node name="Icon10" parent="EquipmentPanel/Scroll/Grid" unique_id=1179001404 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null
-
-[node name="Icon11" parent="EquipmentPanel/Scroll/Grid" unique_id=289628486 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null
-
-[node name="Icon12" parent="EquipmentPanel/Scroll/Grid" unique_id=1688854206 instance=ExtResource("1_inventory_icon")]
-layout_mode = 2
-script = null

@@ -32,6 +32,6 @@ public partial class CharacterInventoryExperienceIndicator : ProgressBar
     private void Refresh()
     {
         MaxValue = Character.XpToNextLevel;
-        Value = Character.Xp;
+        Value = Character.XpInCurrentLevel;
     }
 }
