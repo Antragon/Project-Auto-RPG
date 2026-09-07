@@ -70,6 +70,18 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_selection_border"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.35, 0.8, 1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
 [node name="CharacterInventoryIcon" type="Panel" unique_id=462916141]
 custom_minimum_size = Vector2(80, 80)
 clip_contents = true
@@ -171,3 +183,19 @@ points = PackedVector2Array(64, 16, 16, 64)
 width = 6.0
 default_color = Color(0.95, 0.08, 0.08, 1)
 antialiased = true
+
+[node name="SelectionBorder" type="Panel" parent="." unique_id=2123198072]
+visible = false
+z_index = 6
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_selection_border")

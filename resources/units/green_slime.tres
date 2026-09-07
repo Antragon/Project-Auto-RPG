@@ -8,11 +8,12 @@
 script = ExtResource("1_pk1ja")
 Icon = ExtResource("3_attack_icon")
 Cooldown = 2.5
-Power = 5
+Power = 1000
 metadata/_custom_type_script = "uid://ti7s6ptdsbvr"
 
 [resource]
 script = ExtResource("1_unit_data")
+Tags = Array[String](["slime"])
 BaseSkill = SubResource("Resource_w861l")
 Vitality = 2
 Strength = 1
