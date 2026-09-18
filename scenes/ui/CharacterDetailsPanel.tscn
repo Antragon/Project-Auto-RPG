@@ -1,0 +1,539 @@
+[gd_scene format=3 uid="uid://bysolspjt8jd6"]
+
+[ext_resource type="Script" uid="uid://bw50kv0l2ctbg" path="res://scripts/UI/CharacterDetailsPanel.cs" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_character_details"]
+bg_color = Color(0.1, 0.13, 0.18, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.45, 0.6, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_group"]
+bg_color = Color(0.12, 0.15, 0.2, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.3, 0.38, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stat"]
+bg_color = Color(0.15, 0.19, 0.26, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.3, 0.38, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot"]
+bg_color = Color(0.15, 0.19, 0.26, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.38, 0.46, 0.58, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="CharacterDetailsPanel" type="Panel" unique_id=1142382563]
+custom_minimum_size = Vector2(384, 380)
+clip_contents = true
+offset_right = 384.0
+offset_bottom = 380.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_character_details")
+script = ExtResource("1_script")
+
+[node name="Level" type="Label" parent="." unique_id=2013274898]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 10.0
+offset_right = 100.0
+offset_bottom = 36.0
+theme_override_colors/font_color = Color(0.86, 0.89, 0.94, 1)
+theme_override_font_sizes/font_size = 14
+text = "Lv. 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CharacterName" type="Label" parent="." unique_id=1192713194]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 10.0
+offset_right = 328.0
+offset_bottom = 36.0
+theme_override_colors/font_color = Color(0.45, 0.75, 1, 1)
+theme_override_font_sizes/font_size = 18
+text = "Character"
+clip_text = true
+
+[node name="CloseButton" type="Button" parent="." unique_id=2143688396]
+layout_mode = 0
+offset_left = 344.0
+offset_top = 8.0
+offset_right = 372.0
+offset_bottom = 36.0
+text = "X"
+
+[node name="StatsPanel" type="Panel" parent="." unique_id=1593007002]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 48.0
+offset_right = 180.0
+offset_bottom = 268.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_group")
+
+[node name="Title" type="Label" parent="StatsPanel" unique_id=1844435658]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 6.0
+offset_right = 160.0
+offset_bottom = 30.0
+theme_override_colors/font_color = Color(0.45, 0.75, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "Stats"
+horizontal_alignment = 1
+
+[node name="StatsGrid" type="GridContainer" parent="StatsPanel" unique_id=1901667982]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 34.0
+offset_right = 160.0
+offset_bottom = 212.0
+theme_override_constants/v_separation = 4
+
+[node name="Tags" type="Panel" parent="StatsPanel/StatsGrid" unique_id=1439584462]
+custom_minimum_size = Vector2(152, 24)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat")
+
+[node name="Value" type="Label" parent="StatsPanel/StatsGrid/Tags" unique_id=356092444]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_right = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.86, 0.89, 0.94, 1)
+theme_override_font_sizes/font_size = 10
+text = "Tags:"
+vertical_alignment = 1
+
+[node name="Hp" type="Panel" parent="StatsPanel/StatsGrid" unique_id=565945360]
+custom_minimum_size = Vector2(152, 18)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat")
+
+[node name="Value" type="Label" parent="StatsPanel/StatsGrid/Hp" unique_id=1869500688]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_right = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.86, 0.89, 0.94, 1)
+theme_override_font_sizes/font_size = 10
+text = "HP:"
+vertical_alignment = 1
+
+[node name="Experience" type="Panel" parent="StatsPanel/StatsGrid" unique_id=267294252]
+custom_minimum_size = Vector2(152, 18)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat")
+
+[node name="Value" type="Label" parent="StatsPanel/StatsGrid/Experience" unique_id=501386818]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_right = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.86, 0.89, 0.94, 1)
+theme_override_font_sizes/font_size = 10
+text = "XP:"
+vertical_alignment = 1
+
+[node name="Vitality" type="Panel" parent="StatsPanel/StatsGrid" unique_id=417403728]
+custom_minimum_size = Vector2(152, 18)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat")
+
+[node name="Value" type="Label" parent="StatsPanel/StatsGrid/Vitality" unique_id=185641085]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_right = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.86, 0.89, 0.94, 1)
+theme_override_font_sizes/font_size = 10
+text = "Vitality:"
+vertical_alignment = 1
+
+[node name="Strength" type="Panel" parent="StatsPanel/StatsGrid" unique_id=1789097870]
+custom_minimum_size = Vector2(152, 18)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat")
+
+[node name="Value" type="Label" parent="StatsPanel/StatsGrid/Strength" unique_id=830020396]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_right = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.86, 0.89, 0.94, 1)
+theme_override_font_sizes/font_size = 10
+text = "Strength:"
+vertical_alignment = 1
+
+[node name="Dexterity" type="Panel" parent="StatsPanel/StatsGrid" unique_id=1795673229]
+custom_minimum_size = Vector2(152, 18)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat")
+
+[node name="Value" type="Label" parent="StatsPanel/StatsGrid/Dexterity" unique_id=1840213330]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_right = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.86, 0.89, 0.94, 1)
+theme_override_font_sizes/font_size = 10
+text = "Dexterity:"
+vertical_alignment = 1
+
+[node name="Magic" type="Panel" parent="StatsPanel/StatsGrid" unique_id=1530074171]
+custom_minimum_size = Vector2(152, 18)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat")
+
+[node name="Value" type="Label" parent="StatsPanel/StatsGrid/Magic" unique_id=1782782291]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_right = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.86, 0.89, 0.94, 1)
+theme_override_font_sizes/font_size = 10
+text = "Magic:"
+vertical_alignment = 1
+
+[node name="Speed" type="Panel" parent="StatsPanel/StatsGrid" unique_id=1567533665]
+custom_minimum_size = Vector2(152, 18)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat")
+
+[node name="Value" type="Label" parent="StatsPanel/StatsGrid/Speed" unique_id=582115436]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_right = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.86, 0.89, 0.94, 1)
+theme_override_font_sizes/font_size = 10
+text = "Speed:"
+vertical_alignment = 1
+
+[node name="EquipmentPanel" type="Panel" parent="." unique_id=1957259431]
+layout_mode = 0
+offset_left = 188.0
+offset_top = 48.0
+offset_right = 372.0
+offset_bottom = 268.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_group")
+
+[node name="Title" type="Label" parent="EquipmentPanel" unique_id=1241356618]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 6.0
+offset_right = 176.0
+offset_bottom = 30.0
+theme_override_colors/font_color = Color(1, 0.72, 0.42, 1)
+theme_override_font_sizes/font_size = 16
+text = "Equipment"
+horizontal_alignment = 1
+
+[node name="Content" type="CenterContainer" parent="EquipmentPanel" unique_id=1183923040]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -84.0
+offset_top = 34.0
+offset_right = 84.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EquipmentGrid" type="GridContainer" parent="EquipmentPanel/Content" unique_id=1949301178]
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+columns = 2
+
+[node name="Helmet" type="Panel" parent="EquipmentPanel/Content/EquipmentGrid" unique_id=966337726]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+
+[node name="Label" type="Label" parent="EquipmentPanel/Content/EquipmentGrid/Helmet" unique_id=1627196308]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.65, 0.7, 0.78, 1)
+theme_override_font_sizes/font_size = 9
+text = "Helmet"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AccessoryRight" type="Panel" parent="EquipmentPanel/Content/EquipmentGrid" unique_id=1165007192]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+
+[node name="Label" type="Label" parent="EquipmentPanel/Content/EquipmentGrid/AccessoryRight" unique_id=2035733650]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.65, 0.7, 0.78, 1)
+theme_override_font_sizes/font_size = 9
+text = "Accessory"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BodyArmor" type="Panel" parent="EquipmentPanel/Content/EquipmentGrid" unique_id=1566261898]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+
+[node name="Label" type="Label" parent="EquipmentPanel/Content/EquipmentGrid/BodyArmor" unique_id=1644779049]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.65, 0.7, 0.78, 1)
+theme_override_font_sizes/font_size = 9
+text = "Body Armor"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Weapon" type="Panel" parent="EquipmentPanel/Content/EquipmentGrid" unique_id=1760240436]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+
+[node name="Label" type="Label" parent="EquipmentPanel/Content/EquipmentGrid/Weapon" unique_id=1256529450]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.65, 0.7, 0.78, 1)
+theme_override_font_sizes/font_size = 9
+text = "Weapon"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LegArmor" type="Panel" parent="EquipmentPanel/Content/EquipmentGrid" unique_id=1778376800]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+
+[node name="Label" type="Label" parent="EquipmentPanel/Content/EquipmentGrid/LegArmor" unique_id=1719069791]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.65, 0.7, 0.78, 1)
+theme_override_font_sizes/font_size = 9
+text = "Leg Armor"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AccessoryLeft" type="Panel" parent="EquipmentPanel/Content/EquipmentGrid" unique_id=1565118196]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+
+[node name="Label" type="Label" parent="EquipmentPanel/Content/EquipmentGrid/AccessoryLeft" unique_id=649391862]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.65, 0.7, 0.78, 1)
+theme_override_font_sizes/font_size = 9
+text = "Accessory"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SkillsPanel" type="Panel" parent="." unique_id=652217321]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 276.0
+offset_right = 342.0
+offset_bottom = 368.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_group")
+
+[node name="Title" type="Label" parent="SkillsPanel" unique_id=2057861499]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 6.0
+offset_right = 292.0
+offset_bottom = 30.0
+theme_override_colors/font_color = Color(0.75, 0.6, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "Skills"
+horizontal_alignment = 1
+
+[node name="Content" type="CenterContainer" parent="SkillsPanel" unique_id=1168279245]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 34.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SkillGrid" type="GridContainer" parent="SkillsPanel/Content" unique_id=853237081]
+layout_mode = 2
+theme_override_constants/h_separation = 6
+columns = 4
+
+[node name="SkillSlot1" type="Panel" parent="SkillsPanel/Content/SkillGrid" unique_id=283460872]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+
+[node name="Label" type="Label" parent="SkillsPanel/Content/SkillGrid/SkillSlot1" unique_id=1104993060]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.65, 0.7, 0.78, 1)
+theme_override_font_sizes/font_size = 9
+text = "Skill"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SkillSlot2" type="Panel" parent="SkillsPanel/Content/SkillGrid" unique_id=285176919]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+
+[node name="Label" type="Label" parent="SkillsPanel/Content/SkillGrid/SkillSlot2" unique_id=1772377846]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.65, 0.7, 0.78, 1)
+theme_override_font_sizes/font_size = 9
+text = "Skill"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SkillSlot3" type="Panel" parent="SkillsPanel/Content/SkillGrid" unique_id=357198958]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+
+[node name="Label" type="Label" parent="SkillsPanel/Content/SkillGrid/SkillSlot3" unique_id=946599494]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.65, 0.7, 0.78, 1)
+theme_override_font_sizes/font_size = 9
+text = "Skill"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SkillSlot4" type="Panel" parent="SkillsPanel/Content/SkillGrid" unique_id=771413269]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+
+[node name="Label" type="Label" parent="SkillsPanel/Content/SkillGrid/SkillSlot4" unique_id=1581610676]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.65, 0.7, 0.78, 1)
+theme_override_font_sizes/font_size = 9
+text = "Skill"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://do2afiy5486mw"]
 
 [ext_resource type="Script" uid="uid://bno7jewidqtd5" path="res://scripts/UI/InventoryUI.cs" id="2_script"]
+[ext_resource type="PackedScene" path="res://scenes/ui/CharacterDetailsPanel.tscn" id="3_character_details"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inventory"]
 bg_color = Color(0.08, 0.1, 0.14, 0.96)
@@ -34,6 +35,15 @@ offset_bottom = -20.0
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_inventory")
 script = ExtResource("2_script")
+
+[node name="CharacterDetailsPanel" parent="." unique_id=1993755330 instance=ExtResource("3_character_details")]
+visible = false
+z_index = 10
+layout_mode = 0
+offset_left = 12.0
+offset_top = -380.0
+offset_right = 396.0
+offset_bottom = 0.0
 
 [node name="CharactersPanel" type="Panel" parent="." unique_id=1841914908]
 layout_mode = 0

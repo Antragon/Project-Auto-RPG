@@ -15,5 +15,6 @@ metadata/_custom_type_script = "uid://ti7s6ptdsbvr"
 
 [resource]
 script = ExtResource("1_unit_data")
+Tags = Array[String](["human", "magic", "elemental"])
 BaseSkill = SubResource("Resource_w861l")
 metadata/_custom_type_script = "uid://dr61qdn2hdvyo"

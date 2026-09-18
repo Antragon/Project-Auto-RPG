@@ -13,6 +13,16 @@ public sealed class Unit
 
     public UnitData UnitData { get; }
 
+    public int Vitality => UnitData.Vitality * Level;
+
+    public int Strength => UnitData.Strength * Level;
+
+    public int Dexterity => UnitData.Dexterity * Level;
+
+    public int Magic => UnitData.Magic * Level;
+
+    public int Speed => UnitData.Speed * Level;
+
     public int Level
     {
         get;
@@ -63,7 +73,7 @@ public sealed class Unit
 
     private int CalculateMaxHp()
     {
-        return (int)Math.Floor(100 * Math.Pow(1.1, UnitData.Vitality * Level));
+        return (int)Math.Floor(100 * Math.Pow(1.1, Vitality));
     }
 
     public void SetHp(int hp)

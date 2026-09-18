@@ -8,14 +8,15 @@
 script = ExtResource("1_w861l")
 Icon = ExtResource("3_attack_icon")
 Cooldown = 3.0
-Power = 15
+Power = 40
 metadata/_custom_type_script = "uid://ti7s6ptdsbvr"
 
 [resource]
 script = ExtResource("1_unit_data")
+Tags = Array[String](["physical", "human", "melee"])
 BaseSkill = SubResource("Resource_w861l")
-Vitality = 2
-Strength = 2
+Vitality = 4
+Strength = 3
 Dexterity = 1
 Magic = 1
 Speed = 1

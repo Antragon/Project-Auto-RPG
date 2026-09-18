@@ -7,6 +7,8 @@ using Units;
 
 public partial class InventoryUI : Panel
 {
+    private CharacterDetailsPanel CharacterDetailsPanel => field ??= GetNode<CharacterDetailsPanel>("CharacterDetailsPanel");
+
     private SaveRepository SaveRepository => field ??= this.Root.Get<SaveRepository>();
 
     private CharacterRoster CharacterRoster => field ??= this.Root.Get<CharacterRoster>();
@@ -17,21 +19,32 @@ public partial class InventoryUI : Panel
 
     private PackedScene CharacterInventoryIconScene => field ??= SceneRepository.Load("ui/CharacterInventoryIcon")!;
 
+    private CharacterInventoryIcon? _selectedCharacterIcon;
+
     public override void _Ready()
     {
         CharacterFormation.Changed += RefreshSlottedStates;
+        CharacterDetailsPanel.Closed += OnCharacterDetailsClosed;
         PopulateCharacters();
     }
 
     public override void _ExitTree()
     {
         CharacterFormation.Changed -= RefreshSlottedStates;
+        CharacterDetailsPanel.Closed -= OnCharacterDetailsClosed;
     }
 
     private void PopulateCharacters()
     {
+        CloseCharacterDetails();
+
         foreach (var child in CharactersGrid.GetChildren())
         {
+            if (child is CharacterInventoryIcon icon)
+            {
+                icon.Clicked -= OnCharacterIconClicked;
+            }
+
             child.Free();
         }
 
@@ -44,6 +57,7 @@ public partial class InventoryUI : Panel
 
             var icon = CharacterInventoryIconScene.Instantiate<CharacterInventoryIcon>();
             icon.SetCharacter(character.Name, playableCharacter);
+            icon.Clicked += OnCharacterIconClicked;
             CharactersGrid.AddChild(icon);
         }
 
@@ -59,5 +73,32 @@ public partial class InventoryUI : Panel
                 icon.SetSlotted(CharacterFormation.IsSlotted(icon.CharacterName));
             }
         }
+    }
+
+    private void OnCharacterIconClicked(CharacterInventoryIcon icon)
+    {
+        if (_selectedCharacterIcon == icon)
+        {
+            CloseCharacterDetails();
+            return;
+        }
+
+        _selectedCharacterIcon?.SetDetailsSelected(false);
+        _selectedCharacterIcon = icon;
+        _selectedCharacterIcon.SetDetailsSelected(true);
+        CharacterDetailsPanel.ShowCharacter(icon.CharacterName, icon.Character);
+    }
+
+    private void CloseCharacterDetails()
+    {
+        _selectedCharacterIcon?.SetDetailsSelected(false);
+        _selectedCharacterIcon = null;
+        CharacterDetailsPanel.HideCharacter();
+    }
+
+    private void OnCharacterDetailsClosed()
+    {
+        _selectedCharacterIcon?.SetDetailsSelected(false);
+        _selectedCharacterIcon = null;
     }
 }

@@ -13,6 +13,7 @@ metadata/_custom_type_script = "uid://ti7s6ptdsbvr"
 
 [resource]
 script = ExtResource("1_unit_data")
+Tags = Array[String](["slime"])
 BaseSkill = SubResource("Resource_w861l")
 Vitality = 2
 Strength = 1

@@ -120,13 +120,13 @@ public partial class DungeonCombat : Node
 
         var scalingStat = skillData.Scaling switch
         {
-            SkillScaling.Strength => sourceUnit.UnitData.Strength,
-            SkillScaling.Dexterity => sourceUnit.UnitData.Dexterity,
-            SkillScaling.Magic => sourceUnit.UnitData.Magic,
+            SkillScaling.Strength => sourceUnit.Strength,
+            SkillScaling.Dexterity => sourceUnit.Dexterity,
+            SkillScaling.Magic => sourceUnit.Magic,
             _ => throw new ArgumentOutOfRangeException(nameof(skillData.Scaling), skillData.Scaling, null),
         };
 
-        return (int)Math.Floor(power * Math.Pow(1.1, scalingStat * sourceUnit.Level));
+        return (int)Math.Floor(power * Math.Pow(1.1, scalingStat));
     }
 
     private static RandomNumberGenerator CreateRandomNumberGenerator()
