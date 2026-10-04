@@ -1,5 +1,6 @@
 namespace Game.scripts.Dungeon;
 
+using System.Linq;
 using Extensions;
 using Godot;
 using Units;
@@ -10,18 +11,14 @@ public partial class CharacterRegenerator : Node
 
     private Dungeon Dungeon => field ??= GetParent<Dungeon>();
 
-    private CharacterFormation CharacterFormation => field ??= this.GetSibling<CharacterFormation>();
+    private CharacterRoster CharacterRoster => field ??= this.Root.Get<CharacterRoster>();
+
+    private CharacterFormation CharacterFormation => field ??= this.Root.Get<CharacterFormation>();
 
     private double _timeSinceLastRegeneration;
 
     public override void _Process(double delta)
     {
-        if (Dungeon.State != DungeonState.Idle)
-        {
-            _timeSinceLastRegeneration = 0;
-            return;
-        }
-
         _timeSinceLastRegeneration += delta;
         if (_timeSinceLastRegeneration < 1)
         {
@@ -29,16 +26,29 @@ public partial class CharacterRegenerator : Node
         }
 
         _timeSinceLastRegeneration = 0;
-        foreach (var characterSlot in CharacterFormation.Slots)
-        {
-            var unit = characterSlot.Unit;
-            if (unit is null)
-            {
-                continue;
-            }
+        var unitsToRegenerate = CharacterRoster.Characters.Values
+            .Select(character => character.Unit)
+            .Where(CanBeRegenerated);
 
+        foreach (var unit in unitsToRegenerate)
+        {
             var healing = Mathf.CeilToInt(unit.MaxHp * RegenerationRate);
             unit.SetHp(unit.Hp + healing);
         }
+    }
+
+    private bool CanBeRegenerated(Unit unit)
+    {
+        if (!CharacterFormation.IsSlotted(unit))
+        {
+            return true;
+        }
+
+        if (unit.IsDead && Dungeon.State == DungeonState.Idle)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

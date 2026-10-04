@@ -4,7 +4,6 @@ using System;
 using Extensions;
 using Godot;
 using Skills;
-using Units;
 
 public partial class UnitSkillSlots : HBoxContainer
 {
@@ -48,6 +47,7 @@ public partial class UnitSkillSlots : HBoxContainer
         if (propertyName == nameof(UnitSlot.Unit))
         {
             Refresh(sender);
+            OnStateChanged();
         }
 
         if (propertyName == nameof(UnitSlot.DungeonState))

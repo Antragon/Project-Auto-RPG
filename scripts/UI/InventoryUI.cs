@@ -70,7 +70,7 @@ public partial class InventoryUI : Panel
         {
             if (child is CharacterInventoryIcon icon)
             {
-                icon.SetSlotted(CharacterFormation.IsSlotted(icon.CharacterName));
+                icon.SetSlotted(CharacterFormation.IsSlotted(icon.Character.Unit));
             }
         }
     }

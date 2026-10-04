@@ -47,7 +47,7 @@ public partial class UnitSlot : Node2D
 
     public bool CanAcceptCharacter(Unit unit)
     {
-        return AcceptsCharacters;
+        return AcceptsCharacters && !unit.IsDead;
     }
 
     public void SetDropIndicatorVisible(bool visible)

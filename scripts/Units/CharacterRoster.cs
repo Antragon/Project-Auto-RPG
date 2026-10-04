@@ -2,7 +2,6 @@ namespace Game.scripts.Units;
 
 using System.Collections.Generic;
 using System.Linq;
-using Extensions;
 using Persistence;
 
 public sealed class CharacterRoster
@@ -19,6 +18,8 @@ public sealed class CharacterRoster
             _characters.Add(savedCharacter.Name, new Character(new Unit(unitData!), savedCharacter.Xp));
         }
     }
+
+    public IReadOnlyDictionary<string, Character> Characters => field ??= _characters.AsReadOnly();
 
     public bool TryGetCharacter(string characterName, out Character character)
     {

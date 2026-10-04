@@ -25,7 +25,7 @@ public partial class UnitSlotDropTarget : Control
 
     public override void _DropData(Vector2 atPosition, Variant data)
     {
-        if (TryGetCharacter(data, out var character))
+        if (TryGetCharacter(data, out var character) && UnitSlot.CanAcceptCharacter(character.Unit))
         {
             UnitSlot.Assign(character.Unit);
         }

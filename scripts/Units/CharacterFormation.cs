@@ -3,7 +3,6 @@ namespace Game.scripts.Units;
 using System;
 using System.Linq;
 using Dungeon;
-using Extensions;
 
 public partial class CharacterFormation : UnitFormation
 {
@@ -38,9 +37,9 @@ public partial class CharacterFormation : UnitFormation
         _dungeonState = dungeonState;
     }
 
-    public bool IsSlotted(string characterName)
+    public bool IsSlotted(Unit unit)
     {
-        return Slots.Any(slot => slot.Unit?.UnitData.Name == characterName);
+        return Slots.Any(slot => slot.Unit == unit);
     }
 
     private void OnCharacterSlotPropertyChanged(UnitSlot sender, string propertyName)
