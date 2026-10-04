@@ -1,7 +1,9 @@
 namespace Game.scripts.UI;
 
 using System;
+using Extensions;
 using Godot;
+using Skills;
 using Units;
 
 public partial class CharacterDetailsPanel : Panel
@@ -27,6 +29,20 @@ public partial class CharacterDetailsPanel : Panel
     private Label SpeedValue => field ??= GetNode<Label>("StatsPanel/StatsGrid/Speed/Value");
 
     private Button CloseButton => field ??= GetNode<Button>("CloseButton");
+
+    private TextureRect[] SkillIcons => field ??= [
+        GetNode<TextureRect>("SkillsPanel/Content/SkillGrid/SkillSlot1/Icon"),
+        GetNode<TextureRect>("SkillsPanel/Content/SkillGrid/SkillSlot2/Icon"),
+        GetNode<TextureRect>("SkillsPanel/Content/SkillGrid/SkillSlot3/Icon"),
+        GetNode<TextureRect>("SkillsPanel/Content/SkillGrid/SkillSlot4/Icon"),
+    ];
+
+    private Label[] SkillNames => field ??= [
+        GetNode<Label>("SkillsPanel/Content/SkillGrid/SkillSlot1/Label"),
+        GetNode<Label>("SkillsPanel/Content/SkillGrid/SkillSlot2/Label"),
+        GetNode<Label>("SkillsPanel/Content/SkillGrid/SkillSlot3/Label"),
+        GetNode<Label>("SkillsPanel/Content/SkillGrid/SkillSlot4/Label"),
+    ];
 
     private Character? _character;
 
@@ -60,6 +76,7 @@ public partial class CharacterDetailsPanel : Panel
         _character.Unit.PropertyChanged += OnUnitPropertyChanged;
         CharacterName.Text = characterName;
         RefreshStats();
+        RefreshSkills();
         Visible = true;
     }
 
@@ -86,6 +103,11 @@ public partial class CharacterDetailsPanel : Panel
         if (propertyName is nameof(Unit.Hp) or nameof(Unit.MaxHp) or nameof(Unit.Level))
         {
             RefreshStats();
+        }
+
+        if (propertyName is nameof(Unit.Skill1) or nameof(Unit.Skill2) or nameof(Unit.Skill3) or nameof(Unit.Skill4))
+        {
+            RefreshSkills();
         }
     }
 
@@ -115,5 +137,27 @@ public partial class CharacterDetailsPanel : Panel
         DexterityValue.Text = $"Dexterity: {unit.Dexterity}";
         MagicValue.Text = $"Magic: {unit.Magic}";
         SpeedValue.Text = $"Speed: {unit.Speed}";
+    }
+
+    private void RefreshSkills()
+    {
+        if (_character is not { } character)
+        {
+            return;
+        }
+
+        SkillData?[] skills = [
+            character.Unit.Skill1 ?? character.Unit.UnitData.BaseSkill,
+            character.Unit.Skill2,
+            character.Unit.Skill3,
+            character.Unit.Skill4,
+        ];
+
+        for (var i = 0; i < skills.Length; i++)
+        {
+            var skill = skills[i];
+            SkillIcons[i].Texture = skill?.Icon;
+            SkillNames[i].Text = skill?.Name ?? string.Empty;
+        }
     }
 }

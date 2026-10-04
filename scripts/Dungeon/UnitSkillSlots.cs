@@ -4,6 +4,7 @@ using System;
 using Extensions;
 using Godot;
 using Skills;
+using Units;
 
 public partial class UnitSkillSlots : HBoxContainer
 {
@@ -22,7 +23,7 @@ public partial class UnitSkillSlots : HBoxContainer
 
         UnitSlot.PropertyChanged += OnUnitSlotPropertyChanged;
         UnitSlot.UnitPropertyChanged += OnUnitPropertyChanged;
-        Refresh(UnitSlot);
+        Refresh();
         OnStateChanged();
     }
 
@@ -46,8 +47,22 @@ public partial class UnitSkillSlots : HBoxContainer
     {
         if (propertyName == nameof(UnitSlot.Unit))
         {
-            Refresh(sender);
+            Refresh();
             OnStateChanged();
+        }
+
+        var skillSlotIndex = propertyName switch
+        {
+            nameof(Unit.Skill1) => 0,
+            nameof(Unit.Skill2) => 1,
+            nameof(Unit.Skill3) => 2,
+            nameof(Unit.Skill4) => 3,
+            _ => -1,
+        };
+
+        if (skillSlotIndex >= 0)
+        {
+            RefreshSkillSlot(skillSlotIndex);
         }
 
         if (propertyName == nameof(UnitSlot.DungeonState))
@@ -71,10 +86,27 @@ public partial class UnitSkillSlots : HBoxContainer
         }
     }
 
-    private void Refresh(UnitSlot changedSlot)
+    private void Refresh()
     {
-        var unit = changedSlot.Unit;
-        Visible = unit is not null;
-        Slots[0].SetSkill(unit?.UnitData.BaseSkill);
+        Visible = UnitSlot.Unit is not null;
+
+        for (var i = 0; i < Slots.Length; i++)
+        {
+            RefreshSkillSlot(i);
+        }
+    }
+
+    private void RefreshSkillSlot(int index)
+    {
+        var unit = UnitSlot.Unit;
+        var skill = index switch
+        {
+            0 => unit?.Skill1 ?? unit?.UnitData.BaseSkill,
+            1 => unit?.Skill2,
+            2 => unit?.Skill3,
+            3 => unit?.Skill4,
+            _ => null,
+        };
+        Slots[index].SetSkill(skill);
     }
 }

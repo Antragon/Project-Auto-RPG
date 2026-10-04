@@ -2,8 +2,12 @@ namespace Game.scripts.Persistence;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
+using Extensions;
 using Godot;
+using Skills;
+using Units;
 
 public sealed class SaveRepository
 {
@@ -18,6 +22,32 @@ public sealed class SaveRepository
     private readonly SaveData _saveData = LoadOrCreate();
 
     public IReadOnlyList<SavedCharacter> Characters => _saveData.Characters;
+
+    public void Save(CharacterRoster characterRoster)
+    {
+        foreach (var (characterName, character) in characterRoster.Characters)
+        {
+            var savedCharacter = _saveData.Characters.FirstOrDefault(saved => saved.Name == characterName);
+            if (savedCharacter is null)
+            {
+                savedCharacter = new SavedCharacter { Name = characterName };
+                _saveData.Characters.Add(savedCharacter);
+            }
+
+            savedCharacter.Xp = character.Xp;
+            savedCharacter.Skill1 = ToSavedSkill(character.Unit.Skill1);
+            savedCharacter.Skill2 = ToSavedSkill(character.Unit.Skill2);
+            savedCharacter.Skill3 = ToSavedSkill(character.Unit.Skill3);
+            savedCharacter.Skill4 = ToSavedSkill(character.Unit.Skill4);
+        }
+
+        Write(_saveData);
+    }
+
+    private static SavedSkill? ToSavedSkill(SkillData? skillData)
+    {
+        return skillData is null ? null : new SavedSkill { Name = skillData.Name };
+    }
 
     private static SaveData LoadOrCreate()
     {

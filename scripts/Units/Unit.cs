@@ -1,6 +1,9 @@
 namespace Game.scripts.Units;
 
 using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Skills;
 
 public sealed class Unit
 {
@@ -12,6 +15,30 @@ public sealed class Unit
     }
 
     public UnitData UnitData { get; }
+
+    public SkillData? Skill1
+    {
+        get;
+        set => SetProperty(ref field, value);
+    }
+
+    public SkillData? Skill2
+    {
+        get;
+        set => SetProperty(ref field, value);
+    }
+
+    public SkillData? Skill3
+    {
+        get;
+        set => SetProperty(ref field, value);
+    }
+
+    public SkillData? Skill4
+    {
+        get;
+        set => SetProperty(ref field, value);
+    }
 
     public int Vitality => UnitData.Vitality * Level;
 
@@ -39,37 +66,33 @@ public sealed class Unit
     public int Hp
     {
         get;
-        private set
-        {
-            if (field == value) return;
-            field = value;
-            PropertyChanged?.Invoke(this, nameof(Hp));
-        }
+        private set => SetProperty(ref field, value);
     }
 
     public int MaxHp
     {
         get;
-        private set
-        {
-            if (field == value) return;
-            field = value;
-            PropertyChanged?.Invoke(this, nameof(MaxHp));
-        }
+        private set => SetProperty(ref field, value);
     }
 
     public bool IsDead
     {
         get;
-        private set
-        {
-            if (field == value) return;
-            field = value;
-            PropertyChanged?.Invoke(this, nameof(IsDead));
-        }
+        private set => SetProperty(ref field, value);
     }
 
     public event PropertyChangedEventHandler<Unit>? PropertyChanged;
+
+    private void SetProperty<T>(ref T field, T value, [CallerMemberName] string name = "")
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value))
+        {
+            return;
+        }
+
+        field = value;
+        PropertyChanged?.Invoke(this, name);
+    }
 
     private int CalculateMaxHp()
     {

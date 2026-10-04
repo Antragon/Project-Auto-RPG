@@ -16,4 +16,22 @@ public sealed class SavedCharacter
 
     [JsonPropertyName("xp")]
     public int Xp { get; set; }
+
+    [JsonPropertyName("skill1")]
+    public SavedSkill? Skill1 { get; set; }
+
+    [JsonPropertyName("skill2")]
+    public SavedSkill? Skill2 { get; set; }
+
+    [JsonPropertyName("skill3")]
+    public SavedSkill? Skill3 { get; set; }
+
+    [JsonPropertyName("skill4")]
+    public SavedSkill? Skill4 { get; set; }
+}
+
+public sealed class SavedSkill
+{
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
 }

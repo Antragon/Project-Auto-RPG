@@ -81,5 +81,10 @@ public partial class UnitSlot : Node2D
     private void OnUnitPropertyChanged(Unit sender, string propertyName)
     {
         UnitPropertyChanged?.Invoke(this, propertyName);
+
+        if (propertyName is nameof(Unit.Skill1) or nameof(Unit.Skill2) or nameof(Unit.Skill3) or nameof(Unit.Skill4))
+        {
+            PropertyChanged?.Invoke(this, propertyName);
+        }
     }
 }

@@ -17,7 +17,9 @@ public partial class GameRoot : SceneRootBase
     protected override void AddLocalDependencies(ServiceCollection services)
     {
         services.AddSingleton<SaveRepository>();
-        services.AddSingleton<CharacterRoster>();
+        services.AddSingleton<CharacterRosterFactory>();
+        services.AddSingleton<CharacterRoster>(serviceProvider =>
+            serviceProvider.GetRequiredService<CharacterRosterFactory>().Create());
         services.AddSingleton(_ => GetDescendant<CharacterFormation>());
     }
 }
