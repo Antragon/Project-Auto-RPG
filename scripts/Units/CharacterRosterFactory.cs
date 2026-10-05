@@ -1,5 +1,6 @@
 namespace Game.scripts.Units;
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Persistence;
@@ -21,10 +22,10 @@ public sealed class CharacterRosterFactory(SaveRepository saveRepository)
                 new Character(
                     new Unit(unitData!)
                     {
-                        Skill1 = LoadSkill(savedCharacter.Skill1),
-                        Skill2 = LoadSkill(savedCharacter.Skill2),
-                        Skill3 = LoadSkill(savedCharacter.Skill3),
-                        Skill4 = LoadSkill(savedCharacter.Skill4),
+                        Skill1 = LoadSkill(savedCharacter.Skill1Id),
+                        Skill2 = LoadSkill(savedCharacter.Skill2Id),
+                        Skill3 = LoadSkill(savedCharacter.Skill3Id),
+                        Skill4 = LoadSkill(savedCharacter.Skill4Id),
                     },
                     savedCharacter.Xp));
         }
@@ -32,8 +33,12 @@ public sealed class CharacterRosterFactory(SaveRepository saveRepository)
         return new CharacterRoster(characters);
     }
 
-    private static SkillData? LoadSkill(SavedSkill? savedSkill)
+    private SkillData? LoadSkill(Guid? savedSkillId)
     {
+        var savedSkill = savedSkillId is { } skillId
+            ? saveRepository.Skills.FirstOrDefault(skill => skill.Id == skillId)
+            : null;
+
         return savedSkill is null
             ? null
             : SkillDataRepository.Load(savedSkill.Name);

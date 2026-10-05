@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SkillData" format=3 uid="uid://cg5qow2ktbjd"]
+
+[ext_resource type="Texture2D" uid="uid://dx1unxncr8sad" path="res://textures/skills/slime_bash.tres" id="1_g0kn1"]
+[ext_resource type="Script" uid="uid://ti7s6ptdsbvr" path="res://scripts/Skills/SkillData.cs" id="1_nqqkb"]
+
+[resource]
+script = ExtResource("1_nqqkb")
+Icon = ExtResource("1_g0kn1")
+metadata/_custom_type_script = "uid://ti7s6ptdsbvr"

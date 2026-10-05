@@ -1,77 +1,31 @@
 namespace Game.scripts.UI;
 
-using Extensions;
 using Godot;
-using Persistence;
-using Units;
 
 public partial class InventoryUI : Panel
 {
     private CharacterDetailsPanel CharacterDetailsPanel => field ??= GetNode<CharacterDetailsPanel>("CharacterDetailsPanel");
 
-    private SaveRepository SaveRepository => field ??= this.Root.Get<SaveRepository>();
-
-    private CharacterRoster CharacterRoster => field ??= this.Root.Get<CharacterRoster>();
-
-    private CharacterFormation CharacterFormation => field ??= this.Root.Get<CharacterFormation>();
-
-    private GridContainer CharactersGrid => field ??= GetNode<GridContainer>("CharactersPanel/Scroll/Grid");
-
-    private PackedScene CharacterInventoryIconScene => field ??= SceneRepository.Load("ui/CharacterInventoryIcon")!;
+    private CharactersPanel CharactersPanel => field ??= GetNode<CharactersPanel>("CharactersPanel");
 
     private CharacterInventoryIcon? _selectedCharacterIcon;
 
     public override void _Ready()
     {
-        CharacterFormation.Changed += RefreshSlottedStates;
         CharacterDetailsPanel.Closed += OnCharacterDetailsClosed;
-        PopulateCharacters();
+        CloseCharacterDetails();
+        foreach (var icon in CharactersPanel.Icons)
+        {
+            icon.Clicked += OnCharacterIconClicked;
+        }
     }
 
     public override void _ExitTree()
     {
-        CharacterFormation.Changed -= RefreshSlottedStates;
         CharacterDetailsPanel.Closed -= OnCharacterDetailsClosed;
-    }
-
-    private void PopulateCharacters()
-    {
-        CloseCharacterDetails();
-
-        foreach (var child in CharactersGrid.GetChildren())
+        foreach (var icon in CharactersPanel.Icons)
         {
-            if (child is CharacterInventoryIcon icon)
-            {
-                icon.Clicked -= OnCharacterIconClicked;
-            }
-
-            child.Free();
-        }
-
-        foreach (var character in SaveRepository.Characters)
-        {
-            if (!CharacterRoster.TryGetCharacter(character.Name, out var playableCharacter))
-            {
-                continue;
-            }
-
-            var icon = CharacterInventoryIconScene.Instantiate<CharacterInventoryIcon>();
-            icon.SetCharacter(character.Name, playableCharacter);
-            icon.Clicked += OnCharacterIconClicked;
-            CharactersGrid.AddChild(icon);
-        }
-
-        RefreshSlottedStates();
-    }
-
-    private void RefreshSlottedStates()
-    {
-        foreach (var child in CharactersGrid.GetChildren())
-        {
-            if (child is CharacterInventoryIcon icon)
-            {
-                icon.SetSlotted(CharacterFormation.IsSlotted(icon.Character.Unit));
-            }
+            icon.Clicked -= OnCharacterIconClicked;
         }
     }
 

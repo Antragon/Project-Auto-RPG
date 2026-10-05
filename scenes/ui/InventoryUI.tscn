@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://do2afiy5486mw"]
 
 [ext_resource type="Script" uid="uid://bno7jewidqtd5" path="res://scripts/UI/InventoryUI.cs" id="2_script"]
-[ext_resource type="PackedScene" path="res://scenes/ui/CharacterDetailsPanel.tscn" id="3_character_details"]
+[ext_resource type="PackedScene" uid="uid://bysolspjt8jd6" path="res://scenes/ui/CharacterDetailsPanel.tscn" id="3_character_details"]
+[ext_resource type="Script" uid="uid://g35hg1yvcd3p" path="res://scripts/UI/CharactersPanel.cs" id="4_characters_panel_script"]
+[ext_resource type="Script" uid="uid://cht5d37w5p1ea" path="res://scripts/UI/SkillsPanel.cs" id="5_skills_panel_script"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inventory"]
 bg_color = Color(0.08, 0.1, 0.14, 0.96)
@@ -52,6 +54,7 @@ offset_top = 12.0
 offset_right = 396.0
 offset_bottom = 288.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_section")
+script = ExtResource("4_characters_panel_script")
 
 [node name="Title" type="Label" parent="CharactersPanel" unique_id=1798423217]
 layout_mode = 0
@@ -85,6 +88,7 @@ offset_top = 12.0
 offset_right = 792.0
 offset_bottom = 288.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_section")
+script = ExtResource("5_skills_panel_script")
 
 [node name="Title" type="Label" parent="SkillsPanel" unique_id=1487918693]
 layout_mode = 0
