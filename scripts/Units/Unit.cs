@@ -16,25 +16,25 @@ public sealed class Unit
 
     public UnitData UnitData { get; }
 
-    public SkillData? Skill1
+    public Skill? Skill1
     {
         get;
         set => SetProperty(ref field, value);
     }
 
-    public SkillData? Skill2
+    public Skill? Skill2
     {
         get;
         set => SetProperty(ref field, value);
     }
 
-    public SkillData? Skill3
+    public Skill? Skill3
     {
         get;
         set => SetProperty(ref field, value);
     }
 
-    public SkillData? Skill4
+    public Skill? Skill4
     {
         get;
         set => SetProperty(ref field, value);

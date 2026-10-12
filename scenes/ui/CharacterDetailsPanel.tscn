@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://bysolspjt8jd6"]
 
 [ext_resource type="Script" uid="uid://bw50kv0l2ctbg" path="res://scripts/UI/CharacterDetailsPanel.cs" id="1_script"]
-[ext_resource type="Script" path="res://scripts/UI/CharacterDetailsSkillSlot.cs" id="2_skill_slot_script"]
-[ext_resource type="Script" path="res://scripts/UI/CharacterDetailsStatsPanel.cs" id="3_stats_panel_script"]
-[ext_resource type="Script" path="res://scripts/UI/CharacterDetailsSkillsPanel.cs" id="4_skills_panel_script"]
+[ext_resource type="Script" uid="uid://d211nt514edo7" path="res://scripts/UI/CharacterDetailsSkillSlot.cs" id="2_skill_slot_script"]
+[ext_resource type="Script" uid="uid://g0kjsykp1xu7" path="res://scripts/UI/CharacterDetailsStatsPanel.cs" id="3_stats_panel_script"]
+[ext_resource type="Script" uid="uid://c8rai3oadtg2l" path="res://scripts/UI/CharacterDetailsSkillsPanel.cs" id="4_skills_panel_script"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_character_details"]
 bg_color = Color(0.1, 0.13, 0.18, 0.98)
@@ -66,6 +66,10 @@ corner_radius_bottom_right = 26
 corner_radius_bottom_left = 26
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_skill_remove_button"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 bg_color = Color(0.62, 0.18, 0.18, 1)
 border_width_left = 1
 border_width_top = 1
@@ -76,10 +80,6 @@ corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
 
 [node name="CharacterDetailsPanel" type="Panel" unique_id=1142382563]
 custom_minimum_size = Vector2(384, 380)
@@ -480,7 +480,6 @@ theme_override_colors/font_color = Color(0.75, 0.6, 1, 1)
 theme_override_font_sizes/font_size = 16
 text = "Skills"
 horizontal_alignment = 1
-mouse_filter = 2
 
 [node name="Content" type="CenterContainer" parent="SkillsPanel" unique_id=1168279245]
 layout_mode = 1
@@ -495,17 +494,15 @@ mouse_filter = 2
 
 [node name="SkillGrid" type="GridContainer" parent="SkillsPanel/Content" unique_id=853237081]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/h_separation = 6
 columns = 4
-mouse_filter = 2
 
 [node name="SkillSlot1" type="Panel" parent="SkillsPanel/Content/SkillGrid" unique_id=283460872]
 custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
-mouse_filter = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_skill_slot")
 script = ExtResource("2_skill_slot_script")
-SlotIndex = 0
 
 [node name="Icon" type="TextureRect" parent="SkillsPanel/Content/SkillGrid/SkillSlot1" unique_id=1338818428]
 layout_mode = 1
@@ -524,7 +521,7 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="RemoveButton" type="Button" parent="SkillsPanel/Content/SkillGrid/SkillSlot1"]
+[node name="RemoveButton" type="Button" parent="SkillsPanel/Content/SkillGrid/SkillSlot1" unique_id=1801342546]
 visible = false
 z_index = 1
 layout_mode = 0
@@ -532,20 +529,19 @@ offset_left = 39.0
 offset_top = -3.0
 offset_right = 55.0
 offset_bottom = 13.0
-theme_override_colors/font_color = Color(1, 0.92, 0.92, 1)
-theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = SubResource("StyleBoxFlat_skill_remove_button")
-theme_override_styles/hover = SubResource("StyleBoxFlat_skill_remove_button")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_skill_remove_button")
-text = "×"
 tooltip_text = "Unslot skill"
 focus_mode = 0
 mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.92, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_skill_remove_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_skill_remove_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_skill_remove_button")
+text = "×"
 
 [node name="SkillSlot2" type="Panel" parent="SkillsPanel/Content/SkillGrid" unique_id=285176919]
 custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
-mouse_filter = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_skill_slot")
 script = ExtResource("2_skill_slot_script")
 SlotIndex = 1
@@ -567,7 +563,7 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="RemoveButton" type="Button" parent="SkillsPanel/Content/SkillGrid/SkillSlot2"]
+[node name="RemoveButton" type="Button" parent="SkillsPanel/Content/SkillGrid/SkillSlot2" unique_id=945510528]
 visible = false
 z_index = 1
 layout_mode = 0
@@ -575,20 +571,19 @@ offset_left = 39.0
 offset_top = -3.0
 offset_right = 55.0
 offset_bottom = 13.0
-theme_override_colors/font_color = Color(1, 0.92, 0.92, 1)
-theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = SubResource("StyleBoxFlat_skill_remove_button")
-theme_override_styles/hover = SubResource("StyleBoxFlat_skill_remove_button")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_skill_remove_button")
-text = "×"
 tooltip_text = "Unslot skill"
 focus_mode = 0
 mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.92, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_skill_remove_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_skill_remove_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_skill_remove_button")
+text = "×"
 
 [node name="SkillSlot3" type="Panel" parent="SkillsPanel/Content/SkillGrid" unique_id=357198958]
 custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
-mouse_filter = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_skill_slot")
 script = ExtResource("2_skill_slot_script")
 SlotIndex = 2
@@ -610,7 +605,7 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="RemoveButton" type="Button" parent="SkillsPanel/Content/SkillGrid/SkillSlot3"]
+[node name="RemoveButton" type="Button" parent="SkillsPanel/Content/SkillGrid/SkillSlot3" unique_id=397280590]
 visible = false
 z_index = 1
 layout_mode = 0
@@ -618,20 +613,19 @@ offset_left = 39.0
 offset_top = -3.0
 offset_right = 55.0
 offset_bottom = 13.0
-theme_override_colors/font_color = Color(1, 0.92, 0.92, 1)
-theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = SubResource("StyleBoxFlat_skill_remove_button")
-theme_override_styles/hover = SubResource("StyleBoxFlat_skill_remove_button")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_skill_remove_button")
-text = "×"
 tooltip_text = "Unslot skill"
 focus_mode = 0
 mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.92, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_skill_remove_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_skill_remove_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_skill_remove_button")
+text = "×"
 
 [node name="SkillSlot4" type="Panel" parent="SkillsPanel/Content/SkillGrid" unique_id=771413269]
 custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
-mouse_filter = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_skill_slot")
 script = ExtResource("2_skill_slot_script")
 SlotIndex = 3
@@ -653,7 +647,7 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="RemoveButton" type="Button" parent="SkillsPanel/Content/SkillGrid/SkillSlot4"]
+[node name="RemoveButton" type="Button" parent="SkillsPanel/Content/SkillGrid/SkillSlot4" unique_id=1961955467]
 visible = false
 z_index = 1
 layout_mode = 0
@@ -661,12 +655,12 @@ offset_left = 39.0
 offset_top = -3.0
 offset_right = 55.0
 offset_bottom = 13.0
-theme_override_colors/font_color = Color(1, 0.92, 0.92, 1)
-theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = SubResource("StyleBoxFlat_skill_remove_button")
-theme_override_styles/hover = SubResource("StyleBoxFlat_skill_remove_button")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_skill_remove_button")
-text = "×"
 tooltip_text = "Unslot skill"
 focus_mode = 0
 mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.92, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_skill_remove_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_skill_remove_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_skill_remove_button")
+text = "×"

@@ -1,20 +1,29 @@
 namespace Game.scripts.UI;
 
 using System;
+using Extensions;
 using Godot;
 using Skills;
 using Units;
 
 public partial class CharacterDetailsSkillsPanel : Panel
 {
-    private CharacterDetailsSkillSlot[] SkillSlots => field ??= [
+    private CharacterDetailsSkillSlot[] SkillSlots => field ??=
+    [
         GetNode<CharacterDetailsSkillSlot>("Content/SkillGrid/SkillSlot1"),
         GetNode<CharacterDetailsSkillSlot>("Content/SkillGrid/SkillSlot2"),
         GetNode<CharacterDetailsSkillSlot>("Content/SkillGrid/SkillSlot3"),
         GetNode<CharacterDetailsSkillSlot>("Content/SkillGrid/SkillSlot4"),
     ];
 
-    private static readonly SkillSlotBinding[] SkillSlotBindings = [
+    private SkillAssignments SkillAssignments =>
+        field ??= this.Root.Get<SkillAssignments>();
+
+    private CharacterRoster CharacterRoster =>
+        field ??= this.Root.Get<CharacterRoster>();
+
+    private static readonly SkillSlotBinding[] SkillSlotBindings =
+    [
         new(unit => unit.Skill1, (unit, skill) => unit.Skill1 = skill),
         new(unit => unit.Skill2, (unit, skill) => unit.Skill2 = skill),
         new(unit => unit.Skill3, (unit, skill) => unit.Skill3 = skill),
@@ -85,20 +94,39 @@ public partial class CharacterDetailsSkillsPanel : Panel
 
     private void OnSkillDropped(int slotIndex, SkillData skillData)
     {
-        SetSkill(slotIndex, skillData);
+        if (_character is not { } character)
+        {
+            return;
+        }
+
+        SetSkill(character.Unit, slotIndex, skillData);
     }
 
     private void OnSkillUnslotRequested(int slotIndex)
     {
-        SetSkill(slotIndex, null);
-    }
-
-    private void SetSkill(int slotIndex, SkillData? skillData)
-    {
         if (_character is { } character)
         {
-            SkillSlotBindings[slotIndex].Set(character.Unit, skillData);
+            SetSkill(character.Unit, slotIndex, null);
         }
+    }
+
+    private void SetSkill(Unit unit, int slotIndex, SkillData? skillData)
+    {
+        var binding = SkillSlotBindings[slotIndex];
+        var currentSkill = binding.Get(unit);
+
+        if (ReferenceEquals(currentSkill, skillData))
+        {
+            return;
+        }
+
+        if (skillData is not null && SkillAssignments.TryGet(skillData, out var previousAssignment))
+        {
+            var character = CharacterRoster.Characters[previousAssignment.CharacterName];
+            binding.Set(character.Unit, null);
+        }
+
+        binding.Set(unit, skillData);
     }
 
     private void UnbindCharacter()

@@ -52,7 +52,7 @@ public partial class DungeonCombat : Node
             return;
         }
 
-        var targetFormation = GetTargetFormation(sourceSlot.GetParent<UnitFormation>(), skillData.Target);
+        var targetFormation = GetTargetFormation(sourceSlot.GetAncestor<UnitFormation>(), skillData.Target);
         var power = CalculatePower(sourceSlot.Unit, skillData);
 
         foreach (var targetSlot in SelectTargets(targetFormation, skillData.Selection))

@@ -2,6 +2,7 @@ namespace Game.scripts.Units;
 
 using System;
 using System.Linq;
+using Extensions;
 using Dungeon;
 
 public partial class CharacterFormation : UnitFormation
@@ -9,6 +10,8 @@ public partial class CharacterFormation : UnitFormation
     private bool _reconciling;
 
     private DungeonState _dungeonState;
+
+    private CharacterSlot[] CharacterSlots => field ??= this.GetChildrenOfType<CharacterSlot>();
 
     public event Action? Changed;
 
@@ -60,9 +63,9 @@ public partial class CharacterFormation : UnitFormation
             var changedUnit = sender.Unit;
             if (changedUnit is not null)
             {
-                foreach (var characterSlot in Slots)
+                foreach (var characterSlot in CharacterSlots)
                 {
-                    if (characterSlot != sender && ReferenceEquals(characterSlot.Unit, changedUnit))
+                    if (characterSlot.UnitSlot != sender && ReferenceEquals(characterSlot.UnitSlot.Unit, changedUnit))
                     {
                         characterSlot.Clear();
                     }

@@ -10,7 +10,7 @@ public partial class CharacterExperience : Node
 
     private CharacterFormation CharacterFormation => field ??= this.Root.Get<CharacterFormation>();
 
-    private CharacterRoster CharacterRoster => field ??= this.Root.Get<CharacterRoster>();
+    private CharacterSlot[] CharacterSlots => field ??= CharacterFormation.GetChildrenOfType<CharacterSlot>();
 
     private EnemyFormation EnemyFormation => field ??= GetParent<Dungeon>().GetChildOfType<EnemyFormation>();
 
@@ -37,15 +37,12 @@ public partial class CharacterExperience : Node
             return;
         }
 
-        foreach (var characterSlot in CharacterFormation.Slots)
+        foreach (var characterSlot in CharacterSlots)
         {
-            if (characterSlot.Unit is not { IsDead: false } characterUnit
-                || !CharacterRoster.TryGetCharacter(characterUnit.UnitData.Name, out var character))
+            if (characterSlot.Character is { Unit.IsDead: false } character)
             {
-                continue;
+                character.AddXp(EnemyDeathXp);
             }
-
-            character.AddXp(EnemyDeathXp);
         }
     }
 }

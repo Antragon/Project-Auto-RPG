@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://r5xiw6rrc6ys"]
 
+[ext_resource type="PackedScene" path="res://scenes/dungeon/CharacterSlot.tscn" id="1_character_slot"]
 [ext_resource type="PackedScene" uid="uid://bl3yp28n31he" path="res://scenes/dungeon/UnitSlot.tscn" id="1_unit_slot"]
 [ext_resource type="TileSet" uid="uid://su02sqm4pu1x" path="res://textures/backgrounds/forest.tres" id="1_wbjle"]
 [ext_resource type="PackedScene" uid="uid://do2afiy5486mw" path="res://scenes/ui/InventoryUI.tscn" id="2_inventory_ui"]
@@ -40,23 +41,19 @@ script = ExtResource("9_character_experience")
 position = Vector2(-150, 75)
 script = ExtResource("6_character_formation")
 
-[node name="CharacterSlot1" parent="CharacterFormation" unique_id=1287608153 instance=ExtResource("1_unit_slot")]
-AcceptsCharacters = true
+[node name="CharacterSlot1" parent="CharacterFormation" unique_id=1287608153 instance=ExtResource("1_character_slot")]
 
-[node name="CharacterSlot2" parent="CharacterFormation" unique_id=470108265 instance=ExtResource("1_unit_slot")]
+[node name="CharacterSlot2" parent="CharacterFormation" unique_id=470108265 instance=ExtResource("1_character_slot")]
 position = Vector2(-140, 0)
 SlotIndex = 1
-AcceptsCharacters = true
 
-[node name="CharacterSlot3" parent="CharacterFormation" unique_id=1299068291 instance=ExtResource("1_unit_slot")]
+[node name="CharacterSlot3" parent="CharacterFormation" unique_id=1299068291 instance=ExtResource("1_character_slot")]
 position = Vector2(-280, 0)
 SlotIndex = 2
-AcceptsCharacters = true
 
-[node name="CharacterSlot4" parent="CharacterFormation" unique_id=302027364 instance=ExtResource("1_unit_slot")]
+[node name="CharacterSlot4" parent="CharacterFormation" unique_id=302027364 instance=ExtResource("1_character_slot")]
 position = Vector2(-420, 0)
 SlotIndex = 3
-AcceptsCharacters = true
 
 [node name="EnemyFormation" type="Node2D" parent="." unique_id=1276685455]
 position = Vector2(150, 75)

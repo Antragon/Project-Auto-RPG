@@ -1,6 +1,8 @@
 namespace Game.scripts.UI;
 
 using System;
+using Dungeon;
+using Extensions;
 using Godot;
 using Units;
 
@@ -18,17 +20,22 @@ public partial class CharacterInventoryIcon : Panel
 
     private PackedScene DragIconScene => field ??= SceneRepository.Load("ui/DragIcon")!;
 
-    public string CharacterName { get; private set; } = string.Empty;
-
     public Character Character { get; private set; } = null!;
 
     public event Action<CharacterInventoryIcon>? Clicked;
 
-    public void SetCharacter(string name, Character character)
+    public override void _Ready()
     {
-        CharacterName = name;
+        RefreshIcon();
+    }
+
+    public void SetCharacter(Character character)
+    {
         Character = character;
-        Icon.Texture = IconRepository.GetUnit(name);
+        if (IsInsideTree())
+        {
+            RefreshIcon();
+        }
     }
 
     public void SetSlotted(bool slotted)
@@ -70,7 +77,10 @@ public partial class CharacterInventoryIcon : Panel
     public override Variant _GetDragData(Vector2 atPosition)
     {
         _wasDragged = true;
-        GetTree().CallGroup("character_drop_indicators", "SetDropIndicatorVisible", true);
+        GetTree().CallGroup(
+            CharacterSlot.DropIndicatorGroup,
+            nameof(CharacterSlot.SetDropIndicatorVisible),
+            true);
 
         var preview = DragIconScene.Instantiate<Panel>();
         preview.MouseFilter = MouseFilterEnum.Ignore;
@@ -81,6 +91,11 @@ public partial class CharacterInventoryIcon : Panel
         preview.Size = Size;
         SetDragPreview(preview);
 
-        return CharacterName;
+        return Character.Id.ToString();
+    }
+
+    private void RefreshIcon()
+    {
+        Icon.Texture = IconRepository.GetUnit(Character.Unit.UnitData.Name);
     }
 }

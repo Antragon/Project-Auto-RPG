@@ -18,30 +18,17 @@
 
 - Use the dependency property throughout the class instead of resolving the same service repeatedly.
 
-## Code quality
+## Node lookup
 
-- Keep UI controls focused on one responsibility; put slot-specific behavior in the slot control.
-- Avoid parallel arrays and repeated index-based switches when a cohesive type can own that data.
-- Review changed classes for duplication and event cleanup before finishing.
-- Prefer clear code over abstractions added only to reduce a few repeated lines.
-
-## Design principles
-
-- Apply SRP by giving each class one cohesive responsibility and a clear reason to change; move behavior to the component that owns it.
-- Apply Open/Closed (OCP) when a second concrete variation exists; avoid speculative extension points.
-- Preserve base-type contracts (LSP) when using inheritance; prefer composition when behaviors vary independently.
-- Apply Interface Segregation (ISP) by keeping interfaces small and shaped around their consumers.
-- Apply Dependency Inversion (DIP) at real architectural boundaries or where alternate implementations improve isolation; avoid adding an interface for every class.
-- Keep domain rules independent from presentation and infrastructure where the existing architecture supports that boundary.
-- Share code when behavior and meaning match; do not combine superficially similar logic.
-- Keep state changes and invariants inside their owning model or control, and expose only the operations callers need.
-- Prefer the simplest design that supports the current requirements; add layers, factories, and configuration only when they solve a concrete need.
+- Prefer `NodeExtensions` typed traversal helpers such as `GetAncestor<T>()`, `GetSibling<T>()`, `GetChildOfType<T>()`, and `GetChildrenOfType<T>()` whenever possible.
+- Prefer retrieving nodes by type over `GetNode<T>("Name/Path")` magic strings when both express the lookup clearly. Use name paths when node names distinguish multiple nodes of the same type or define a meaningful scene contract.
 
 ## Interaction style
 
 - Use reasonable defaults and proceed without asking for routine confirmation.
 - Ask questions only when blocked, when a decision materially changes the outcome, or before destructive or external actions.
 - Infer minor implementation details from the repository and the user's request.
+- Do not tell the user that Godot was not started or run unless they ask.
 
 ## Testing
 

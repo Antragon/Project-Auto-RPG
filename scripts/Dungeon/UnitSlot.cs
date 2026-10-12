@@ -5,11 +5,7 @@ using Units;
 
 public partial class UnitSlot : Node2D
 {
-    private Sprite2D DropIndicatorSprite => field ??= GetNode<Sprite2D>("DropIndicatorSprite");
-
     [Export] public int SlotIndex { get; set; }
-
-    [Export] public bool AcceptsCharacters { get; set; }
 
     public Unit? Unit { get; private set; }
 
@@ -21,11 +17,6 @@ public partial class UnitSlot : Node2D
 
     public override void _Ready()
     {
-        if (AcceptsCharacters)
-        {
-            AddToGroup("character_drop_indicators");
-        }
-
         Unit?.PropertyChanged += OnUnitPropertyChanged;
     }
 
@@ -43,19 +34,6 @@ public partial class UnitSlot : Node2D
 
         DungeonState = dungeonState;
         PropertyChanged?.Invoke(this, nameof(DungeonState));
-    }
-
-    public bool CanAcceptCharacter(Unit unit)
-    {
-        return AcceptsCharacters && !unit.IsDead;
-    }
-
-    public void SetDropIndicatorVisible(bool visible)
-    {
-        if (AcceptsCharacters)
-        {
-            DropIndicatorSprite.Visible = visible;
-        }
     }
 
     public void Assign(Unit unit)

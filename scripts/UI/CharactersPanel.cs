@@ -2,16 +2,13 @@ namespace Game.scripts.UI;
 
 using Extensions;
 using Godot;
-using Persistence;
 using Units;
 
 public partial class CharactersPanel : Panel
 {
     private GridContainer CharactersGrid => field ??= GetNode<GridContainer>("Scroll/Grid");
 
-    private SaveRepository SaveRepository => field ??= this.Root.Get<SaveRepository>();
-
-    private CharacterRoster CharacterRoster => field ??= this.Root.Get<CharacterRoster>();
+    private CharacterRepository CharacterRepository => field ??= this.Root.Get<CharacterRepository>();
 
     private CharacterFormation CharacterFormation => field ??= this.Root.Get<CharacterFormation>();
 
@@ -38,15 +35,10 @@ public partial class CharactersPanel : Panel
             child.QueueFree();
         }
 
-        foreach (var character in SaveRepository.Characters)
+        foreach (var character in CharacterRepository.Characters.Values)
         {
-            if (!CharacterRoster.TryGetCharacter(character.Name, out var playableCharacter))
-            {
-                continue;
-            }
-
             var icon = CharacterInventoryIconScene.Instantiate<CharacterInventoryIcon>();
-            icon.SetCharacter(character.Name, playableCharacter);
+            icon.SetCharacter(character);
             CharactersGrid.AddChild(icon);
         }
     }

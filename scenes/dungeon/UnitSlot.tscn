@@ -1,8 +1,6 @@
 [gd_scene format=3 uid="uid://bl3yp28n31he"]
 
-[ext_resource type="Texture2D" uid="uid://dwe1jh82b0pk1" path="res://textures/ui/unit_drop_indicator.tres" id="2_jbyso"]
 [ext_resource type="Script" uid="uid://6iem7uva84wc" path="res://scripts/Dungeon/UnitSlot.cs" id="2_unit_slot"]
-[ext_resource type="Script" uid="uid://bg0srd3lugply" path="res://scripts/Dungeon/UnitSlotDropTarget.cs" id="3_drop_target"]
 [ext_resource type="Script" uid="uid://be0phhmrvhqp" path="res://scripts/Dungeon/UnitHealthBar.cs" id="4_health_bar"]
 [ext_resource type="Script" uid="uid://b2pjwpadtpm7m" path="res://scripts/Dungeon/UnitSkillSlots.cs" id="5_skill_slots"]
 [ext_resource type="PackedScene" uid="uid://bl7ajuv0jbmh1" path="res://scenes/dungeon/SkillSlot.tscn" id="6_skill_slot"]
@@ -22,11 +20,6 @@ script = ExtResource("2_unit_slot")
 [node name="UnitSprite" type="AnimatedSprite2D" parent="." unique_id=2144976736]
 visible = false
 script = ExtResource("6_unit_animation")
-
-[node name="DropIndicatorSprite" type="Sprite2D" parent="." unique_id=1995396495]
-visible = false
-texture = ExtResource("2_jbyso")
-offset = Vector2(0, -48)
 
 [node name="HealthBar" type="ProgressBar" parent="." unique_id=304113768]
 custom_minimum_size = Vector2(64, 8)
@@ -83,12 +76,3 @@ layout_mode = 2
 
 [node name="Slot4" parent="SkillSlots" unique_id=2107630404 instance=ExtResource("6_skill_slot")]
 layout_mode = 2
-
-[node name="DropTarget" type="Control" parent="." unique_id=-2127103762]
-layout_mode = 3
-anchors_preset = 0
-offset_left = -64.0
-offset_top = -128.0
-offset_right = 64.0
-mouse_default_cursor_shape = 2
-script = ExtResource("3_drop_target")

@@ -11,7 +11,7 @@ public partial class CharacterRegenerator : Node
 
     private Dungeon Dungeon => field ??= GetParent<Dungeon>();
 
-    private CharacterRoster CharacterRoster => field ??= this.Root.Get<CharacterRoster>();
+    private CharacterRepository CharacterRepository => field ??= this.Root.Get<CharacterRepository>();
 
     private CharacterFormation CharacterFormation => field ??= this.Root.Get<CharacterFormation>();
 
@@ -26,7 +26,7 @@ public partial class CharacterRegenerator : Node
         }
 
         _timeSinceLastRegeneration = 0;
-        var unitsToRegenerate = CharacterRoster.Characters.Values
+        var unitsToRegenerate = CharacterRepository.Characters.Values
             .Select(character => character.Unit)
             .Where(CanBeRegenerated);
 

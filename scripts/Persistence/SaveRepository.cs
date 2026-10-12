@@ -24,45 +24,47 @@ public sealed class SaveRepository
     public IReadOnlyList<SavedCharacter> Characters => _saveData.Characters;
     public IReadOnlyList<SavedSkill> Skills => _saveData.Skills;
 
-    public void Save(CharacterRoster characterRoster)
+    public void Save(CharacterRepository characterRepository)
     {
-        foreach (var (characterName, character) in characterRoster.Characters)
+        foreach (var (characterId, character) in characterRepository.Characters)
         {
-            var savedCharacter = _saveData.Characters.FirstOrDefault(saved => saved.Name == characterName);
+            var savedCharacter = _saveData.Characters.FirstOrDefault(saved => saved.Id == characterId);
             if (savedCharacter is null)
             {
-                savedCharacter = new SavedCharacter { Name = characterName };
+                savedCharacter = new SavedCharacter
+                {
+                    Id = characterId,
+                    Name = character.Unit.UnitData.Name,
+                };
                 _saveData.Characters.Add(savedCharacter);
             }
 
             savedCharacter.Xp = character.Xp;
-            savedCharacter.Skill1Id = SaveSkill(character.Unit.Skill1, savedCharacter.Skill1Id);
-            savedCharacter.Skill2Id = SaveSkill(character.Unit.Skill2, savedCharacter.Skill2Id);
-            savedCharacter.Skill3Id = SaveSkill(character.Unit.Skill3, savedCharacter.Skill3Id);
-            savedCharacter.Skill4Id = SaveSkill(character.Unit.Skill4, savedCharacter.Skill4Id);
+            savedCharacter.Skill1Id = SaveSkill(character.Unit.Skill1);
+            savedCharacter.Skill2Id = SaveSkill(character.Unit.Skill2);
+            savedCharacter.Skill3Id = SaveSkill(character.Unit.Skill3);
+            savedCharacter.Skill4Id = SaveSkill(character.Unit.Skill4);
         }
 
         RemoveUnreferencedSkills();
         Write(_saveData);
     }
 
-    private Guid? SaveSkill(SkillData? skillData, Guid? existingSkillId)
+    private Guid? SaveSkill(Skill? skill)
     {
-        if (skillData is null)
+        if (skill is null)
         {
             return null;
         }
 
-        var savedSkill = existingSkillId is { } skillId
-            ? _saveData.Skills.FirstOrDefault(skill => skill.Id == skillId)
-            : null;
+        var savedSkill = _saveData.Skills.FirstOrDefault(saved => saved.Id == skill.Id);
         if (savedSkill is null)
         {
-            savedSkill = new SavedSkill();
+            savedSkill = new SavedSkill { Id = skill.Id };
             _saveData.Skills.Add(savedSkill);
         }
 
-        savedSkill.Name = skillData.Name;
+        savedSkill.Name = skill.SkillData.Name;
         return savedSkill.Id;
     }
 

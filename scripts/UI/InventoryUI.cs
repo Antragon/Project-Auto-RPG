@@ -40,7 +40,7 @@ public partial class InventoryUI : Panel
         _selectedCharacterIcon?.SetDetailsSelected(false);
         _selectedCharacterIcon = icon;
         _selectedCharacterIcon.SetDetailsSelected(true);
-        CharacterDetailsPanel.ShowCharacter(icon.CharacterName, icon.Character);
+        CharacterDetailsPanel.ShowCharacter(icon.Character.Id);
     }
 
     private void CloseCharacterDetails()
