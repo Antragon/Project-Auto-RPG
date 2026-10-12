@@ -50,6 +50,18 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_skill_slot"]
+bg_color = Color(0.15, 0.19, 0.26, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.38, 0.46, 0.58, 1)
+corner_radius_top_left = 26
+corner_radius_top_right = 26
+corner_radius_bottom_right = 26
+corner_radius_bottom_left = 26
+
 [node name="CharacterDetailsPanel" type="Panel" unique_id=1142382563]
 custom_minimum_size = Vector2(384, 380)
 clip_contents = true
@@ -466,130 +478,90 @@ columns = 4
 custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+theme_override_styles/panel = SubResource("StyleBoxFlat_skill_slot")
 
 [node name="Icon" type="TextureRect" parent="SkillsPanel/Content/SkillGrid/SkillSlot1" unique_id=1338818428]
 layout_mode = 1
-offset_left = 14.0
-offset_top = 3.0
-offset_right = 38.0
-offset_bottom = 27.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -17.0
+offset_right = 17.0
+offset_bottom = 17.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
-
-[node name="Label" type="Label" parent="SkillsPanel/Content/SkillGrid/SkillSlot1" unique_id=1104993060]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 1.0
-offset_top = 29.0
-offset_right = -1.0
-offset_bottom = -1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0.65, 0.7, 0.78, 1)
-theme_override_font_sizes/font_size = 8
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 1
 
 [node name="SkillSlot2" type="Panel" parent="SkillsPanel/Content/SkillGrid" unique_id=285176919]
 custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+theme_override_styles/panel = SubResource("StyleBoxFlat_skill_slot")
 
 [node name="Icon" type="TextureRect" parent="SkillsPanel/Content/SkillGrid/SkillSlot2" unique_id=1417167960]
 layout_mode = 1
-offset_left = 14.0
-offset_top = 3.0
-offset_right = 38.0
-offset_bottom = 27.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -17.0
+offset_right = 17.0
+offset_bottom = 17.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
-
-[node name="Label" type="Label" parent="SkillsPanel/Content/SkillGrid/SkillSlot2" unique_id=1772377846]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 1.0
-offset_top = 29.0
-offset_right = -1.0
-offset_bottom = -1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0.65, 0.7, 0.78, 1)
-theme_override_font_sizes/font_size = 8
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 1
 
 [node name="SkillSlot3" type="Panel" parent="SkillsPanel/Content/SkillGrid" unique_id=357198958]
 custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+theme_override_styles/panel = SubResource("StyleBoxFlat_skill_slot")
 
 [node name="Icon" type="TextureRect" parent="SkillsPanel/Content/SkillGrid/SkillSlot3" unique_id=978222340]
 layout_mode = 1
-offset_left = 14.0
-offset_top = 3.0
-offset_right = 38.0
-offset_bottom = 27.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -17.0
+offset_right = 17.0
+offset_bottom = 17.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
-
-[node name="Label" type="Label" parent="SkillsPanel/Content/SkillGrid/SkillSlot3" unique_id=946599494]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 1.0
-offset_top = 29.0
-offset_right = -1.0
-offset_bottom = -1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0.65, 0.7, 0.78, 1)
-theme_override_font_sizes/font_size = 8
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 1
 
 [node name="SkillSlot4" type="Panel" parent="SkillsPanel/Content/SkillGrid" unique_id=771413269]
 custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+theme_override_styles/panel = SubResource("StyleBoxFlat_skill_slot")
 
 [node name="Icon" type="TextureRect" parent="SkillsPanel/Content/SkillGrid/SkillSlot4" unique_id=33076549]
 layout_mode = 1
-offset_left = 14.0
-offset_top = 3.0
-offset_right = 38.0
-offset_bottom = 27.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -17.0
+offset_right = 17.0
+offset_bottom = 17.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
-
-[node name="Label" type="Label" parent="SkillsPanel/Content/SkillGrid/SkillSlot4" unique_id=1581610676]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 1.0
-offset_top = 29.0
-offset_right = -1.0
-offset_bottom = -1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0.65, 0.7, 0.78, 1)
-theme_override_font_sizes/font_size = 8
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 1

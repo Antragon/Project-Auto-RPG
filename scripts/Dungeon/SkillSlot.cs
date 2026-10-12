@@ -6,9 +6,13 @@ using Skills;
 
 public partial class SkillSlot : Panel
 {
+    private const float CooldownInset = 2;
+
+    private const float CooldownDiameter = 24;
+
     private TextureRect Icon => field ??= GetNode<TextureRect>("Icon");
 
-    private ProgressBar CooldownBar => field ??= GetNode<ProgressBar>("Cooldown");
+    private Control CooldownClip => field ??= GetNode<Control>("Cooldown");
 
     private SkillData? _skillData;
 
@@ -72,9 +76,11 @@ public partial class SkillSlot : Panel
     private void RefreshCooldown()
     {
         var cooldown = _skillData?.Cooldown ?? 0;
-        CooldownBar.Visible = cooldown > 0 && _cooldownRemaining > 0;
-        CooldownBar.Value = cooldown > 0
-            ? Mathf.Clamp(_cooldownRemaining / cooldown * 100, 0, 100)
+        var remainingRatio = cooldown > 0
+            ? Mathf.Clamp(_cooldownRemaining / cooldown, 0, 1)
             : 0;
+
+        CooldownClip.Visible = remainingRatio > 0;
+        CooldownClip.OffsetTop = -CooldownInset - CooldownDiameter * remainingRatio;
     }
 }

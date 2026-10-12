@@ -37,13 +37,6 @@ public partial class CharacterDetailsPanel : Panel
         GetNode<TextureRect>("SkillsPanel/Content/SkillGrid/SkillSlot4/Icon"),
     ];
 
-    private Label[] SkillNames => field ??= [
-        GetNode<Label>("SkillsPanel/Content/SkillGrid/SkillSlot1/Label"),
-        GetNode<Label>("SkillsPanel/Content/SkillGrid/SkillSlot2/Label"),
-        GetNode<Label>("SkillsPanel/Content/SkillGrid/SkillSlot3/Label"),
-        GetNode<Label>("SkillsPanel/Content/SkillGrid/SkillSlot4/Label"),
-    ];
-
     private Character? _character;
 
     public event Action? Closed;
@@ -157,7 +150,6 @@ public partial class CharacterDetailsPanel : Panel
         {
             var skill = skills[i];
             SkillIcons[i].Texture = skill?.Icon;
-            SkillNames[i].Text = skill?.Name ?? string.Empty;
         }
     }
 }
