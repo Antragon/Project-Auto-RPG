@@ -1,6 +1,8 @@
 namespace Game.scripts.Units;
 
+using System.Linq;
 using Dungeon;
+using Extensions;
 using Godot;
 
 public partial class EnemyFormation : UnitFormation
@@ -10,6 +12,13 @@ public partial class EnemyFormation : UnitFormation
 
     private Vector2 _defaultPosition;
     private DungeonState _dungeonState;
+
+    private EnemySlot[] EnemySlots => field ??= this.GetChildrenOfType<EnemySlot>();
+
+    protected override UnitSlot[] GetUnitSlots()
+    {
+        return EnemySlots.Select(enemySlot => enemySlot.UnitSlot).ToArray();
+    }
 
     public override void _Ready()
     {

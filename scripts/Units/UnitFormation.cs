@@ -1,15 +1,17 @@
 namespace Game.scripts.Units;
 
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Dungeon;
 using Extensions;
 using Godot;
 
 public abstract partial class UnitFormation : Node2D
 {
-    public ReadOnlyCollection<UnitSlot> Slots => field ??= this.GetChildrenOfType<UnitSlot>().AsReadOnly();
+    public ReadOnlyCollection<UnitSlot> Slots => field ??= Array.AsReadOnly(GetUnitSlots());
+
+    protected abstract UnitSlot[] GetUnitSlots();
 
     public bool AllUnitsDead
     {

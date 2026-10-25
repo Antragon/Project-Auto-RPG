@@ -91,7 +91,7 @@ public partial class UnitAnimation : AnimatedSprite2D
         var spriteSize = spriteFrames.GetFrameTexture("idle", 0).GetSize();
         Offset = new Vector2(0, -spriteSize.Y / 2f);
         Scale = Vector2.One * (256f / spriteSize.Y);
-        FlipH = UnitSlot.GetParent() is EnemyFormation;
+        FlipH = UnitSlot.GetParent() is EnemySlot;
         Visible = true;
     }
 

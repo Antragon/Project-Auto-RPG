@@ -99,14 +99,14 @@ public partial class UnitSkillSlots : HBoxContainer
     private void RefreshSkillSlot(int index)
     {
         var unit = UnitSlot.Unit;
-        var skill = index switch
+        var skillData = index switch
         {
-            0 => unit?.Skill1 ?? unit?.UnitData.BaseSkill,
-            1 => unit?.Skill2,
-            2 => unit?.Skill3,
-            3 => unit?.Skill4,
+            0 => unit?.Skill1?.SkillData ?? unit?.UnitData.BaseSkill,
+            1 => unit?.Skill2?.SkillData,
+            2 => unit?.Skill3?.SkillData,
+            3 => unit?.Skill4?.SkillData,
             _ => null,
         };
-        Slots[index].SetSkill(skill);
+        Slots[index].SetSkill(skillData);
     }
 }

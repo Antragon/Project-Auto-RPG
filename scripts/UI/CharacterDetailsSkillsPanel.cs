@@ -19,8 +19,11 @@ public partial class CharacterDetailsSkillsPanel : Panel
     private SkillAssignments SkillAssignments =>
         field ??= this.Root.Get<SkillAssignments>();
 
-    private CharacterRoster CharacterRoster =>
-        field ??= this.Root.Get<CharacterRoster>();
+    private CharacterRepository CharacterRepository =>
+        field ??= this.Root.Get<CharacterRepository>();
+
+    private SkillRepository SkillRepository =>
+        field ??= this.Root.Get<SkillRepository>();
 
     private static readonly SkillSlotBinding[] SkillSlotBindings =
     [
@@ -52,13 +55,13 @@ public partial class CharacterDetailsSkillsPanel : Panel
         UnbindCharacter();
     }
 
-    public void SetCharacter(Character? character)
+    public void SetCharacter(Guid? characterId)
     {
         UnbindCharacter();
-        _character = character;
 
-        if (_character is null)
+        if (characterId is not { } id || !CharacterRepository.TryGetCharacter(id, out _character))
         {
+            _character = null;
             return;
         }
 
@@ -85,21 +88,20 @@ public partial class CharacterDetailsSkillsPanel : Panel
         foreach (var skillSlot in SkillSlots)
         {
             var skill = SkillSlotBindings[skillSlot.SlotIndex].Get(unit);
-            var displayedSkill = skillSlot.SlotIndex == 0
-                ? skill ?? unit.UnitData.BaseSkill
-                : skill;
-            skillSlot.SetSkill(displayedSkill, skill is not null);
+            var displayedSkillData = skill?.SkillData
+                ?? (skillSlot.SlotIndex == 0 ? unit.UnitData.BaseSkill : null);
+            skillSlot.SetSkill(displayedSkillData, skill is not null);
         }
     }
 
-    private void OnSkillDropped(int slotIndex, SkillData skillData)
+    private void OnSkillDropped(int slotIndex, Guid skillId)
     {
         if (_character is not { } character)
         {
             return;
         }
 
-        SetSkill(character.Unit, slotIndex, skillData);
+        SetSkill(character.Unit, slotIndex, skillId);
     }
 
     private void OnSkillUnslotRequested(int slotIndex)
@@ -110,23 +112,33 @@ public partial class CharacterDetailsSkillsPanel : Panel
         }
     }
 
-    private void SetSkill(Unit unit, int slotIndex, SkillData? skillData)
+    private void SetSkill(Unit unit, int slotIndex, Guid? skillId)
     {
         var binding = SkillSlotBindings[slotIndex];
         var currentSkill = binding.Get(unit);
+        Skill? skill = null;
+        if (skillId is { } id)
+        {
+            if (!SkillRepository.TryGetSkill(id, out skill))
+            {
+                return;
+            }
+        }
 
-        if (ReferenceEquals(currentSkill, skillData))
+        if (currentSkill?.Id == skill?.Id)
         {
             return;
         }
 
-        if (skillData is not null && SkillAssignments.TryGet(skillData, out var previousAssignment))
+        if (skill is not null && SkillAssignments.TryGet(skill.Id, out var previousAssignment))
         {
-            var character = CharacterRoster.Characters[previousAssignment.CharacterName];
-            binding.Set(character.Unit, null);
+            if (CharacterRepository.TryGetCharacter(previousAssignment.CharacterId, out var previousCharacter))
+            {
+                SkillSlotBindings[previousAssignment.SkillSlotIndex].Set(previousCharacter.Unit, null);
+            }
         }
 
-        binding.Set(unit, skillData);
+        binding.Set(unit, skill);
     }
 
     private void UnbindCharacter()
@@ -141,6 +153,6 @@ public partial class CharacterDetailsSkillsPanel : Panel
     }
 
     private sealed record SkillSlotBinding(
-        Func<Unit, SkillData?> Get,
-        Action<Unit, SkillData?> Set);
+        Func<Unit, Skill?> Get,
+        Action<Unit, Skill?> Set);
 }

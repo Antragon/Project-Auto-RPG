@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://r5xiw6rrc6ys"]
 
 [ext_resource type="PackedScene" path="res://scenes/dungeon/CharacterSlot.tscn" id="1_character_slot"]
-[ext_resource type="PackedScene" uid="uid://bl3yp28n31he" path="res://scenes/dungeon/UnitSlot.tscn" id="1_unit_slot"]
+[ext_resource type="PackedScene" path="res://scenes/dungeon/EnemySlot.tscn" id="1_enemy_slot"]
 [ext_resource type="TileSet" uid="uid://su02sqm4pu1x" path="res://textures/backgrounds/forest.tres" id="1_wbjle"]
 [ext_resource type="PackedScene" uid="uid://do2afiy5486mw" path="res://scenes/ui/InventoryUI.tscn" id="2_inventory_ui"]
 [ext_resource type="Script" uid="uid://bnnmwutx347nq" path="res://scripts/Dungeon/DungeonBackground.cs" id="4_dungeon_background"]
@@ -59,15 +59,15 @@ SlotIndex = 3
 position = Vector2(150, 75)
 script = ExtResource("6_ptmvy")
 
-[node name="EnemySlot1" parent="EnemyFormation" unique_id=1045756000 instance=ExtResource("1_unit_slot")]
+[node name="EnemySlot1" parent="EnemyFormation" unique_id=1045756000 instance=ExtResource("1_enemy_slot")]
 
-[node name="EnemySlot2" parent="EnemyFormation" unique_id=1902764721 instance=ExtResource("1_unit_slot")]
+[node name="EnemySlot2" parent="EnemyFormation" unique_id=1902764721 instance=ExtResource("1_enemy_slot")]
 position = Vector2(140, 0)
 
-[node name="EnemySlot3" parent="EnemyFormation" unique_id=1075477864 instance=ExtResource("1_unit_slot")]
+[node name="EnemySlot3" parent="EnemyFormation" unique_id=1075477864 instance=ExtResource("1_enemy_slot")]
 position = Vector2(280, -1)
 
-[node name="EnemySlot4" parent="EnemyFormation" unique_id=2030880023 instance=ExtResource("1_unit_slot")]
+[node name="EnemySlot4" parent="EnemyFormation" unique_id=2030880023 instance=ExtResource("1_enemy_slot")]
 position = Vector2(420, 0)
 
 [node name="Interface" type="CanvasLayer" parent="." unique_id=1774537139]

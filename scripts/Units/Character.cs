@@ -6,11 +6,14 @@ public sealed class Character
 {
     private const int BaseXpPerLevel = 10;
 
-    public Character(Unit unit, int xp = 0)
+    public Character(Guid id, Unit unit, int xp = 0)
     {
+        Id = id;
         Unit = unit;
         Xp = xp;
     }
+
+    public Guid Id { get; }
 
     public Unit Unit { get; }
 

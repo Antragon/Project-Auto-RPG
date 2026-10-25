@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" uid="uid://bl3yp28n31he" path="res://scenes/dungeon/UnitSlot.tscn" id="1_unit_slot"]
+[ext_resource type="Script" uid="uid://cvyhyti08i44v" path="res://scripts/Dungeon/EnemySlot.cs" id="2_enemy_slot"]
+
+[node name="EnemySlot" type="Node2D"]
+script = ExtResource("2_enemy_slot")
+
+[node name="UnitSlot" parent="." instance=ExtResource("1_unit_slot")]

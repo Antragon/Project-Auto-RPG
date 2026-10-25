@@ -45,6 +45,11 @@ public partial class CharacterFormation : UnitFormation
         return Slots.Any(slot => slot.Unit == unit);
     }
 
+    protected override UnitSlot[] GetUnitSlots()
+    {
+        return [.. CharacterSlots.Select(characterSlot => characterSlot.UnitSlot)];
+    }
+
     private void OnCharacterSlotPropertyChanged(UnitSlot sender, string propertyName)
     {
         if (propertyName != nameof(UnitSlot.Unit))

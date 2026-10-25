@@ -1,6 +1,7 @@
 namespace Game.scripts.UI;
 
 using System;
+using Extensions;
 using Godot;
 using Units;
 
@@ -15,6 +16,8 @@ public partial class CharacterDetailsPanel : Panel
     private CharacterDetailsStatsPanel StatsPanel => field ??= GetNode<CharacterDetailsStatsPanel>("StatsPanel");
 
     private CharacterDetailsSkillsPanel SkillsPanel => field ??= GetNode<CharacterDetailsSkillsPanel>("SkillsPanel");
+
+    private CharacterRepository CharacterRepository => field ??= this.Root.Get<CharacterRepository>();
 
     private Character? _character;
 
@@ -31,16 +34,16 @@ public partial class CharacterDetailsPanel : Panel
         UnbindCharacter();
     }
 
-    public void ShowCharacter(string characterName, Character character)
+    public void ShowCharacter(Guid characterId)
     {
         UnbindCharacter();
 
-        _character = character;
+        _character = CharacterRepository.GetCharacter(characterId);
         _character.Unit.PropertyChanged += OnUnitPropertyChanged;
-        CharacterName.Text = characterName;
-        CharacterLevel.Text = $"Lv. {character.Unit.Level}";
-        StatsPanel.SetCharacter(character);
-        SkillsPanel.SetCharacter(character);
+        CharacterName.Text = _character.Unit.UnitData.Name;
+        CharacterLevel.Text = $"Lv. {_character.Unit.Level}";
+        StatsPanel.SetCharacter(characterId);
+        SkillsPanel.SetCharacter(characterId);
         Visible = true;
     }
 

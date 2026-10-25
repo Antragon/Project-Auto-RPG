@@ -13,7 +13,7 @@ public partial class CharacterDetailsSkillSlot : Panel
     [Export]
     public int SlotIndex { get; set; }
 
-    public event Action<int, SkillData>? SkillDropped;
+    public event Action<int, Guid>? SkillDropped;
 
     public event Action<int>? UnslotRequested;
 
@@ -35,14 +35,14 @@ public partial class CharacterDetailsSkillSlot : Panel
 
     public override bool _CanDropData(Vector2 atPosition, Variant data)
     {
-        return TryGetSkillData(data, out _);
+        return TryGetSkillId(data, out _);
     }
 
     public override void _DropData(Vector2 atPosition, Variant data)
     {
-        if (TryGetSkillData(data, out var skillData))
+        if (TryGetSkillId(data, out var skillId))
         {
-            SkillDropped?.Invoke(SlotIndex, skillData);
+            SkillDropped?.Invoke(SlotIndex, skillId);
         }
     }
 
@@ -51,15 +51,14 @@ public partial class CharacterDetailsSkillSlot : Panel
         UnslotRequested?.Invoke(SlotIndex);
     }
 
-    private static bool TryGetSkillData(Variant data, out SkillData skillData)
+    private static bool TryGetSkillId(Variant data, out Guid skillId)
     {
-        if (data.VariantType == Variant.Type.Object && data.AsGodotObject() is SkillData skill)
+        if (data.VariantType == Variant.Type.String && Guid.TryParse(data.AsString(), out skillId))
         {
-            skillData = skill;
             return true;
         }
 
-        skillData = null!;
+        skillId = Guid.Empty;
         return false;
     }
 }

@@ -1,21 +1,21 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://6tyjcv5p0c15"]
 
 [ext_resource type="PackedScene" uid="uid://bl3yp28n31he" path="res://scenes/dungeon/UnitSlot.tscn" id="1_unit_slot"]
 [ext_resource type="Texture2D" uid="uid://dwe1jh82b0pk1" path="res://textures/ui/unit_drop_indicator.tres" id="2_drop_indicator"]
 [ext_resource type="Script" uid="uid://04s52y3sxvo3" path="res://scripts/Dungeon/CharacterSlot.cs" id="3_character_slot"]
 [ext_resource type="Script" uid="uid://bg0srd3lugply" path="res://scripts/Dungeon/CharacterSlotDropTarget.cs" id="4_drop_target"]
 
-[node name="CharacterSlot" type="Node2D"]
+[node name="CharacterSlot" type="Node2D" unique_id=1992800843]
 script = ExtResource("3_character_slot")
 
-[node name="UnitSlot" parent="." instance=ExtResource("1_unit_slot")]
+[node name="UnitSlot" parent="." unique_id=1686443778 instance=ExtResource("1_unit_slot")]
 
-[node name="DropIndicatorSprite" type="Sprite2D" parent="."]
+[node name="DropIndicatorSprite" type="Sprite2D" parent="." unique_id=734708427]
 visible = false
 texture = ExtResource("2_drop_indicator")
 offset = Vector2(0, -48)
 
-[node name="DropTarget" type="Control" parent="."]
+[node name="DropTarget" type="Control" parent="." unique_id=737846344]
 layout_mode = 3
 anchors_preset = 0
 offset_left = -64.0

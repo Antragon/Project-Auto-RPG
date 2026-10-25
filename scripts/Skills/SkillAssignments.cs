@@ -1,41 +1,52 @@
 namespace Game.scripts.Skills;
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 public class SkillAssignments
 {
-    private readonly Dictionary<SkillData, SkillAssignment> _skillAssignments = [];
+    private readonly Dictionary<Guid, SkillAssignment> _skillAssignments = [];
 
-    private readonly Dictionary<SkillAssignment, SkillData> _skillData = [];
+    private readonly Dictionary<SkillAssignment, Guid> _skillIds = [];
 
-    public void Add(SkillData skillData, SkillAssignment skillAssignment)
+    public void Set(Guid skillId, SkillAssignment skillAssignment)
     {
-        _skillAssignments[skillData] = skillAssignment;
-        _skillData[skillAssignment] = skillData;
+        if (_skillIds.TryGetValue(skillAssignment, out var previousSkillId))
+        {
+            _skillAssignments.Remove(previousSkillId);
+        }
+
+        if (_skillAssignments.TryGetValue(skillId, out var previousAssignment))
+        {
+            _skillIds.Remove(previousAssignment);
+        }
+
+        _skillAssignments[skillId] = skillAssignment;
+        _skillIds[skillAssignment] = skillId;
     }
 
     public void Remove(SkillAssignment skillAssignment)
     {
-        if (_skillData.TryGetValue(skillAssignment, out var skillData))
+        if (_skillIds.TryGetValue(skillAssignment, out var skillId))
         {
-            _skillAssignments.Remove(skillData);
-            _skillData.Remove(skillAssignment);
+            _skillAssignments.Remove(skillId);
+            _skillIds.Remove(skillAssignment);
         }
     }
 
-    public bool TryGet(SkillData skillData, [NotNullWhen(true)] out SkillAssignment? skillAssignment)
+    public bool TryGet(Guid skillId, [NotNullWhen(true)] out SkillAssignment? skillAssignment)
     {
-        return _skillAssignments.TryGetValue(skillData, out skillAssignment);
+        return _skillAssignments.TryGetValue(skillId, out skillAssignment);
     }
 
-    public SkillAssignment Get(SkillData skillData)
+    public SkillAssignment Get(Guid skillId)
     {
-        return _skillAssignments[skillData];
+        return _skillAssignments[skillId];
     }
 
-    public SkillData GetSkillData(SkillAssignment skillAssignment)
+    public Guid GetSkillId(SkillAssignment skillAssignment)
     {
-        return _skillData[skillAssignment];
+        return _skillIds[skillAssignment];
     }
 }

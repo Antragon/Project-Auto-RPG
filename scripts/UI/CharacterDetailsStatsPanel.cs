@@ -1,5 +1,7 @@
 namespace Game.scripts.UI;
 
+using System;
+using Extensions;
 using Godot;
 using Units;
 
@@ -21,6 +23,8 @@ public partial class CharacterDetailsStatsPanel : Panel
 
     private Label SpeedValue => field ??= GetNode<Label>("StatsGrid/Speed/Value");
 
+    private CharacterRepository CharacterRepository => field ??= this.Root.Get<CharacterRepository>();
+
     private Character? _character;
 
     public override void _ExitTree()
@@ -28,13 +32,13 @@ public partial class CharacterDetailsStatsPanel : Panel
         UnbindCharacter();
     }
 
-    public void SetCharacter(Character? character)
+    public void SetCharacter(Guid? characterId)
     {
         UnbindCharacter();
-        _character = character;
 
-        if (_character is null)
+        if (characterId is not { } id || !CharacterRepository.TryGetCharacter(id, out _character))
         {
+            _character = null;
             return;
         }
 
