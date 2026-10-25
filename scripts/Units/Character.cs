@@ -96,6 +96,14 @@ public sealed class Character
             throw new ArgumentException("Equipment type does not match the character slot.", nameof(equipment));
         }
 
+        var previousEquipment = GetEquipment(equipmentType);
+        if (ReferenceEquals(previousEquipment, equipment))
+        {
+            return;
+        }
+
+        UpdateUnitEquipmentModifiers(previousEquipment, equipment);
+
         switch (equipmentType)
         {
             case EquipmentType.Helmet:
@@ -118,6 +126,23 @@ public sealed class Character
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(equipmentType), equipmentType, null);
+        }
+    }
+
+    private void UpdateUnitEquipmentModifiers(Equipment? previousEquipment, Equipment? equipment)
+    {
+        if (previousEquipment is not null)
+        {
+            Unit.Power.Remove(previousEquipment);
+            Unit.Defense.Remove(previousEquipment);
+            Unit.MagicDefense.Remove(previousEquipment);
+        }
+
+        if (equipment is not null)
+        {
+            Unit.Power[equipment] = equipment.EquipmentData.Power;
+            Unit.Defense[equipment] = equipment.EquipmentData.Defense;
+            Unit.MagicDefense[equipment] = equipment.EquipmentData.MagicDefense;
         }
     }
 

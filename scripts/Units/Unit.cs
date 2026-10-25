@@ -16,6 +16,12 @@ public sealed class Unit
 
     public UnitData UnitData { get; }
 
+    public DamageModifier Power { get; } = new();
+
+    public DamageModifier Defense { get; } = new();
+
+    public DamageModifier MagicDefense { get; } = new();
+
     public Skill? Skill1
     {
         get;
