@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://cgil7fnyv8p0y"]
+
+[ext_resource type="Texture2D" uid="uid://cd2u73wktvfrj" path="res://textures/game-icons.net/backward-time.png" id="1_ji4ur"]
+
+[resource]
+atlas = ExtResource("1_ji4ur")
+region = Rect2(0, 0, 512, 512)

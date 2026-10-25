@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://nuxxy3ahfk3u"]
+
+[ext_resource type="Texture2D" uid="uid://cdmlweud8qncq" path="res://textures/game-icons.net/power-lightning.png" id="1_dbp80"]
+
+[resource]
+atlas = ExtResource("1_dbp80")
+region = Rect2(0, 0, 512, 512)

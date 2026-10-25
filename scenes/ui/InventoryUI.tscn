@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bysolspjt8jd6" path="res://scenes/ui/CharacterDetailsPanel.tscn" id="3_character_details"]
 [ext_resource type="Script" uid="uid://g35hg1yvcd3p" path="res://scripts/UI/CharactersPanel.cs" id="4_characters_panel_script"]
 [ext_resource type="Script" uid="uid://cht5d37w5p1ea" path="res://scripts/UI/SkillsPanel.cs" id="5_skills_panel_script"]
+[ext_resource type="PackedScene" uid="uid://b2p8xg7wado04" path="res://scenes/ui/SkillDetailsPanel.tscn" id="6_skill_details"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inventory"]
 bg_color = Color(0.08, 0.1, 0.14, 0.96)
@@ -45,6 +46,15 @@ layout_mode = 0
 offset_left = 12.0
 offset_top = -380.0
 offset_right = 396.0
+offset_bottom = 0.0
+
+[node name="SkillDetailsPanel" parent="." unique_id=2135436779 instance=ExtResource("6_skill_details")]
+visible = false
+z_index = 10
+layout_mode = 0
+offset_left = 408.0
+offset_top = -170.0
+offset_right = 792.0
 offset_bottom = 0.0
 
 [node name="CharactersPanel" type="Panel" parent="." unique_id=1841914908]

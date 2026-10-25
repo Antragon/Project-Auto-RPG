@@ -11,12 +11,23 @@ public static class IconRepository
             return null;
         }
 
-        var icons = Load(name) ?? Load("placeholder");
+        const string basePath = "units/icons/";
+        var icons = Load(basePath + name) ?? Load(basePath + "placeholder");
         return icons;
     }
 
-    private static Texture2D? Load(string name)
+    public static Texture2D? GetUI(string name)
     {
-        return GD.Load<Texture2D>($"res://textures/units/icons/{name}.tres");
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return null;
+        }
+
+        return Load("ui/" + name);
+    }
+
+    private static Texture2D? Load(string path)
+    {
+        return GD.Load<Texture2D>($"res://textures/{path}.tres");
     }
 }

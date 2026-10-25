@@ -1,0 +1,145 @@
+[gd_scene format=3 uid="uid://b2p8xg7wado04"]
+
+[ext_resource type="Script" uid="uid://dklt8t24ymrq7" path="res://scripts/UI/SkillDetailsPanel.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://cgil7fnyv8p0y" path="res://textures/ui/cooldown.tres" id="2_cooldown"]
+[ext_resource type="Texture2D" uid="uid://ckcusgwhptn36" path="res://textures/ui/target.tres" id="3_target"]
+[ext_resource type="PackedScene" path="res://scenes/ui/SkillTargetIndicator.tscn" id="4_target_indicator"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_skill_details"]
+bg_color = Color(0.1, 0.13, 0.18, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.45, 0.6, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="SkillDetailsPanel" type="Panel" unique_id=1859184890]
+custom_minimum_size = Vector2(384, 170)
+offset_right = 384.0
+offset_bottom = 170.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_skill_details")
+script = ExtResource("1_script")
+
+[node name="SkillName" type="Label" parent="." unique_id=504270991]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 12.0
+offset_right = 328.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(0.75, 0.6, 1, 1)
+theme_override_font_sizes/font_size = 18
+text = "Skill"
+clip_text = true
+
+[node name="CloseButton" type="Button" parent="." unique_id=1974486251]
+layout_mode = 0
+offset_left = 344.0
+offset_top = 8.0
+offset_right = 372.0
+offset_bottom = 36.0
+text = "X"
+
+[node name="Details" type="VBoxContainer" parent="." unique_id=1974486252]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 54.0
+offset_right = 368.0
+offset_bottom = 158.0
+theme_override_constants/separation = 8
+
+[node name="CooldownRow" type="HBoxContainer" parent="Details" unique_id=1974486253]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="CooldownIcon" type="TextureRect" parent="Details/CooldownRow" unique_id=1974486254]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+tooltip_text = "Cooldown"
+texture = ExtResource("2_cooldown")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CooldownValue" type="Label" parent="Details/CooldownRow" unique_id=1974486255]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.89, 0.94, 1)
+text = "0 s"
+vertical_alignment = 1
+
+[node name="TargetRow" type="HBoxContainer" parent="Details" unique_id=1974486256]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TargetIcon" type="TextureRect" parent="Details/TargetRow" unique_id=1974486257]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+tooltip_text = "Target"
+texture = ExtResource("3_target")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Characters" type="HBoxContainer" parent="Details/TargetRow" unique_id=1974486258]
+layout_mode = 2
+tooltip_text = "Characters"
+theme_override_constants/separation = 3
+
+[node name="CharacterSlot1" parent="Details/TargetRow/Characters" unique_id=1974486260 instance=ExtResource("4_target_indicator")]
+layout_mode = 2
+
+[node name="CharacterSlot2" parent="Details/TargetRow/Characters" unique_id=1974486261 instance=ExtResource("4_target_indicator")]
+layout_mode = 2
+
+[node name="CharacterSlot3" parent="Details/TargetRow/Characters" unique_id=1974486262 instance=ExtResource("4_target_indicator")]
+layout_mode = 2
+
+[node name="CharacterSlot4" parent="Details/TargetRow/Characters" unique_id=1974486263 instance=ExtResource("4_target_indicator")]
+layout_mode = 2
+
+[node name="X" type="Label" parent="Details/TargetRow" unique_id=1974486265]
+custom_minimum_size = Vector2(12, 22)
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "X"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Enemies" type="HBoxContainer" parent="Details/TargetRow" unique_id=1974486264]
+layout_mode = 2
+tooltip_text = "Enemies"
+theme_override_constants/separation = 3
+
+[node name="EnemySlot1" parent="Details/TargetRow/Enemies" unique_id=1974486266 instance=ExtResource("4_target_indicator")]
+layout_mode = 2
+
+[node name="EnemySlot2" parent="Details/TargetRow/Enemies" unique_id=1974486267 instance=ExtResource("4_target_indicator")]
+layout_mode = 2
+
+[node name="EnemySlot3" parent="Details/TargetRow/Enemies" unique_id=1974486268 instance=ExtResource("4_target_indicator")]
+layout_mode = 2
+
+[node name="EnemySlot4" parent="Details/TargetRow/Enemies" unique_id=1974486269 instance=ExtResource("4_target_indicator")]
+layout_mode = 2
+
+[node name="PowerRow" type="HBoxContainer" parent="Details" unique_id=1974486270]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ScalingIcon" type="TextureRect" parent="Details/PowerRow" unique_id=1974486271]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+tooltip_text = "Scaling"
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PowerValue" type="Label" parent="Details/PowerRow" unique_id=1974486272]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.89, 0.94, 1)
+theme_override_font_sizes/font_size = 18
+text = "0"
+vertical_alignment = 1

@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://c00l07is6yj0i"]
+
+[ext_resource type="Texture2D" uid="uid://m7pevw73lql0" path="res://textures/game-icons.net/ninja-star.png" id="1_ew3rh"]
+
+[resource]
+atlas = ExtResource("1_ew3rh")
+region = Rect2(0, 0, 512, 512)

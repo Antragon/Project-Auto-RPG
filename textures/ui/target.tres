@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://ckcusgwhptn36"]
+
+[ext_resource type="Texture2D" uid="uid://ctu0tojjolbfb" path="res://textures/game-icons.net/convergence-target.png" id="1_p11fo"]
+
+[resource]
+atlas = ExtResource("1_p11fo")
+region = Rect2(0, 0, 512, 512)
