@@ -73,15 +73,15 @@ public partial class SkillDetailsPanel : Panel
 
     private static void RefreshTargetSlots(SkillTargetIndicator[] slots, SkillData skillData)
     {
-        for (var index = 0; index < slots.Length; index++)
+        foreach (var slot in slots)
         {
-            if (IsTargetedSlot(index, skillData.Selection))
+            if (IsTargetedSlot(slot.SlotIndex, skillData.Selection))
             {
-                slots[index].SetEffect(skillData.Effect, skillData.Selection == SkillTargetSelection.Random);
+                slot.SetEffect(skillData.Effect, skillData.Selection == SkillTargetSelection.Random);
             }
             else
             {
-                slots[index].Clear();
+                slot.Clear();
             }
         }
     }

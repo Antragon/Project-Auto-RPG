@@ -5,6 +5,9 @@ using Skills;
 
 public partial class SkillTargetIndicator : Panel
 {
+    [Export]
+    public int SlotIndex { get; set; }
+
     private Label QuestionMark => field ??= GetNode<Label>("QuestionMark");
 
     private StyleBoxFlat InactiveStyle => field ??= CreateStyle(new Color(0.32f, 0.34f, 0.38f));

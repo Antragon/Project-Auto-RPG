@@ -51,6 +51,25 @@ offset_right = 368.0
 offset_bottom = 158.0
 theme_override_constants/separation = 8
 
+[node name="PowerRow" type="HBoxContainer" parent="Details" unique_id=1974486270]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ScalingIcon" type="TextureRect" parent="Details/PowerRow" unique_id=1974486271]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+tooltip_text = "Scaling"
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PowerValue" type="Label" parent="Details/PowerRow" unique_id=1974486272]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.89, 0.94, 1)
+theme_override_font_sizes/font_size = 18
+text = "0"
+vertical_alignment = 1
+
 [node name="CooldownRow" type="HBoxContainer" parent="Details" unique_id=1974486253]
 custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
@@ -85,19 +104,21 @@ stretch_mode = 5
 
 [node name="Characters" type="HBoxContainer" parent="Details/TargetRow" unique_id=1974486258]
 layout_mode = 2
-tooltip_text = "Characters"
 theme_override_constants/separation = 3
 
-[node name="CharacterSlot1" parent="Details/TargetRow/Characters" unique_id=1974486260 instance=ExtResource("4_target_indicator")]
+[node name="CharacterSlot4" parent="Details/TargetRow/Characters" unique_id=1974486263 instance=ExtResource("4_target_indicator")]
 layout_mode = 2
-
-[node name="CharacterSlot2" parent="Details/TargetRow/Characters" unique_id=1974486261 instance=ExtResource("4_target_indicator")]
-layout_mode = 2
+SlotIndex = 3
 
 [node name="CharacterSlot3" parent="Details/TargetRow/Characters" unique_id=1974486262 instance=ExtResource("4_target_indicator")]
 layout_mode = 2
+SlotIndex = 2
 
-[node name="CharacterSlot4" parent="Details/TargetRow/Characters" unique_id=1974486263 instance=ExtResource("4_target_indicator")]
+[node name="CharacterSlot2" parent="Details/TargetRow/Characters" unique_id=1974486261 instance=ExtResource("4_target_indicator")]
+layout_mode = 2
+SlotIndex = 1
+
+[node name="CharacterSlot1" parent="Details/TargetRow/Characters" unique_id=1974486260 instance=ExtResource("4_target_indicator")]
 layout_mode = 2
 
 [node name="X" type="Label" parent="Details/TargetRow" unique_id=1974486265]
@@ -110,7 +131,6 @@ vertical_alignment = 1
 
 [node name="Enemies" type="HBoxContainer" parent="Details/TargetRow" unique_id=1974486264]
 layout_mode = 2
-tooltip_text = "Enemies"
 theme_override_constants/separation = 3
 
 [node name="EnemySlot1" parent="Details/TargetRow/Enemies" unique_id=1974486266 instance=ExtResource("4_target_indicator")]
@@ -118,28 +138,12 @@ layout_mode = 2
 
 [node name="EnemySlot2" parent="Details/TargetRow/Enemies" unique_id=1974486267 instance=ExtResource("4_target_indicator")]
 layout_mode = 2
+SlotIndex = 1
 
 [node name="EnemySlot3" parent="Details/TargetRow/Enemies" unique_id=1974486268 instance=ExtResource("4_target_indicator")]
 layout_mode = 2
+SlotIndex = 2
 
 [node name="EnemySlot4" parent="Details/TargetRow/Enemies" unique_id=1974486269 instance=ExtResource("4_target_indicator")]
 layout_mode = 2
-
-[node name="PowerRow" type="HBoxContainer" parent="Details" unique_id=1974486270]
-custom_minimum_size = Vector2(0, 28)
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="ScalingIcon" type="TextureRect" parent="Details/PowerRow" unique_id=1974486271]
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-tooltip_text = "Scaling"
-expand_mode = 1
-stretch_mode = 5
-
-[node name="PowerValue" type="Label" parent="Details/PowerRow" unique_id=1974486272]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.86, 0.89, 0.94, 1)
-theme_override_font_sizes/font_size = 18
-text = "0"
-vertical_alignment = 1
+SlotIndex = 3
