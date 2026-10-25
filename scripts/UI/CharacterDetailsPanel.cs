@@ -17,6 +17,8 @@ public partial class CharacterDetailsPanel : Panel
 
     private CharacterDetailsSkillsPanel SkillsPanel => field ??= GetNode<CharacterDetailsSkillsPanel>("SkillsPanel");
 
+    private CharacterDetailsEquipmentPanel EquipmentPanel => field ??= GetNode<CharacterDetailsEquipmentPanel>("EquipmentPanel");
+
     private CharacterRepository CharacterRepository => field ??= this.Root.Get<CharacterRepository>();
 
     private Character? _character;
@@ -44,6 +46,7 @@ public partial class CharacterDetailsPanel : Panel
         CharacterLevel.Text = $"Lv. {_character.Unit.Level}";
         StatsPanel.SetCharacter(characterId);
         SkillsPanel.SetCharacter(characterId);
+        EquipmentPanel.SetCharacter(characterId);
         Visible = true;
     }
 
@@ -52,6 +55,7 @@ public partial class CharacterDetailsPanel : Panel
         UnbindCharacter();
         StatsPanel.SetCharacter(null);
         SkillsPanel.SetCharacter(null);
+        EquipmentPanel.SetCharacter(null);
         Visible = false;
     }
 

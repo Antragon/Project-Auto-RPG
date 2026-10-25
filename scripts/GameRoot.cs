@@ -1,6 +1,6 @@
 namespace Game.scripts;
 
-using System.Collections.Generic;
+using Equipment;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence;
 using Skills;
@@ -19,8 +19,15 @@ public partial class GameRoot : SceneRootBase
     protected override void AddLocalDependencies(ServiceCollection services)
     {
         services.AddSingleton<SaveRepository>();
+        services.AddSingleton<SaveDataWriter>();
+        services.AddSingleton<EquipmentAssignments>();
+        services.AddSingleton<EquipmentRepositoryFactory>();
+        services.AddSingleton<EquipmentRepository>(serviceProvider =>
+            serviceProvider.GetRequiredService<EquipmentRepositoryFactory>().Create());
         services.AddSingleton<SkillAssignments>();
-        services.AddSingleton<SkillRepository>();
+        services.AddSingleton<SkillRepositoryFactory>();
+        services.AddSingleton<SkillRepository>(serviceProvider =>
+            serviceProvider.GetRequiredService<SkillRepositoryFactory>().Create());
         services.AddSingleton<CharacterRepositoryFactory>();
         services.AddSingleton<CharacterRepository>(serviceProvider =>
             serviceProvider.GetRequiredService<CharacterRepositoryFactory>().Create());

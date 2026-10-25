@@ -4,25 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
-using Persistence;
 
 public sealed class SkillRepository
 {
-    private readonly Dictionary<Guid, Skill> _skills = [];
+    private readonly Dictionary<Guid, Skill> _skills;
 
     private readonly ReadOnlyDictionary<Guid, Skill> _readOnlySkills;
 
-    public SkillRepository(SaveRepository saveRepository)
+    public SkillRepository(Dictionary<Guid, Skill> skills)
     {
-        foreach (var savedSkill in saveRepository.Skills)
-        {
-            var skillData = SkillDataRepository.Load(savedSkill.Name);
-            if (skillData is not null)
-            {
-                _skills.Add(savedSkill.Id, new Skill(savedSkill.Id, skillData));
-            }
-        }
-
+        _skills = skills;
         _readOnlySkills = new ReadOnlyDictionary<Guid, Skill>(_skills);
     }
 

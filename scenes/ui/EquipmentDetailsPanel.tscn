@@ -1,0 +1,109 @@
+[gd_scene format=3 uid="uid://cqq048scopts"]
+
+[ext_resource type="Script" uid="uid://djnhg2fo0vcu" path="res://scripts/UI/EquipmentDetailsPanel.cs" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_equipment_details"]
+bg_color = Color(0.1, 0.13, 0.18, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.5, 0.4, 0.25, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="EquipmentDetailsPanel" type="Panel" unique_id=1557498115]
+custom_minimum_size = Vector2(384, 190)
+offset_right = 384.0
+offset_bottom = 190.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_equipment_details")
+script = ExtResource("1_script")
+
+[node name="EquipmentName" type="Label" parent="." unique_id=502744364]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 12.0
+offset_right = 328.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(1, 0.72, 0.42, 1)
+theme_override_font_sizes/font_size = 18
+text = "Equipment"
+clip_text = true
+
+[node name="CloseButton" type="Button" parent="." unique_id=971616013]
+layout_mode = 0
+offset_left = 344.0
+offset_top = 8.0
+offset_right = 372.0
+offset_bottom = 36.0
+text = "X"
+
+[node name="Details" type="VBoxContainer" parent="." unique_id=74399344]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 54.0
+offset_right = 368.0
+offset_bottom = 182.0
+theme_override_constants/separation = 5
+
+[node name="TypeRow" type="HBoxContainer" parent="Details" unique_id=1123314220]
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+
+[node name="TypeLabel" type="Label" parent="Details/TypeRow" unique_id=265693182]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.89, 0.94, 1)
+text = "Type"
+
+[node name="TypeValue" type="Label" parent="Details/TypeRow" unique_id=1760434047]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.89, 0.94, 1)
+text = "Helmet"
+
+[node name="PowerRow" type="HBoxContainer" parent="Details" unique_id=1540831961]
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+
+[node name="PowerLabel" type="Label" parent="Details/PowerRow" unique_id=1490759082]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.89, 0.94, 1)
+text = "Power"
+
+[node name="PowerValue" type="Label" parent="Details/PowerRow" unique_id=838744189]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.89, 0.94, 1)
+text = "0"
+
+[node name="DefenseRow" type="HBoxContainer" parent="Details" unique_id=557219571]
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+
+[node name="DefenseLabel" type="Label" parent="Details/DefenseRow" unique_id=1746252336]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.89, 0.94, 1)
+text = "Defense"
+
+[node name="DefenseValue" type="Label" parent="Details/DefenseRow" unique_id=1036395436]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.89, 0.94, 1)
+text = "0"
+
+[node name="MagicDefenseRow" type="HBoxContainer" parent="Details" unique_id=1839762754]
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+
+[node name="MagicDefenseLabel" type="Label" parent="Details/MagicDefenseRow" unique_id=529120355]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.89, 0.94, 1)
+text = "Magic defense"
+
+[node name="MagicDefenseValue" type="Label" parent="Details/MagicDefenseRow" unique_id=440501497]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.89, 0.94, 1)
+text = "0"

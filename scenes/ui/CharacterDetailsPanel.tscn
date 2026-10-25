@@ -4,6 +4,8 @@
 [ext_resource type="Script" uid="uid://d211nt514edo7" path="res://scripts/UI/CharacterDetailsSkillSlot.cs" id="2_skill_slot_script"]
 [ext_resource type="Script" uid="uid://g0kjsykp1xu7" path="res://scripts/UI/CharacterDetailsStatsPanel.cs" id="3_stats_panel_script"]
 [ext_resource type="Script" uid="uid://c8rai3oadtg2l" path="res://scripts/UI/CharacterDetailsSkillsPanel.cs" id="4_skills_panel_script"]
+[ext_resource type="Script" uid="uid://wa6v47merrp6" path="res://scripts/UI/CharacterDetailsEquipmentSlot.cs" id="5_equipment_slot_script"]
+[ext_resource type="Script" uid="uid://c64weni4nxlmf" path="res://scripts/UI/CharacterDetailsEquipmentPanel.cs" id="6_equipment_panel_script"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_character_details"]
 bg_color = Color(0.1, 0.13, 0.18, 0.98)
@@ -53,18 +55,6 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_skill_slot"]
-bg_color = Color(0.15, 0.19, 0.26, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.38, 0.46, 0.58, 1)
-corner_radius_top_left = 26
-corner_radius_top_right = 26
-corner_radius_bottom_right = 26
-corner_radius_bottom_left = 26
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_skill_remove_button"]
 content_margin_left = 0.0
 content_margin_top = 0.0
@@ -80,6 +70,18 @@ corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_skill_slot"]
+bg_color = Color(0.15, 0.19, 0.26, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.38, 0.46, 0.58, 1)
+corner_radius_top_left = 26
+corner_radius_top_right = 26
+corner_radius_bottom_right = 26
+corner_radius_bottom_left = 26
 
 [node name="CharacterDetailsPanel" type="Panel" unique_id=1142382563]
 custom_minimum_size = Vector2(384, 380)
@@ -315,6 +317,7 @@ offset_top = 48.0
 offset_right = 372.0
 offset_bottom = 268.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_group")
+script = ExtResource("6_equipment_panel_script")
 
 [node name="Title" type="Label" parent="EquipmentPanel" unique_id=1241356618]
 layout_mode = 0
@@ -349,8 +352,8 @@ columns = 2
 [node name="Helmet" type="Panel" parent="EquipmentPanel/Content/EquipmentGrid" unique_id=966337726]
 custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
-mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+script = ExtResource("5_equipment_slot_script")
 
 [node name="Label" type="Label" parent="EquipmentPanel/Content/EquipmentGrid/Helmet" unique_id=1627196308]
 layout_mode = 1
@@ -365,11 +368,47 @@ text = "Helmet"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Icon" type="TextureRect" parent="EquipmentPanel/Content/EquipmentGrid/Helmet" unique_id=1827622138]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -17.0
+offset_right = 17.0
+offset_bottom = 17.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RemoveButton" type="Button" parent="EquipmentPanel/Content/EquipmentGrid/Helmet" unique_id=1470153699]
+visible = false
+z_index = 1
+layout_mode = 0
+offset_left = 39.0
+offset_top = -3.0
+offset_right = 55.0
+offset_bottom = 13.0
+tooltip_text = "Remove equipment"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.92, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_skill_remove_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_skill_remove_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_skill_remove_button")
+text = "×"
+
 [node name="AccessoryRight" type="Panel" parent="EquipmentPanel/Content/EquipmentGrid" unique_id=1165007192]
 custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
-mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+script = ExtResource("5_equipment_slot_script")
+EquipmentType = 5
 
 [node name="Label" type="Label" parent="EquipmentPanel/Content/EquipmentGrid/AccessoryRight" unique_id=2035733650]
 layout_mode = 1
@@ -380,15 +419,51 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0.65, 0.7, 0.78, 1)
 theme_override_font_sizes/font_size = 9
-text = "Accessory"
+text = "Accessory 2"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Icon" type="TextureRect" parent="EquipmentPanel/Content/EquipmentGrid/AccessoryRight" unique_id=157207020]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -17.0
+offset_right = 17.0
+offset_bottom = 17.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RemoveButton" type="Button" parent="EquipmentPanel/Content/EquipmentGrid/AccessoryRight" unique_id=1187354651]
+visible = false
+z_index = 1
+layout_mode = 0
+offset_left = 39.0
+offset_top = -3.0
+offset_right = 55.0
+offset_bottom = 13.0
+tooltip_text = "Remove equipment"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.92, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_skill_remove_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_skill_remove_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_skill_remove_button")
+text = "×"
 
 [node name="BodyArmor" type="Panel" parent="EquipmentPanel/Content/EquipmentGrid" unique_id=1566261898]
 custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
-mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+script = ExtResource("5_equipment_slot_script")
+EquipmentType = 1
 
 [node name="Label" type="Label" parent="EquipmentPanel/Content/EquipmentGrid/BodyArmor" unique_id=1644779049]
 layout_mode = 1
@@ -403,11 +478,47 @@ text = "Body Armor"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Icon" type="TextureRect" parent="EquipmentPanel/Content/EquipmentGrid/BodyArmor" unique_id=196381817]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -17.0
+offset_right = 17.0
+offset_bottom = 17.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RemoveButton" type="Button" parent="EquipmentPanel/Content/EquipmentGrid/BodyArmor" unique_id=1776177847]
+visible = false
+z_index = 1
+layout_mode = 0
+offset_left = 39.0
+offset_top = -3.0
+offset_right = 55.0
+offset_bottom = 13.0
+tooltip_text = "Remove equipment"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.92, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_skill_remove_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_skill_remove_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_skill_remove_button")
+text = "×"
+
 [node name="Weapon" type="Panel" parent="EquipmentPanel/Content/EquipmentGrid" unique_id=1760240436]
 custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
-mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+script = ExtResource("5_equipment_slot_script")
+EquipmentType = 3
 
 [node name="Label" type="Label" parent="EquipmentPanel/Content/EquipmentGrid/Weapon" unique_id=1256529450]
 layout_mode = 1
@@ -422,11 +533,47 @@ text = "Weapon"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Icon" type="TextureRect" parent="EquipmentPanel/Content/EquipmentGrid/Weapon" unique_id=1934500303]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -17.0
+offset_right = 17.0
+offset_bottom = 17.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RemoveButton" type="Button" parent="EquipmentPanel/Content/EquipmentGrid/Weapon" unique_id=563472020]
+visible = false
+z_index = 1
+layout_mode = 0
+offset_left = 39.0
+offset_top = -3.0
+offset_right = 55.0
+offset_bottom = 13.0
+tooltip_text = "Remove equipment"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.92, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_skill_remove_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_skill_remove_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_skill_remove_button")
+text = "×"
+
 [node name="LegArmor" type="Panel" parent="EquipmentPanel/Content/EquipmentGrid" unique_id=1778376800]
 custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
-mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+script = ExtResource("5_equipment_slot_script")
+EquipmentType = 2
 
 [node name="Label" type="Label" parent="EquipmentPanel/Content/EquipmentGrid/LegArmor" unique_id=1719069791]
 layout_mode = 1
@@ -441,11 +588,47 @@ text = "Leg Armor"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Icon" type="TextureRect" parent="EquipmentPanel/Content/EquipmentGrid/LegArmor" unique_id=1083618657]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -17.0
+offset_right = 17.0
+offset_bottom = 17.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RemoveButton" type="Button" parent="EquipmentPanel/Content/EquipmentGrid/LegArmor" unique_id=1909533308]
+visible = false
+z_index = 1
+layout_mode = 0
+offset_left = 39.0
+offset_top = -3.0
+offset_right = 55.0
+offset_bottom = 13.0
+tooltip_text = "Remove equipment"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.92, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_skill_remove_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_skill_remove_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_skill_remove_button")
+text = "×"
+
 [node name="AccessoryLeft" type="Panel" parent="EquipmentPanel/Content/EquipmentGrid" unique_id=1565118196]
 custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
-mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+script = ExtResource("5_equipment_slot_script")
+EquipmentType = 4
 
 [node name="Label" type="Label" parent="EquipmentPanel/Content/EquipmentGrid/AccessoryLeft" unique_id=649391862]
 layout_mode = 1
@@ -456,9 +639,44 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0.65, 0.7, 0.78, 1)
 theme_override_font_sizes/font_size = 9
-text = "Accessory"
+text = "Accessory 1"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Icon" type="TextureRect" parent="EquipmentPanel/Content/EquipmentGrid/AccessoryLeft" unique_id=1743472612]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -17.0
+offset_right = 17.0
+offset_bottom = 17.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RemoveButton" type="Button" parent="EquipmentPanel/Content/EquipmentGrid/AccessoryLeft" unique_id=2006812595]
+visible = false
+z_index = 1
+layout_mode = 0
+offset_left = 39.0
+offset_top = -3.0
+offset_right = 55.0
+offset_bottom = 13.0
+tooltip_text = "Remove equipment"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.92, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_skill_remove_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_skill_remove_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_skill_remove_button")
+text = "×"
 
 [node name="SkillsPanel" type="Panel" parent="." unique_id=652217321]
 layout_mode = 0

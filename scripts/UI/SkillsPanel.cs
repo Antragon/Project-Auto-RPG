@@ -1,7 +1,5 @@
 namespace Game.scripts.UI;
 
-using System;
-using System.Collections.Generic;
 using Extensions;
 using Godot;
 using Skills;
@@ -20,8 +18,6 @@ public partial class SkillsPanel : Panel
 
     private PackedScene SkillInventoryIconScene => field ??= SceneRepository.Load("ui/SkillInventoryIcon")!;
 
-    private readonly Dictionary<SkillSlotProperty, Guid> _skillsByProperty = [];
-
     public SkillInventoryIcon[] Icons => SkillsGrid.GetChildrenOfType<SkillInventoryIcon>();
 
     public override void _Ready()
@@ -29,9 +25,10 @@ public partial class SkillsPanel : Panel
         PopulateSkills();
         foreach (var character in CharacterRepository.Characters.Values)
         {
-            IndexCharacterSkills(character.Unit);
             character.Unit.PropertyChanged += OnUnitPropertyChanged;
         }
+
+        RefreshSkillSlots();
     }
 
     public override void _ExitTree()
@@ -64,64 +61,14 @@ public partial class SkillsPanel : Panel
             return;
         }
 
-        UpdateSkillAssignment(unit, propertyName, GetSkill(unit, propertyName));
+        RefreshSkillSlots();
     }
 
-    private void IndexCharacterSkills(Unit unit)
-    {
-        IndexSkill(unit, nameof(Unit.Skill1), unit.Skill1);
-        IndexSkill(unit, nameof(Unit.Skill2), unit.Skill2);
-        IndexSkill(unit, nameof(Unit.Skill3), unit.Skill3);
-        IndexSkill(unit, nameof(Unit.Skill4), unit.Skill4);
-    }
-
-    private void IndexSkill(Unit unit, string propertyName, Skill? skill)
-    {
-        if (skill is not null)
-        {
-            _skillsByProperty[new SkillSlotProperty(unit, propertyName)] = skill.Id;
-            SetSkillSlotted(skill.Id);
-        }
-    }
-
-    private void UpdateSkillAssignment(Unit unit, string propertyName, Skill? skill)
-    {
-        if (_skillsByProperty.Remove(new SkillSlotProperty(unit, propertyName), out var previousSkillId))
-        {
-            SetSkillSlotted(previousSkillId);
-        }
-
-        if (skill is null)
-        {
-            return;
-        }
-
-        _skillsByProperty[new SkillSlotProperty(unit, propertyName)] = skill.Id;
-        SetSkillSlotted(skill.Id);
-    }
-
-    private void SetSkillSlotted(Guid skillId)
+    private void RefreshSkillSlots()
     {
         foreach (var icon in Icons)
         {
-            if (icon.Skill.Id == skillId)
-            {
-                icon.SetSlotted(SkillAssignments.TryGet(skillId, out _));
-            }
+            icon.SetSlotted(SkillAssignments.TryGet(icon.Skill.Id, out _));
         }
     }
-
-    private static Skill? GetSkill(Unit unit, string propertyName)
-    {
-        return propertyName switch
-        {
-            nameof(Unit.Skill1) => unit.Skill1,
-            nameof(Unit.Skill2) => unit.Skill2,
-            nameof(Unit.Skill3) => unit.Skill3,
-            nameof(Unit.Skill4) => unit.Skill4,
-            _ => null,
-        };
-    }
-
-    private sealed record SkillSlotProperty(Unit Unit, string PropertyName);
 }

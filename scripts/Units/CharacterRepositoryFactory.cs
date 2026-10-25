@@ -3,18 +3,22 @@ namespace Game.scripts.Units;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Equipment;
 using Persistence;
 using Skills;
+using EquipmentInstance = Game.scripts.Equipment.Equipment;
 
 public sealed class CharacterRepositoryFactory(
     SaveRepository saveRepository,
     SkillRepository skillRepository,
-    SkillAssignments skillAssignments)
+    SkillAssignments skillAssignments,
+    EquipmentRepository equipmentRepository,
+    EquipmentAssignments equipmentAssignments)
 {
     public CharacterRepository Create()
     {
         var characters = new Dictionary<Guid, Character>();
-        var savedCharacters = saveRepository.Characters
+        var savedCharacters = saveRepository.SaveData.Characters
             .Select(savedCharacter => (SavedCharacter: savedCharacter, UnitData: UnitDataRepository.Load(savedCharacter.Name)))
             .Where(character => character.UnitData is not null);
 
@@ -30,9 +34,29 @@ public sealed class CharacterRepositoryFactory(
             unit.Skill2 = LoadSkill(savedCharacter.Skill2Id);
             unit.Skill3 = LoadSkill(savedCharacter.Skill3Id);
             unit.Skill4 = LoadSkill(savedCharacter.Skill4Id);
+            character.SetEquipment(EquipmentType.Helmet, LoadEquipment(savedCharacter.HelmetId));
+            character.SetEquipment(EquipmentType.BodyArmor, LoadEquipment(savedCharacter.BodyArmorId));
+            character.SetEquipment(EquipmentType.LegArmor, LoadEquipment(savedCharacter.LegArmorId));
+            character.SetEquipment(EquipmentType.Weapon, LoadEquipment(savedCharacter.WeaponId));
+            character.SetEquipment(EquipmentType.Accessory1, LoadEquipment(savedCharacter.Accessory1Id));
+            character.SetEquipment(EquipmentType.Accessory2, LoadEquipment(savedCharacter.Accessory2Id));
         }
 
-        return new CharacterRepository(characters);
+        var characterRepository = new CharacterRepository(characters);
+        foreach (var character in characters.Values)
+        {
+            foreach (var equipmentType in Enum.GetValues<EquipmentType>())
+            {
+                if (character.GetEquipment(equipmentType) is { } equipment)
+                {
+                    equipmentAssignments.Set(equipment.Id, new EquipmentAssignment(character.Id, equipmentType));
+                }
+            }
+
+            character.PropertyChanged += OnCharacterPropertyChanged;
+        }
+
+        return characterRepository;
     }
 
     private Skill? LoadSkill(Guid? savedSkillId)
@@ -40,6 +64,33 @@ public sealed class CharacterRepositoryFactory(
         return savedSkillId is { } skillId && skillRepository.TryGetSkill(skillId, out var skill)
             ? skill
             : null;
+    }
+
+    private EquipmentInstance? LoadEquipment(Guid? savedEquipmentId)
+    {
+        return savedEquipmentId is { } equipmentId && equipmentRepository.TryGetEquipment(equipmentId, out var equipment)
+            ? equipment
+            : null;
+    }
+
+    private void OnCharacterPropertyChanged(Character character, string propertyName)
+    {
+        if (!Enum.TryParse<EquipmentType>(propertyName, out var equipmentType))
+        {
+            return;
+        }
+
+        var assignment = new EquipmentAssignment(character.Id, equipmentType);
+        var equipment = character.GetEquipment(equipmentType);
+        if (equipment is null)
+        {
+            equipmentAssignments.Remove(assignment);
+        }
+        else
+        {
+            equipmentAssignments.Set(equipment.Id, assignment);
+        }
+
     }
 
     private void OnUnitPropertyChanged(Guid characterId, Unit unit, string propertyName)

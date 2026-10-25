@@ -11,6 +11,9 @@ public sealed class SaveData
 
     [JsonPropertyName("skills")]
     public List<SavedSkill> Skills { get; set; } = [];
+
+    [JsonPropertyName("equipments")]
+    public List<SavedEquipment> Equipments { get; set; } = [];
 }
 
 public sealed class SavedCharacter
@@ -35,9 +38,36 @@ public sealed class SavedCharacter
 
     [JsonPropertyName("skill4Id")]
     public Guid? Skill4Id { get; set; }
+
+    [JsonPropertyName("helmetId")]
+    public Guid? HelmetId { get; set; }
+
+    [JsonPropertyName("bodyArmorId")]
+    public Guid? BodyArmorId { get; set; }
+
+    [JsonPropertyName("legArmorId")]
+    public Guid? LegArmorId { get; set; }
+
+    [JsonPropertyName("weaponId")]
+    public Guid? WeaponId { get; set; }
+
+    [JsonPropertyName("accessory1Id")]
+    public Guid? Accessory1Id { get; set; }
+
+    [JsonPropertyName("accessory2Id")]
+    public Guid? Accessory2Id { get; set; }
 }
 
 public sealed class SavedSkill
+{
+    [JsonPropertyName("id")]
+    public Guid Id { get; set; } = Guid.NewGuid();
+
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
+}
+
+public sealed class SavedEquipment
 {
     [JsonPropertyName("id")]
     public Guid Id { get; set; } = Guid.NewGuid();
