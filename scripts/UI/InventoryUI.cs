@@ -1,5 +1,7 @@
 namespace Game.scripts.UI;
 
+using System.Linq;
+using Extensions;
 using Godot;
 
 public partial class InventoryUI : Panel
@@ -15,6 +17,12 @@ public partial class InventoryUI : Panel
     private SkillsPanel SkillsPanel => field ??= GetNode<SkillsPanel>("SkillsPanel");
 
     private EquipmentPanel EquipmentPanel => field ??= GetNode<EquipmentPanel>("EquipmentPanel");
+
+    private InventoryPanelLayout CharactersLayout => field ??= new(CharactersPanel);
+
+    private InventoryPanelLayout SkillsLayout => field ??= new(SkillsPanel);
+
+    private InventoryPanelLayout EquipmentLayout => field ??= new(EquipmentPanel);
 
     private CharacterInventoryIcon? _selectedCharacterIcon;
 
@@ -79,6 +87,7 @@ public partial class InventoryUI : Panel
         _selectedCharacterIcon = icon;
         _selectedCharacterIcon.SetDetailsSelected(true);
         CharacterDetailsPanel.ShowCharacter(icon.Character.Id);
+        CharactersLayout.SetCollapsed(true, icon);
     }
 
     private void CloseCharacterDetails()
@@ -86,12 +95,14 @@ public partial class InventoryUI : Panel
         _selectedCharacterIcon?.SetDetailsSelected(false);
         _selectedCharacterIcon = null;
         CharacterDetailsPanel.HideCharacter();
+        CharactersLayout.SetCollapsed(false);
     }
 
     private void OnCharacterDetailsClosed()
     {
         _selectedCharacterIcon?.SetDetailsSelected(false);
         _selectedCharacterIcon = null;
+        CharactersLayout.SetCollapsed(false);
     }
 
     private void OnSkillIconClicked(SkillInventoryIcon icon)
@@ -106,6 +117,7 @@ public partial class InventoryUI : Panel
         _selectedSkillIcon = icon;
         _selectedSkillIcon.SetDetailsSelected(true);
         SkillDetailsPanel.ShowSkill(icon.Skill);
+        SkillsLayout.SetCollapsed(true, icon);
     }
 
     private void CloseSkillDetails()
@@ -113,12 +125,14 @@ public partial class InventoryUI : Panel
         _selectedSkillIcon?.SetDetailsSelected(false);
         _selectedSkillIcon = null;
         SkillDetailsPanel.HideSkill();
+        SkillsLayout.SetCollapsed(false);
     }
 
     private void OnSkillDetailsClosed()
     {
         _selectedSkillIcon?.SetDetailsSelected(false);
         _selectedSkillIcon = null;
+        SkillsLayout.SetCollapsed(false);
     }
 
     private void OnEquipmentIconClicked(EquipmentInventoryIcon icon)
@@ -133,6 +147,7 @@ public partial class InventoryUI : Panel
         _selectedEquipmentIcon = icon;
         _selectedEquipmentIcon.SetDetailsSelected(true);
         EquipmentDetailsPanel.ShowEquipment(icon.Equipment);
+        EquipmentLayout.SetCollapsed(true, icon);
     }
 
     private void CloseEquipmentDetails()
@@ -140,11 +155,58 @@ public partial class InventoryUI : Panel
         _selectedEquipmentIcon?.SetDetailsSelected(false);
         _selectedEquipmentIcon = null;
         EquipmentDetailsPanel.HideEquipment();
+        EquipmentLayout.SetCollapsed(false);
     }
 
     private void OnEquipmentDetailsClosed()
     {
         _selectedEquipmentIcon?.SetDetailsSelected(false);
         _selectedEquipmentIcon = null;
+        EquipmentLayout.SetCollapsed(false);
+    }
+
+    private sealed class InventoryPanelLayout(Panel panel)
+    {
+        private readonly ScrollContainer _scroll = panel.GetChildOfType<ScrollContainer>();
+        private readonly Label _title = panel.GetNode<Label>("Title");
+        private readonly float _expandedTop = panel.OffsetTop;
+        private float _expandedScrollTop;
+        private float _expandedScrollBottom;
+        private int _expandedScrollVertical;
+        private bool _collapsed;
+
+        public void SetCollapsed(bool collapsed, Control? selectedIcon = null)
+        {
+            if (_collapsed != collapsed)
+            {
+                if (collapsed)
+                {
+                    _expandedScrollTop = _scroll.OffsetTop;
+                    _expandedScrollBottom = _scroll.OffsetBottom;
+                    _expandedScrollVertical = _scroll.ScrollVertical;
+                    var rowHeight = _scroll.GetChildOfType<GridContainer>().GetChildrenOfType<Control>()
+                        .Max(icon => icon.GetCombinedMinimumSize().Y);
+                    const float padding = 5;
+                    panel.OffsetTop = panel.OffsetBottom - rowHeight - padding * 2;
+                    _scroll.OffsetTop = padding;
+                    _scroll.OffsetBottom = padding + rowHeight;
+                }
+                else
+                {
+                    panel.OffsetTop = _expandedTop;
+                    _scroll.OffsetTop = _expandedScrollTop;
+                    _scroll.OffsetBottom = _expandedScrollBottom;
+                    _scroll.SetDeferred(ScrollContainer.PropertyName.ScrollVertical, _expandedScrollVertical);
+                }
+
+                _title.Visible = !collapsed;
+                _collapsed = collapsed;
+            }
+
+            if (collapsed && selectedIcon is not null)
+            {
+                _scroll.CallDeferred(ScrollContainer.MethodName.EnsureControlVisible, selectedIcon);
+            }
+        }
     }
 }

@@ -42,31 +42,25 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_inventory")
 script = ExtResource("2_script")
 
 [node name="CharacterDetailsPanel" parent="." unique_id=1993755330 instance=ExtResource("3_character_details")]
-visible = false
 z_index = 10
 layout_mode = 0
 offset_left = 12.0
-offset_top = -380.0
+offset_top = -190.0
 offset_right = 396.0
-offset_bottom = 0.0
+offset_bottom = 190.0
 
 [node name="SkillDetailsPanel" parent="." unique_id=2135436779 instance=ExtResource("6_skill_details")]
-visible = false
 z_index = 10
 layout_mode = 0
 offset_left = 408.0
-offset_top = -170.0
 offset_right = 792.0
-offset_bottom = 0.0
+offset_bottom = 190.0
 
 [node name="EquipmentDetailsPanel" parent="." unique_id=712282656 instance=ExtResource("8_equipment_details")]
-visible = false
 z_index = 10
 layout_mode = 0
 offset_left = 804.0
-offset_top = -190.0
 offset_right = 1188.0
-offset_bottom = 0.0
 
 [node name="CharactersPanel" type="Panel" parent="." unique_id=1841914908]
 layout_mode = 0
