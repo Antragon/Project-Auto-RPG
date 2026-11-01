@@ -2,8 +2,12 @@
 
 [ext_resource type="Script" uid="uid://bq36cr0d5yh45" path="res://scripts/GameRoot.cs" id="1_qbsmt"]
 [ext_resource type="PackedScene" uid="uid://r5xiw6rrc6ys" path="res://scenes/dungeon/Dungeon.tscn" id="2_cpr0p"]
+[ext_resource type="Script" uid="uid://b7r4nh2ku8x5p" path="res://scripts/Persistence/EnemyDefeatSaver.cs" id="3_enemy_defeat_saver"]
 
 [node name="Game" type="Node" unique_id=578501718]
 script = ExtResource("1_qbsmt")
+
+[node name="EnemyDefeatSaver" type="Node" parent="."]
+script = ExtResource("3_enemy_defeat_saver")
 
 [node name="Dungeon" parent="." unique_id=871353155 instance=ExtResource("2_cpr0p")]

@@ -57,7 +57,9 @@ public partial class CharacterDetailsStatsPanel : Panel
 
     private void OnUnitPropertyChanged(Unit unit, string propertyName)
     {
-        if (propertyName is nameof(Unit.Hp) or nameof(Unit.MaxHp) or nameof(Unit.Level))
+        if (propertyName is nameof(Unit.Hp) or nameof(Unit.MaxHp) or nameof(Unit.Level)
+            or nameof(Unit.Vitality) or nameof(Unit.Strength) or nameof(Unit.Dexterity)
+            or nameof(Unit.Magic) or nameof(Unit.Speed))
         {
             RefreshStats();
         }

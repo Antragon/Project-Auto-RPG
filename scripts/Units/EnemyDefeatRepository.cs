@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using Persistence;
 
-public sealed class EnemyDefeatRepository(SaveRepository saveRepository, SaveDataWriter saveDataWriter)
+public sealed class EnemyDefeatRepository(SaveRepository saveRepository)
 {
     public event Action? Changed;
 
@@ -15,8 +15,10 @@ public sealed class EnemyDefeatRepository(SaveRepository saveRepository, SaveDat
 
     public void RecordDefeat(string enemyName)
     {
-        saveRepository.SaveData.EnemyDefeatCounts[enemyName] = GetCount(enemyName) + 1;
-        saveDataWriter.Save();
+        var count = GetCount(enemyName);
+        if (count == int.MaxValue) return;
+
+        saveRepository.SaveData.EnemyDefeatCounts[enemyName] = count + 1;
         Changed?.Invoke();
     }
 }

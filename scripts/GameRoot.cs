@@ -22,6 +22,7 @@ public partial class GameRoot : SceneRootBase
         services.AddSingleton<SaveRepository>();
         services.AddSingleton<SaveDataWriter>();
         services.AddSingleton<EnemyDefeatRepository>();
+        services.AddSingleton<EnemyScalingService>();
         services.AddSingleton<LootRepository>();
         services.AddSingleton<EquipmentAssignments>();
         services.AddSingleton<EquipmentRepositoryFactory>();

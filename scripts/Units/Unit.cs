@@ -10,6 +10,11 @@ public sealed class Unit
     public Unit(UnitData unitData)
     {
         UnitData = unitData;
+        VitalityModifier.Changed += () => OnBaseStatChanged(nameof(Vitality));
+        StrengthModifier.Changed += () => OnBaseStatChanged(nameof(Strength));
+        DexterityModifier.Changed += () => OnBaseStatChanged(nameof(Dexterity));
+        MagicModifier.Changed += () => OnBaseStatChanged(nameof(Magic));
+        SpeedModifier.Changed += () => OnBaseStatChanged(nameof(Speed));
         MaxHp = CalculateMaxHp();
         Hp = MaxHp;
     }
@@ -21,6 +26,16 @@ public sealed class Unit
     public StatModifier Defense { get; } = new();
 
     public StatModifier MagicDefense { get; } = new();
+
+    public StatModifier VitalityModifier { get; } = new();
+
+    public StatModifier StrengthModifier { get; } = new();
+
+    public StatModifier DexterityModifier { get; } = new();
+
+    public StatModifier MagicModifier { get; } = new();
+
+    public StatModifier SpeedModifier { get; } = new();
 
     public Skill? Skill1
     {
@@ -46,15 +61,15 @@ public sealed class Unit
         set => SetProperty(ref field, value);
     }
 
-    public int Vitality => UnitData.Vitality * Level;
+    public int Vitality => UnitData.Vitality * Level + VitalityModifier.Value;
 
-    public int Strength => UnitData.Strength * Level;
+    public int Strength => UnitData.Strength * Level + StrengthModifier.Value;
 
-    public int Dexterity => UnitData.Dexterity * Level;
+    public int Dexterity => UnitData.Dexterity * Level + DexterityModifier.Value;
 
-    public int Magic => UnitData.Magic * Level;
+    public int Magic => UnitData.Magic * Level + MagicModifier.Value;
 
-    public int Speed => UnitData.Speed * Level;
+    public int Speed => UnitData.Speed * Level + SpeedModifier.Value;
 
     public int Level
     {
@@ -88,6 +103,17 @@ public sealed class Unit
     }
 
     public event PropertyChangedEventHandler<Unit>? PropertyChanged;
+
+    private void OnBaseStatChanged(string propertyName)
+    {
+        if (propertyName == nameof(Vitality))
+        {
+            MaxHp = CalculateMaxHp();
+            if (Hp > MaxHp) SetHp(MaxHp);
+        }
+
+        PropertyChanged?.Invoke(this, propertyName);
+    }
 
     private void SetProperty<T>(ref T field, T value, [CallerMemberName] string name = "")
     {

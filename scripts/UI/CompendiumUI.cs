@@ -12,6 +12,8 @@ public partial class CompendiumUI : CanvasLayer
 {
     private EnemyDefeatRepository EnemyDefeatRepository => field ??= this.Root.Get<EnemyDefeatRepository>();
 
+    private EnemyScalingService EnemyScalingService => field ??= this.Root.Get<EnemyScalingService>();
+
     private Button OpenButton => field ??= this.GetChildOfType<Button>();
 
     private Panel Overlay => field ??= this.GetChildOfType<Panel>();
@@ -26,7 +28,21 @@ public partial class CompendiumUI : CanvasLayer
 
     private Label EnemyName => field ??= Details.GetNode<Label>("EnemyName");
 
-    private Label DefeatCount => field ??= Details.GetNode<Label>("DefeatCount");
+    private VBoxContainer Bonuses => field ??= Details.GetNode<VBoxContainer>("Summary/BonusesBlock");
+
+    private Label DefeatCount => field ??= Bonuses.GetNode<Label>("DefeatCount");
+
+    private Label ScalingBonus => field ??= Bonuses.GetNode<Label>("ScalingBonus");
+
+    private Label NextBonus => field ??= Bonuses.GetNode<Label>("Next");
+
+    private HBoxContainer Milestones => field ??= Bonuses.GetChildOfType<HBoxContainer>();
+
+    private Label LastMilestone => field ??= Milestones.GetNode<Label>("LastMilestone");
+
+    private Label TargetMilestone => field ??= Milestones.GetNode<Label>("TargetMilestone");
+
+    private ProgressBar MilestoneProgress => field ??= Milestones.GetChildOfType<ProgressBar>();
 
     private Control Preview => field ??= Details.GetNode<Control>("Summary/Preview");
 
@@ -196,7 +212,25 @@ public partial class CompendiumUI : CanvasLayer
     {
         if (_selectedIndex >= 0)
         {
-            DefeatCount.Text = $"Defeated: {EnemyDefeatRepository.GetCount(_enemies[_selectedIndex].Name)}";
+            var enemy = _enemies[_selectedIndex];
+            var progress = EnemyScalingService.GetProgress(enemy);
+            var count = EnemyDefeatRepository.GetCount(enemy.Name);
+            var last = progress.Bonus == 0 ? 0 : Fibonacci.Get(progress.Bonus - 1);
+            DefeatCount.Text = $"Defeated: {count}";
+            ScalingBonus.Text = $"All: +{progress.Bonus} {enemy.ScalingStat}";
+            LastMilestone.Text = last.ToString();
+            if (progress.NextThreshold is { } next)
+            {
+                NextBonus.Text = "Next:";
+                TargetMilestone.Text = next.ToString();
+                MilestoneProgress.Value = (double)(count - last) / (next - last);
+            }
+            else
+            {
+                NextBonus.Text = "Next: Complete";
+                TargetMilestone.Text = "—";
+                MilestoneProgress.Value = 1;
+            }
         }
     }
 

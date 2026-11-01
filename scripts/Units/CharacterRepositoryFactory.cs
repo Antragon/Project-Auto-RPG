@@ -13,7 +13,9 @@ public sealed class CharacterRepositoryFactory(
     SkillRepository skillRepository,
     SkillAssignments skillAssignments,
     EquipmentRepository equipmentRepository,
-    EquipmentAssignments equipmentAssignments)
+    EquipmentAssignments equipmentAssignments,
+    EnemyDefeatRepository enemyDefeatRepository,
+    EnemyScalingService enemyScalingService)
 {
     public CharacterRepository Create()
     {
@@ -26,6 +28,8 @@ public sealed class CharacterRepositoryFactory(
         {
             var unit = new Unit(unitData!);
             var character = new Character(savedCharacter.Id, unit, savedCharacter.Xp);
+            enemyScalingService.Apply(unit);
+            unit.SetHp(unit.MaxHp);
             characters.Add(character.Id, character);
 
             unit.PropertyChanged += (changedUnit, propertyName) =>
@@ -42,7 +46,7 @@ public sealed class CharacterRepositoryFactory(
             character.SetEquipment(EquipmentType.Accessory2, LoadEquipment(savedCharacter.Accessory2Id));
         }
 
-        var characterRepository = new CharacterRepository(characters);
+        var characterRepository = new CharacterRepository(characters, enemyDefeatRepository, enemyScalingService);
         foreach (var character in characters.Values)
         {
             foreach (var equipmentType in Enum.GetValues<EquipmentType>())

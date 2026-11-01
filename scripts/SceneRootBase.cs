@@ -16,6 +16,11 @@ public abstract partial class SceneRootBase : Node, ISceneRoot
         AddLocalDependencies(_services);
     }
 
+    public override void _ExitTree()
+    {
+        ServiceProvider.Dispose();
+    }
+
     protected abstract void AddLocalDependencies(ServiceCollection services);
 
     public T Get<T>(object? serviceKey = null)
