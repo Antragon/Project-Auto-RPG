@@ -1,9 +1,11 @@
 namespace Game.scripts.Units;
 
+using System;
 using System.Linq;
 using Dungeon;
 using Extensions;
 using Godot;
+using Skills;
 
 public partial class EnemyFactory : Node
 {
@@ -43,15 +45,32 @@ public partial class EnemyFactory : Node
             return false;
         }
 
-        var enemyName = dungeonData.Enemies[Random.RandiRange(0, dungeonData.Enemies.Count - 1)];
-        var enemyData = UnitDataRepository.Load(enemyName);
+        var enemyData = dungeonData.Enemies[Random.RandiRange(0, dungeonData.Enemies.Count - 1)];
         if (enemyData is null)
         {
             return false;
         }
 
-        EnemyFormation.Slots[0].Assign(new Unit(enemyData));
+        var unitData = UnitDataRepository.Load(enemyData.Name);
+        if (unitData is null)
+        {
+            return false;
+        }
+
+        var unit = new Unit(unitData)
+        {
+            Skill1 = CreateSkill(enemyData.Skill1),
+            Skill2 = CreateSkill(enemyData.Skill2),
+            Skill3 = CreateSkill(enemyData.Skill3),
+            Skill4 = CreateSkill(enemyData.Skill4),
+        };
+        EnemyFormation.EnemySlots[0].Assign(new Enemy(enemyData, unit));
         return true;
+    }
+
+    private static Skill? CreateSkill(SkillData? skillData)
+    {
+        return skillData is null ? null : new Skill(Guid.NewGuid(), skillData);
     }
 
     private static RandomNumberGenerator CreateRandomNumberGenerator()

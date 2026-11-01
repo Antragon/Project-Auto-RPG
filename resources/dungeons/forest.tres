@@ -1,7 +1,9 @@
-[gd_resource type="Resource" script_class="DungeonData" format=3]
+[gd_resource type="Resource" script_class="DungeonData" format=3 uid="uid://cveiv6pl2y1ms"]
 
-[ext_resource type="Script" path="res://scripts/Dungeon/DungeonData.cs" id="1_dungeon_data"]
+[ext_resource type="Script" uid="uid://b0nl8pyrvvs1k" path="res://scripts/Dungeon/DungeonData.cs" id="1_dungeon_data"]
+[ext_resource type="Script" uid="uid://db4qbcr74exag" path="res://scripts/Units/EnemyData.cs" id="2_enemy_data"]
+[ext_resource type="Resource" path="res://resources/enemies/green_slime.tres" id="3_green_slime"]
 
 [resource]
 script = ExtResource("1_dungeon_data")
-Enemies = ["green_slime"]
+Enemies = Array[ExtResource("2_enemy_data")]([ExtResource("3_green_slime")])

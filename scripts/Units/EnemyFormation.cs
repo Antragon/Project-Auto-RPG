@@ -13,7 +13,7 @@ public partial class EnemyFormation : UnitFormation
     private Vector2 _defaultPosition;
     private DungeonState _dungeonState;
 
-    private EnemySlot[] EnemySlots => field ??= this.GetChildrenOfType<EnemySlot>();
+    public EnemySlot[] EnemySlots => field ??= this.GetChildrenOfType<EnemySlot>();
 
     protected override UnitSlot[] GetUnitSlots()
     {
@@ -68,7 +68,7 @@ public partial class EnemyFormation : UnitFormation
     {
         Position = _defaultPosition + Vector2.Right * EnemyApproachDistance;
 
-        foreach (var enemySlot in Slots)
+        foreach (var enemySlot in EnemySlots)
         {
             enemySlot.Clear();
         }
