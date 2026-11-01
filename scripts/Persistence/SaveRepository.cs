@@ -25,9 +25,10 @@ public sealed class SaveRepository
             var saveData = JsonSerializer.Deserialize<SaveData>(file.GetAsText());
             file.Close();
 
-            if (saveData?.Characters is null || saveData.Skills is null || saveData.Equipments is null)
+            if (saveData?.Characters is null || saveData.Skills is null || saveData.Equipments is null
+                || saveData.Loot is null)
             {
-                throw new JsonException("Save file contains invalid character, skill, or equipment data.");
+                throw new JsonException("Save file contains invalid character, skill, equipment, or loot data.");
             }
 
             return saveData;

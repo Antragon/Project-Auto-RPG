@@ -14,6 +14,18 @@ public sealed class SaveData
 
     [JsonPropertyName("equipments")]
     public List<SavedEquipment> Equipments { get; set; } = [];
+
+    [JsonPropertyName("loot")]
+    public List<SavedLoot> Loot { get; set; } = [];
+}
+
+public sealed class SavedLoot
+{
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
+
+    [JsonPropertyName("amount")]
+    public int Amount { get; set; }
 }
 
 public sealed class SavedCharacter

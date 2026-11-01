@@ -1,11 +1,15 @@
 namespace Game.scripts.Units;
 
 using Godot;
+using Godot.Collections;
+using Loot;
 using Skills;
 
 [GlobalClass]
 public partial class EnemyData : Resource
 {
+    [Export] public Array<LootDropData> Loot { get; set; } = [];
+
     [Export] public SkillData? Skill1 { get; set; }
 
     [Export] public SkillData? Skill2 { get; set; }

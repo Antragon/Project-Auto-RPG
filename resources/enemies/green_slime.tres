@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://2h8duyd8diu4"]
+
+[ext_resource type="Script" uid="uid://db4qbcr74exag" path="res://scripts/Units/EnemyData.cs" id="1_enemy_data"]
+[ext_resource type="Script" uid="uid://b8f3d1a6dae2" path="res://scripts/Loot/LootDropData.cs" id="2_loot_drop_data"]
+
+[sub_resource type="Resource" id="Resource_goop_drop"]
+script = ExtResource("2_loot_drop_data")
+Name = "goop"
+Chance = 50.0
+
+[resource]
+script = ExtResource("1_enemy_data")
+Loot = Array[ExtResource("2_loot_drop_data")]([SubResource("Resource_goop_drop")])

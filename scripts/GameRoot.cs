@@ -1,6 +1,7 @@
 namespace Game.scripts;
 
 using Equipment;
+using Loot;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence;
 using Skills;
@@ -20,6 +21,7 @@ public partial class GameRoot : SceneRootBase
     {
         services.AddSingleton<SaveRepository>();
         services.AddSingleton<SaveDataWriter>();
+        services.AddSingleton<LootRepository>();
         services.AddSingleton<EquipmentAssignments>();
         services.AddSingleton<EquipmentRepositoryFactory>();
         services.AddSingleton<EquipmentRepository>(serviceProvider =>
