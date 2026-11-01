@@ -1,0 +1,160 @@
+[gd_scene format=3 uid="uid://bbckws2dhh2xl"]
+
+[ext_resource type="Script" uid="uid://blmp5nc3k3olv" path="res://scripts/UI/CompendiumUI.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bhvvx1k7ltscd" path="res://textures/ui/compendium.tres" id="2_icon"]
+[ext_resource type="PackedScene" path="res://scenes/ui/CloseButton.tscn" id="3_close"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_overlay"]
+bg_color = Color(0.08, 0.1, 0.14, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.32, 0.38, 0.48, 1)
+
+[node name="CompendiumUI" type="CanvasLayer" unique_id=1582513921]
+layer = 100
+script = ExtResource("1_script")
+
+[node name="CompendiumButton" type="Button" parent="." unique_id=502432849]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -76.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 76.0
+grow_horizontal = 0
+tooltip_text = "Compendium"
+mouse_default_cursor_shape = 2
+theme_override_constants/icon_max_width = 40
+icon = ExtResource("2_icon")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Overlay" type="Panel" parent="." unique_id=2017290539]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_overlay")
+
+[node name="Title" type="Label" parent="Overlay" unique_id=5263439]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 400.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 28
+text = "Compendium"
+
+[node name="CloseButton" parent="Overlay" unique_id=175499623 instance=ExtResource("3_close")]
+offset_left = -48.0
+offset_top = 18.0
+offset_right = -20.0
+offset_bottom = 46.0
+tooltip_text = "Close compendium (Esc)"
+focus_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Overlay" unique_id=24799386]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 72.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Columns" type="HBoxContainer" parent="Overlay/Margin" unique_id=295462485]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Enemies" type="VBoxContainer" parent="Overlay/Margin/Columns" unique_id=1953300180]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="Heading" type="Label" parent="Overlay/Margin/Columns/Enemies" unique_id=1731945099]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Enemies"
+
+[node name="List" type="ItemList" parent="Overlay/Margin/Columns/Enemies" unique_id=1909207891]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 20
+fixed_icon_size = Vector2i(48, 48)
+
+[node name="DetailsScroll" type="ScrollContainer" parent="Overlay/Margin/Columns" unique_id=2048114606]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+horizontal_scroll_mode = 0
+
+[node name="Details" type="VBoxContainer" parent="Overlay/Margin/Columns/DetailsScroll" unique_id=1055577757]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+
+[node name="EnemyName" type="Label" parent="Overlay/Margin/Columns/DetailsScroll/Details" unique_id=1770687900]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+autowrap_mode = 3
+
+[node name="Summary" type="HBoxContainer" parent="Overlay/Margin/Columns/DetailsScroll/Details" unique_id=1894175202]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Preview" type="Control" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary" unique_id=1533418046]
+custom_minimum_size = Vector2(256, 256)
+clip_contents = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Sprite" type="AnimatedSprite2D" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary/Preview" unique_id=935930305]
+visible = false
+texture_filter = 1
+
+[node name="Message" type="Label" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary/Preview" unique_id=256069167]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="StatsBlock" type="VBoxContainer" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary" unique_id=47159804]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_constants/separation = 8
+
+[node name="StatsHeading" type="Label" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary/StatsBlock" unique_id=506672293]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Base stats"
+
+[node name="Stats" type="GridContainer" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary/StatsBlock" unique_id=117945037]
+layout_mode = 2
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="SkillsHeading" type="Label" parent="Overlay/Margin/Columns/DetailsScroll/Details" unique_id=275027263]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Skills"
+
+[node name="Skills" type="GridContainer" parent="Overlay/Margin/Columns/DetailsScroll/Details" unique_id=444475185]
+layout_mode = 2
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 20
+columns = 2

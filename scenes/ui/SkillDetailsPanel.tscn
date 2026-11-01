@@ -26,10 +26,11 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_skill_details")
 script = ExtResource("1_script")
 
 [node name="SkillName" type="Label" parent="." unique_id=504270991]
-layout_mode = 0
+layout_mode = 1
+anchor_right = 1.0
 offset_left = 16.0
 offset_top = 12.0
-offset_right = 328.0
+offset_right = -56.0
 offset_bottom = 40.0
 theme_override_colors/font_color = Color(0.75, 0.6, 1, 1)
 theme_override_font_sizes/font_size = 18
@@ -40,11 +41,13 @@ clip_text = true
 tooltip_text = "Close skill details"
 
 [node name="Details" type="VBoxContainer" parent="." unique_id=1974486252]
-layout_mode = 0
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
 offset_left = 16.0
 offset_top = 54.0
-offset_right = 368.0
-offset_bottom = 158.0
+offset_right = -16.0
+offset_bottom = -12.0
 theme_override_constants/separation = 8
 
 [node name="PowerRow" type="HBoxContainer" parent="Details" unique_id=1974486270]

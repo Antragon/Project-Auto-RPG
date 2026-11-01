@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://bhvvx1k7ltscd"]
+
+[ext_resource type="Texture2D" uid="uid://d2k6idxier4fb" path="res://textures/game-icons.net/bookmarklet.png" id="1_8cama"]
+
+[resource]
+atlas = ExtResource("1_8cama")
+region = Rect2(0, 0, 512, 512)

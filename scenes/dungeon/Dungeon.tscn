@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://ds8wld3ryar18" path="res://scripts/Dungeon/CharacterExperience.cs" id="9_character_experience"]
 [ext_resource type="Script" path="res://scripts/Dungeon/DungeonLoot.cs" id="10_dungeon_loot"]
 [ext_resource type="PackedScene" path="res://scenes/ui/LootInventoryUI.tscn" id="11_loot_inventory_ui"]
+[ext_resource type="PackedScene" path="res://scenes/ui/CompendiumUI.tscn" id="12_compendium_ui"]
 
 [node name="Dungeon" type="Node2D" unique_id=373558476]
 script = ExtResource("5_dungeon")
@@ -81,3 +82,5 @@ layer = 10
 [node name="LootInventoryUI" parent="Interface" instance=ExtResource("11_loot_inventory_ui")]
 
 [node name="InventoryUI" parent="Interface" unique_id=784927610 instance=ExtResource("2_inventory_ui")]
+
+[node name="CompendiumUI" parent="." instance=ExtResource("12_compendium_ui")]

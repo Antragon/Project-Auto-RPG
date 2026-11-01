@@ -22,10 +22,20 @@ public partial class SkillDetailsPanel : Panel
 
     private Button CloseButton => field ??= GetNode<Button>("CloseButton");
 
+    [Export] public bool ShowCloseButton { get; set; } = true;
+
+    [Export] public bool IsEnemySkill { get; set; }
+
     public event Action? Closed;
 
     public override void _Ready()
     {
+        CloseButton.Visible = ShowCloseButton;
+        if (!ShowCloseButton)
+        {
+            SkillName.OffsetRight = -16;
+        }
+
         CloseButton.Pressed += OnCloseButtonPressed;
     }
 
@@ -36,8 +46,12 @@ public partial class SkillDetailsPanel : Panel
 
     public void ShowSkill(Skill skill)
     {
-        var skillData = skill.SkillData;
-        SkillName.Text = skillData.Name;
+        ShowSkill(skill.SkillData);
+    }
+
+    public void ShowSkill(SkillData skillData, string? displayName = null)
+    {
+        SkillName.Text = displayName ?? skillData.Name;
         CooldownValue.Text = $"{skillData.Cooldown:0.##} s";
         PowerValue.Text = skillData.Power.ToString();
         ScalingIcon.Texture = IconRepository.GetUI(GetScalingIconName(skillData.Scaling));
@@ -59,7 +73,10 @@ public partial class SkillDetailsPanel : Panel
 
     private void RefreshTargetSlots(SkillData skillData)
     {
-        if (skillData.Target == SkillTarget.Ally)
+        var targetsCharacters = IsEnemySkill
+            ? skillData.Target == SkillTarget.Opponent
+            : skillData.Target == SkillTarget.Ally;
+        if (targetsCharacters)
         {
             RefreshTargetSlots(CharacterTargetSlots, skillData);
             ClearTargetSlots(EnemyTargetSlots);
