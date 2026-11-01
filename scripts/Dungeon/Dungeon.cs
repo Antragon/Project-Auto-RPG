@@ -3,10 +3,13 @@ namespace Game.scripts.Dungeon;
 using System;
 using Extensions;
 using Godot;
+using Persistence;
 using Units;
 
 public partial class Dungeon : Node2D
 {
+    private SaveDataWriter SaveDataWriter => field ??= this.Root.Get<SaveDataWriter>();
+
     private CharacterFormation CharacterFormation => field ??= this.GetChildOfType<CharacterFormation>();
 
     private EnemyFormation EnemyFormation => field ??= this.GetChildOfType<EnemyFormation>();
@@ -78,6 +81,7 @@ public partial class Dungeon : Node2D
         if (EnemyFormation.AllUnitsDead || CharacterFormation.AllUnitsDead)
         {
             State = DungeonState.Idle;
+            SaveDataWriter.Save();
         }
     }
 

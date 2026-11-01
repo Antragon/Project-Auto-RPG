@@ -1,7 +1,10 @@
 namespace Game.scripts.Persistence;
 
+using System;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Equipment;
 using Extensions;
 using Godot;
@@ -19,12 +22,22 @@ public sealed class SaveDataWriter(
         WriteIndented = true,
     };
 
+    private Task _pendingWrite = Task.CompletedTask;
+
     public void Save()
     {
         SaveCharacters();
         SaveSkills();
         SaveEquipments();
-        Write(saveRepository.SaveData);
+        // Capture mutable game data on the main thread before handing it to a worker.
+        var snapshot = CreateSnapshot(saveRepository.SaveData);
+        var path = ProjectSettings.GlobalizePath(SaveRepository.SavePath);
+        var previousWrite = _pendingWrite;
+        _pendingWrite = Task.Run(async () =>
+        {
+            await previousWrite.ConfigureAwait(false);
+            Write(snapshot, path);
+        });
     }
 
     private void SaveCharacters()
@@ -88,16 +101,55 @@ public sealed class SaveDataWriter(
         }
     }
 
-    private static void Write(SaveData saveData)
+    private static SaveData CreateSnapshot(SaveData saveData)
     {
-        var file = FileAccess.Open(SaveRepository.SavePath, FileAccess.ModeFlags.Write);
-        if (file is null)
+        return new SaveData
         {
-            GD.PushError("Could not open save file for writing.");
-            return;
-        }
+            Characters = saveData.Characters.Select(character => new SavedCharacter
+            {
+                Id = character.Id,
+                Name = character.Name,
+                Xp = character.Xp,
+                Skill1Id = character.Skill1Id,
+                Skill2Id = character.Skill2Id,
+                Skill3Id = character.Skill3Id,
+                Skill4Id = character.Skill4Id,
+                HelmetId = character.HelmetId,
+                BodyArmorId = character.BodyArmorId,
+                LegArmorId = character.LegArmorId,
+                WeaponId = character.WeaponId,
+                Accessory1Id = character.Accessory1Id,
+                Accessory2Id = character.Accessory2Id,
+            }).ToList(),
+            Skills = saveData.Skills.Select(skill => new SavedSkill
+            {
+                Id = skill.Id,
+                Name = skill.Name,
+            }).ToList(),
+            Equipments = saveData.Equipments.Select(equipment => new SavedEquipment
+            {
+                Id = equipment.Id,
+                Name = equipment.Name,
+            }).ToList(),
+            Loot = saveData.Loot.Select(loot => new SavedLoot
+            {
+                Name = loot.Name,
+                Amount = loot.Amount,
+            }).ToList(),
+        };
+    }
 
-        file.StoreString(JsonSerializer.Serialize(saveData, JsonOptions));
-        file.Close();
+    private static void Write(SaveData saveData, string path)
+    {
+        try
+        {
+            var temporaryPath = path + ".tmp";
+            File.WriteAllText(temporaryPath, JsonSerializer.Serialize(saveData, JsonOptions));
+            File.Move(temporaryPath, path, overwrite: true);
+        }
+        catch (Exception exception)
+        {
+            GD.PushError($"Could not write save file: {exception.Message}");
+        }
     }
 }
