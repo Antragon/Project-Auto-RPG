@@ -10,6 +10,8 @@ using Units;
 
 public partial class CompendiumUI : CanvasLayer
 {
+    private EnemyDefeatRepository EnemyDefeatRepository => field ??= this.Root.Get<EnemyDefeatRepository>();
+
     private Button OpenButton => field ??= this.GetChildOfType<Button>();
 
     private Panel Overlay => field ??= this.GetChildOfType<Panel>();
@@ -23,6 +25,8 @@ public partial class CompendiumUI : CanvasLayer
     private VBoxContainer Details => field ??= DetailsScroll.GetChildOfType<VBoxContainer>();
 
     private Label EnemyName => field ??= Details.GetNode<Label>("EnemyName");
+
+    private Label DefeatCount => field ??= Details.GetNode<Label>("DefeatCount");
 
     private Control Preview => field ??= Details.GetNode<Control>("Summary/Preview");
 
@@ -47,6 +51,7 @@ public partial class CompendiumUI : CanvasLayer
         EnemyList.ItemSelected += OnEnemySelected;
         Preview.Resized += FitPreview;
         GetViewport().GuiFocusChanged += OnGuiFocusChanged;
+        EnemyDefeatRepository.Changed += RefreshDefeatCount;
         PopulateEnemies();
     }
 
@@ -57,6 +62,7 @@ public partial class CompendiumUI : CanvasLayer
         EnemyList.ItemSelected -= OnEnemySelected;
         Preview.Resized -= FitPreview;
         GetViewport().GuiFocusChanged -= OnGuiFocusChanged;
+        EnemyDefeatRepository.Changed -= RefreshDefeatCount;
     }
 
     public override void _Input(InputEvent @event)
@@ -139,6 +145,7 @@ public partial class CompendiumUI : CanvasLayer
 
         var enemy = _enemies[index];
         EnemyName.Text = enemy.Name;
+        RefreshDefeatCount();
         var frames = UnitSpriteFramesRepository.Load(enemy.Name);
         if (frames is not null && frames.HasAnimation("idle") && frames.GetFrameCount("idle") > 0)
         {
@@ -156,7 +163,7 @@ public partial class CompendiumUI : CanvasLayer
         }
         else
         {
-            AddStat("Max HP (level 1)", new Unit(unitData).MaxHp);
+            AddStat("Max HP", new Unit(unitData).MaxHp);
             AddStat("Vitality", unitData.Vitality);
             AddStat("Strength", unitData.Strength);
             AddStat("Dexterity", unitData.Dexterity);
@@ -182,6 +189,14 @@ public partial class CompendiumUI : CanvasLayer
                 SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
                 MouseFilter = Control.MouseFilterEnum.Ignore,
             });
+        }
+    }
+
+    private void RefreshDefeatCount()
+    {
+        if (_selectedIndex >= 0)
+        {
+            DefeatCount.Text = $"Defeated: {EnemyDefeatRepository.GetCount(_enemies[_selectedIndex].Name)}";
         }
     }
 

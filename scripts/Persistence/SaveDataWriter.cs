@@ -136,6 +136,7 @@ public sealed class SaveDataWriter(
                 Name = loot.Name,
                 Amount = loot.Amount,
             }).ToList(),
+            EnemyDefeatCounts = new(saveData.EnemyDefeatCounts),
         };
     }
 

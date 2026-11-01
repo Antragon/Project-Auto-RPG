@@ -49,6 +49,15 @@ offset_right = 210.0
 offset_bottom = 484.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
+[node name="Title" type="Label" parent="LootPanel"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 6.0
+offset_right = 140.0
+offset_bottom = 32.0
+theme_override_font_sizes/font_size = 20
+text = "Loot"
+
 [node name="CloseButton" parent="LootPanel" instance=ExtResource("3_close_button")]
 tooltip_text = "Close loot"
 

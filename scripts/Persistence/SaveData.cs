@@ -17,6 +17,9 @@ public sealed class SaveData
 
     [JsonPropertyName("loot")]
     public List<SavedLoot> Loot { get; set; } = [];
+
+    [JsonPropertyName("enemyDefeatCounts")]
+    public Dictionary<string, int> EnemyDefeatCounts { get; set; } = [];
 }
 
 public sealed class SavedLoot
