@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://c8rai3oadtg2l" path="res://scripts/UI/CharacterDetailsSkillsPanel.cs" id="4_skills_panel_script"]
 [ext_resource type="Script" uid="uid://wa6v47merrp6" path="res://scripts/UI/CharacterDetailsEquipmentSlot.cs" id="5_equipment_slot_script"]
 [ext_resource type="Script" uid="uid://c64weni4nxlmf" path="res://scripts/UI/CharacterDetailsEquipmentPanel.cs" id="6_equipment_panel_script"]
+[ext_resource type="PackedScene" path="res://scenes/ui/CloseButton.tscn" id="7_close_button"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_character_details"]
 bg_color = Color(0.1, 0.13, 0.18, 0.98)
@@ -114,13 +115,8 @@ theme_override_font_sizes/font_size = 18
 text = "Character"
 clip_text = true
 
-[node name="CloseButton" type="Button" parent="." unique_id=2143688396]
-layout_mode = 0
-offset_left = 344.0
-offset_top = 8.0
-offset_right = 372.0
-offset_bottom = 36.0
-text = "X"
+[node name="CloseButton" parent="." unique_id=2143688396 instance=ExtResource("7_close_button")]
+tooltip_text = "Close character details"
 
 [node name="StatsPanel" type="Panel" parent="." unique_id=1593007002]
 layout_mode = 0

@@ -43,6 +43,7 @@ corner_radius_bottom_left = 40
 [node name="SkillInventoryIcon" type="Panel" unique_id=1324624182]
 custom_minimum_size = Vector2(80, 80)
 clip_contents = true
+mouse_default_cursor_shape = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_1jaww")
 script = ExtResource("1_script")
 

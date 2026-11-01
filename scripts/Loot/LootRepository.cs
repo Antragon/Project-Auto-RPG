@@ -1,11 +1,14 @@
 namespace Game.scripts.Loot;
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Persistence;
 
 public sealed class LootRepository(SaveRepository saveRepository)
 {
+    public event Action? Changed;
+
     public IReadOnlyList<SavedLoot> Loot => saveRepository.SaveData.Loot;
 
     public void Add(string name, int amount)
@@ -23,5 +26,6 @@ public sealed class LootRepository(SaveRepository saveRepository)
         }
 
         savedLoot.Amount += amount;
+        Changed?.Invoke();
     }
 }

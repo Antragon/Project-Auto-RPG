@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cgil7fnyv8p0y" path="res://textures/ui/cooldown.tres" id="2_cooldown"]
 [ext_resource type="Texture2D" uid="uid://ckcusgwhptn36" path="res://textures/ui/target.tres" id="3_target"]
 [ext_resource type="PackedScene" path="res://scenes/ui/SkillTargetIndicator.tscn" id="4_target_indicator"]
+[ext_resource type="PackedScene" path="res://scenes/ui/CloseButton.tscn" id="5_close_button"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_skill_details"]
 bg_color = Color(0.1, 0.13, 0.18, 0.98)
@@ -35,13 +36,8 @@ theme_override_font_sizes/font_size = 18
 text = "Skill"
 clip_text = true
 
-[node name="CloseButton" type="Button" parent="." unique_id=1974486251]
-layout_mode = 0
-offset_left = 344.0
-offset_top = 8.0
-offset_right = 372.0
-offset_bottom = 36.0
-text = "X"
+[node name="CloseButton" parent="." unique_id=1974486251 instance=ExtResource("5_close_button")]
+tooltip_text = "Close skill details"
 
 [node name="Details" type="VBoxContainer" parent="." unique_id=1974486252]
 layout_mode = 0
