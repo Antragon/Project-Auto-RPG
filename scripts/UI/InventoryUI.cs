@@ -1,8 +1,11 @@
 namespace Game.scripts.UI;
 
+using System;
 using System.Linq;
 using Extensions;
 using Godot;
+using Skills;
+using EquipmentInstance = Game.scripts.Equipment.Equipment;
 
 public partial class InventoryUI : Panel
 {
@@ -28,11 +31,17 @@ public partial class InventoryUI : Panel
 
     private SkillInventoryIcon? _selectedSkillIcon;
 
+    private SkillData? _selectedSkillData;
+
     private EquipmentInventoryIcon? _selectedEquipmentIcon;
+
+    private Guid? _selectedEquipmentId;
 
     public override void _Ready()
     {
         CharacterDetailsPanel.Closed += OnCharacterDetailsClosed;
+        CharacterDetailsPanel.SkillClicked += OnCharacterSkillClicked;
+        CharacterDetailsPanel.EquipmentClicked += OnCharacterEquipmentClicked;
         SkillDetailsPanel.Closed += OnSkillDetailsClosed;
         EquipmentDetailsPanel.Closed += OnEquipmentDetailsClosed;
         CloseCharacterDetails();
@@ -57,6 +66,8 @@ public partial class InventoryUI : Panel
     public override void _ExitTree()
     {
         CharacterDetailsPanel.Closed -= OnCharacterDetailsClosed;
+        CharacterDetailsPanel.SkillClicked -= OnCharacterSkillClicked;
+        CharacterDetailsPanel.EquipmentClicked -= OnCharacterEquipmentClicked;
         SkillDetailsPanel.Closed -= OnSkillDetailsClosed;
         EquipmentDetailsPanel.Closed -= OnEquipmentDetailsClosed;
         foreach (var icon in CharactersPanel.Icons)
@@ -116,23 +127,45 @@ public partial class InventoryUI : Panel
         _selectedSkillIcon?.SetDetailsSelected(false);
         _selectedSkillIcon = icon;
         _selectedSkillIcon.SetDetailsSelected(true);
+        _selectedSkillData = icon.Skill.SkillData;
+        CharacterDetailsPanel.SetSelectedSkill(_selectedSkillData);
         SkillDetailsPanel.ShowSkill(icon.Skill);
         SkillsLayout.SetCollapsed(true, icon);
+    }
+
+    private void OnCharacterSkillClicked(SkillData skillData)
+    {
+        if (_selectedSkillData == skillData && SkillDetailsPanel.Visible)
+        {
+            CloseSkillDetails();
+            return;
+        }
+
+        _selectedSkillIcon?.SetDetailsSelected(false);
+        _selectedSkillIcon = SkillsPanel.Icons.FirstOrDefault(icon => icon.Skill.SkillData == skillData);
+        _selectedSkillIcon?.SetDetailsSelected(true);
+        _selectedSkillData = skillData;
+        CharacterDetailsPanel.SetSelectedSkill(skillData);
+        var displayName = skillData.ResourcePath.Contains("::") || string.IsNullOrWhiteSpace(skillData.Name)
+            ? "Base attack"
+            : skillData.Name;
+        SkillDetailsPanel.ShowSkill(skillData, displayName);
+        SkillsLayout.SetCollapsed(true, _selectedSkillIcon);
     }
 
     private void CloseSkillDetails()
     {
         _selectedSkillIcon?.SetDetailsSelected(false);
         _selectedSkillIcon = null;
+        _selectedSkillData = null;
+        CharacterDetailsPanel.SetSelectedSkill(null);
         SkillDetailsPanel.HideSkill();
         SkillsLayout.SetCollapsed(false);
     }
 
     private void OnSkillDetailsClosed()
     {
-        _selectedSkillIcon?.SetDetailsSelected(false);
-        _selectedSkillIcon = null;
-        SkillsLayout.SetCollapsed(false);
+        CloseSkillDetails();
     }
 
     private void OnEquipmentIconClicked(EquipmentInventoryIcon icon)
@@ -146,23 +179,42 @@ public partial class InventoryUI : Panel
         _selectedEquipmentIcon?.SetDetailsSelected(false);
         _selectedEquipmentIcon = icon;
         _selectedEquipmentIcon.SetDetailsSelected(true);
+        _selectedEquipmentId = icon.Equipment.Id;
+        CharacterDetailsPanel.SetSelectedEquipment(_selectedEquipmentId);
         EquipmentDetailsPanel.ShowEquipment(icon.Equipment);
         EquipmentLayout.SetCollapsed(true, icon);
+    }
+
+    private void OnCharacterEquipmentClicked(EquipmentInstance equipment)
+    {
+        if (_selectedEquipmentId == equipment.Id && EquipmentDetailsPanel.Visible)
+        {
+            CloseEquipmentDetails();
+            return;
+        }
+
+        _selectedEquipmentIcon?.SetDetailsSelected(false);
+        _selectedEquipmentIcon = EquipmentPanel.Icons.FirstOrDefault(icon => icon.Equipment.Id == equipment.Id);
+        _selectedEquipmentIcon?.SetDetailsSelected(true);
+        _selectedEquipmentId = equipment.Id;
+        CharacterDetailsPanel.SetSelectedEquipment(equipment.Id);
+        EquipmentDetailsPanel.ShowEquipment(equipment);
+        EquipmentLayout.SetCollapsed(true, _selectedEquipmentIcon);
     }
 
     private void CloseEquipmentDetails()
     {
         _selectedEquipmentIcon?.SetDetailsSelected(false);
         _selectedEquipmentIcon = null;
+        _selectedEquipmentId = null;
+        CharacterDetailsPanel.SetSelectedEquipment(null);
         EquipmentDetailsPanel.HideEquipment();
         EquipmentLayout.SetCollapsed(false);
     }
 
     private void OnEquipmentDetailsClosed()
     {
-        _selectedEquipmentIcon?.SetDetailsSelected(false);
-        _selectedEquipmentIcon = null;
-        EquipmentLayout.SetCollapsed(false);
+        CloseEquipmentDetails();
     }
 
     private sealed class InventoryPanelLayout(Panel panel)
@@ -185,7 +237,9 @@ public partial class InventoryUI : Panel
                     _expandedScrollBottom = _scroll.OffsetBottom;
                     _expandedScrollVertical = _scroll.ScrollVertical;
                     var rowHeight = _scroll.GetChildOfType<GridContainer>().GetChildrenOfType<Control>()
-                        .Max(icon => icon.GetCombinedMinimumSize().Y);
+                        .Select(icon => icon.GetCombinedMinimumSize().Y)
+                        .DefaultIfEmpty(0)
+                        .Max();
                     const float padding = 5;
                     panel.OffsetTop = panel.OffsetBottom - rowHeight - padding * 2;
                     _scroll.OffsetTop = padding;

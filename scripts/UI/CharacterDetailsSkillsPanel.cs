@@ -35,12 +35,15 @@ public partial class CharacterDetailsSkillsPanel : Panel
 
     private Character? _character;
 
+    public event Action<SkillData>? SkillClicked;
+
     public override void _Ready()
     {
         foreach (var skillSlot in SkillSlots)
         {
             skillSlot.SkillDropped += OnSkillDropped;
             skillSlot.UnslotRequested += OnSkillUnslotRequested;
+            skillSlot.Clicked += OnSkillClicked;
         }
     }
 
@@ -50,6 +53,7 @@ public partial class CharacterDetailsSkillsPanel : Panel
         {
             skillSlot.SkillDropped -= OnSkillDropped;
             skillSlot.UnslotRequested -= OnSkillUnslotRequested;
+            skillSlot.Clicked -= OnSkillClicked;
         }
 
         UnbindCharacter();
@@ -67,6 +71,14 @@ public partial class CharacterDetailsSkillsPanel : Panel
 
         _character.Unit.PropertyChanged += OnUnitPropertyChanged;
         RefreshSkills();
+    }
+
+    public void SetSelectedSkill(SkillData? skillData)
+    {
+        foreach (var skillSlot in SkillSlots)
+        {
+            skillSlot.SetSelectedSkill(skillData);
+        }
     }
 
     private void OnUnitPropertyChanged(Unit unit, string propertyName)
@@ -92,6 +104,11 @@ public partial class CharacterDetailsSkillsPanel : Panel
                 ?? (skillSlot.SlotIndex == 0 ? unit.UnitData.BaseSkill : null);
             skillSlot.SetSkill(displayedSkillData, skill is not null);
         }
+    }
+
+    private void OnSkillClicked(SkillData skillData)
+    {
+        SkillClicked?.Invoke(skillData);
     }
 
     private void OnSkillDropped(int slotIndex, Guid skillId)

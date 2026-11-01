@@ -16,12 +16,22 @@ public partial class CharacterDetailsEquipmentSlot : Panel
 
     private EquipmentRepository EquipmentRepository => field ??= this.Root.Get<EquipmentRepository>();
 
+    private StyleBox NormalStyle => field ??= GetThemeStylebox("panel");
+
+    private StyleBoxFlat SelectedStyle => field ??= CreateSelectedStyle();
+
+    private EquipmentInstance? _equipment;
+
+    private Guid? _selectedEquipmentId;
+
     [Export]
     public EquipmentType EquipmentType { get; set; }
 
     public event Action<EquipmentType, Guid>? EquipmentDropped;
 
     public event Action<EquipmentType>? UnslotRequested;
+
+    public event Action<EquipmentInstance>? Clicked;
 
     public override void _Ready()
     {
@@ -35,10 +45,43 @@ public partial class CharacterDetailsEquipmentSlot : Panel
 
     public void SetEquipment(EquipmentInstance? equipment)
     {
+        _equipment = equipment;
         Icon.Texture = equipment?.EquipmentData.Icon;
         Label.Visible = equipment is null;
         RemoveButton.Visible = equipment is not null;
         TooltipText = equipment?.EquipmentData.Name ?? string.Empty;
+        MouseDefaultCursorShape = equipment is null ? CursorShape.Arrow : CursorShape.PointingHand;
+        RefreshSelection();
+    }
+
+    public void SetSelectedEquipment(Guid? equipmentId)
+    {
+        _selectedEquipmentId = equipmentId;
+        RefreshSelection();
+    }
+
+    private void RefreshSelection()
+    {
+        var selected = _equipment is not null && _equipment.Id == _selectedEquipmentId;
+        AddThemeStyleboxOverride("panel", selected ? SelectedStyle : NormalStyle);
+    }
+
+    private StyleBoxFlat CreateSelectedStyle()
+    {
+        var style = (StyleBoxFlat)NormalStyle.Duplicate();
+        style.BorderColor = new Color(1, 0.72f, 0.42f);
+        style.SetBorderWidthAll(3);
+        return style;
+    }
+
+    public override void _GuiInput(InputEvent @event)
+    {
+        if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true }
+            && _equipment is { } equipment)
+        {
+            Clicked?.Invoke(equipment);
+            AcceptEvent();
+        }
     }
 
     public override bool _CanDropData(Vector2 atPosition, Variant data)

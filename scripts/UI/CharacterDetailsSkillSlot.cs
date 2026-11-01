@@ -10,12 +10,22 @@ public partial class CharacterDetailsSkillSlot : Panel
 
     private Button RemoveButton => field ??= GetNode<Button>("RemoveButton");
 
+    private StyleBox NormalStyle => field ??= GetThemeStylebox("panel");
+
+    private StyleBoxFlat SelectedStyle => field ??= CreateSelectedStyle();
+
+    private SkillData? _skillData;
+
+    private SkillData? _selectedSkillData;
+
     [Export]
     public int SlotIndex { get; set; }
 
     public event Action<int, Guid>? SkillDropped;
 
     public event Action<int>? UnslotRequested;
+
+    public event Action<SkillData>? Clicked;
 
     public override void _Ready()
     {
@@ -29,8 +39,41 @@ public partial class CharacterDetailsSkillSlot : Panel
 
     public void SetSkill(SkillData? skillData, bool slotted)
     {
+        _skillData = skillData;
         Icon.Texture = skillData?.Icon;
         RemoveButton.Visible = slotted;
+        MouseDefaultCursorShape = skillData is null ? CursorShape.Arrow : CursorShape.PointingHand;
+        RefreshSelection();
+    }
+
+    public void SetSelectedSkill(SkillData? skillData)
+    {
+        _selectedSkillData = skillData;
+        RefreshSelection();
+    }
+
+    private void RefreshSelection()
+    {
+        var selected = _skillData is not null && _skillData == _selectedSkillData;
+        AddThemeStyleboxOverride("panel", selected ? SelectedStyle : NormalStyle);
+    }
+
+    private StyleBoxFlat CreateSelectedStyle()
+    {
+        var style = (StyleBoxFlat)NormalStyle.Duplicate();
+        style.BorderColor = new Color(0.75f, 0.6f, 1);
+        style.SetBorderWidthAll(3);
+        return style;
+    }
+
+    public override void _GuiInput(InputEvent @event)
+    {
+        if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true }
+            && _skillData is { } skillData)
+        {
+            Clicked?.Invoke(skillData);
+            AcceptEvent();
+        }
     }
 
     public override bool _CanDropData(Vector2 atPosition, Variant data)

@@ -20,12 +20,15 @@ public partial class CharacterDetailsEquipmentPanel : Panel
 
     private Character? _character;
 
+    public event Action<EquipmentInstance>? EquipmentClicked;
+
     public override void _Ready()
     {
         foreach (var slot in Slots)
         {
             slot.EquipmentDropped += OnEquipmentDropped;
             slot.UnslotRequested += OnUnslotRequested;
+            slot.Clicked += OnEquipmentClicked;
         }
     }
 
@@ -35,6 +38,7 @@ public partial class CharacterDetailsEquipmentPanel : Panel
         {
             slot.EquipmentDropped -= OnEquipmentDropped;
             slot.UnslotRequested -= OnUnslotRequested;
+            slot.Clicked -= OnEquipmentClicked;
         }
 
         UnbindCharacter();
@@ -52,6 +56,19 @@ public partial class CharacterDetailsEquipmentPanel : Panel
 
         _character.PropertyChanged += OnCharacterPropertyChanged;
         RefreshEquipment();
+    }
+
+    public void SetSelectedEquipment(Guid? equipmentId)
+    {
+        foreach (var slot in Slots)
+        {
+            slot.SetSelectedEquipment(equipmentId);
+        }
+    }
+
+    private void OnEquipmentClicked(EquipmentInstance equipment)
+    {
+        EquipmentClicked?.Invoke(equipment);
     }
 
     private void OnCharacterPropertyChanged(Character character, string propertyName)

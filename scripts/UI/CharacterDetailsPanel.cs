@@ -3,7 +3,9 @@ namespace Game.scripts.UI;
 using System;
 using Extensions;
 using Godot;
+using Skills;
 using Units;
+using EquipmentInstance = Game.scripts.Equipment.Equipment;
 
 public partial class CharacterDetailsPanel : Panel
 {
@@ -25,14 +27,22 @@ public partial class CharacterDetailsPanel : Panel
 
     public event Action? Closed;
 
+    public event Action<SkillData>? SkillClicked;
+
+    public event Action<EquipmentInstance>? EquipmentClicked;
+
     public override void _Ready()
     {
         CloseButton.Pressed += OnCloseButtonPressed;
+        SkillsPanel.SkillClicked += OnSkillClicked;
+        EquipmentPanel.EquipmentClicked += OnEquipmentClicked;
     }
 
     public override void _ExitTree()
     {
         CloseButton.Pressed -= OnCloseButtonPressed;
+        SkillsPanel.SkillClicked -= OnSkillClicked;
+        EquipmentPanel.EquipmentClicked -= OnEquipmentClicked;
         UnbindCharacter();
     }
 
@@ -57,6 +67,26 @@ public partial class CharacterDetailsPanel : Panel
         SkillsPanel.SetCharacter(null);
         EquipmentPanel.SetCharacter(null);
         Visible = false;
+    }
+
+    public void SetSelectedSkill(SkillData? skillData)
+    {
+        SkillsPanel.SetSelectedSkill(skillData);
+    }
+
+    public void SetSelectedEquipment(Guid? equipmentId)
+    {
+        EquipmentPanel.SetSelectedEquipment(equipmentId);
+    }
+
+    private void OnEquipmentClicked(EquipmentInstance equipment)
+    {
+        EquipmentClicked?.Invoke(equipment);
+    }
+
+    private void OnSkillClicked(SkillData skillData)
+    {
+        SkillClicked?.Invoke(skillData);
     }
 
     private void OnCloseButtonPressed()
