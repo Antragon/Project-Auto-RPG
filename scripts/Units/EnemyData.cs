@@ -10,7 +10,7 @@ public partial class EnemyData : Resource
 {
     [Export] public BaseStat ScalingStat { get; set; } = BaseStat.Vitality;
 
-    [Export] public Array<LootDropData> Loot { get; set; } = [];
+    [Export] public Array<LootData> Loot { get; set; } = [];
 
     [Export] public SkillData? Skill1 { get; set; }
 

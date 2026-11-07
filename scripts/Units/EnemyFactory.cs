@@ -45,26 +45,39 @@ public partial class EnemyFactory : Node
             return false;
         }
 
-        var enemyData = dungeonData.Enemies[Random.RandiRange(0, dungeonData.Enemies.Count - 1)];
-        if (enemyData is null)
+        var availableSlots = EnemyFormation.EnemySlots.ToList();
+        if (availableSlots.Count == 0)
         {
             return false;
         }
 
-        var unitData = UnitDataRepository.Load(enemyData.Name);
-        if (unitData is null)
+        do
         {
-            return false;
-        }
+            var enemyData = dungeonData.Enemies[Random.RandiRange(0, dungeonData.Enemies.Count - 1)];
+            if (enemyData is null)
+            {
+                return false;
+            }
 
-        var unit = new Unit(unitData)
-        {
-            Skill1 = CreateSkill(enemyData.Skill1),
-            Skill2 = CreateSkill(enemyData.Skill2),
-            Skill3 = CreateSkill(enemyData.Skill3),
-            Skill4 = CreateSkill(enemyData.Skill4),
-        };
-        EnemyFormation.EnemySlots[0].Assign(new Enemy(enemyData, unit));
+            var unitData = UnitDataRepository.Load(enemyData.Name);
+            if (unitData is null)
+            {
+                return false;
+            }
+
+            var unit = new Unit(unitData)
+            {
+                Skill1 = CreateSkill(enemyData.Skill1),
+                Skill2 = CreateSkill(enemyData.Skill2),
+                Skill3 = CreateSkill(enemyData.Skill3),
+                Skill4 = CreateSkill(enemyData.Skill4),
+            };
+            var slotIndex = Random.RandiRange(0, availableSlots.Count - 1);
+            availableSlots[slotIndex].Assign(new Enemy(enemyData, unit));
+            availableSlots.RemoveAt(slotIndex);
+        }
+        while (availableSlots.Count > 0 && Random.Randf() < 0.5f);
+
         return true;
     }
 

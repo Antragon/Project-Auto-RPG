@@ -69,23 +69,16 @@ public partial class DungeonLoot : Node2D
         }
 
         var drops = new Dictionary<LootData, int>();
-        foreach (var entry in enemy.EnemyData.Loot)
+        foreach (var lootData in enemy.EnemyData.Loot)
         {
-            if (entry is null || entry.Amount <= 0 || entry.Chance <= 0
-                || !(Random.Shared.NextDouble() * 100 < entry.Chance))
-            {
-                continue;
-            }
-
-            var lootData = LootDataRepository.Load(entry.Name);
             if (lootData is null)
             {
                 continue;
             }
 
-            LootRepository.Add(lootData.Name, entry.Amount);
+            LootRepository.Add(lootData.Name, 1);
             drops.TryGetValue(lootData, out var amount);
-            drops[lootData] = amount + entry.Amount;
+            drops[lootData] = amount + 1;
         }
 
         if (drops.Count > 0)

@@ -1,21 +1,11 @@
 [gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://c7701ag006r4"]
 
 [ext_resource type="Script" uid="uid://db4qbcr74exag" path="res://scripts/Units/EnemyData.cs" id="1_enemy_data"]
-[ext_resource type="Script" uid="uid://b8f3d1a6dae2" path="res://scripts/Loot/LootDropData.cs" id="1_wngxi"]
-
-[sub_resource type="Resource" id="Resource_artxq"]
-script = ExtResource("1_wngxi")
-Name = "wood"
-Chance = 10.0
-metadata/_custom_type_script = "uid://b8f3d1a6dae2"
-
-[sub_resource type="Resource" id="Resource_vhtaq"]
-script = ExtResource("1_wngxi")
-Name = "stone"
-Chance = 10.0
-metadata/_custom_type_script = "uid://b8f3d1a6dae2"
+[ext_resource type="Script" uid="uid://c1a5af6b2d8e" path="res://scripts/Loot/LootData.cs" id="2_loot_data"]
+[ext_resource type="Resource" path="res://resources/loot/wood.tres" id="3_wood"]
+[ext_resource type="Resource" path="res://resources/loot/stone.tres" id="4_stone"]
 
 [resource]
 script = ExtResource("1_enemy_data")
 ScalingStat = 2
-Loot = Array[ExtResource("1_wngxi")]([SubResource("Resource_artxq"), SubResource("Resource_vhtaq")])
+Loot = Array[ExtResource("2_loot_data")]([ExtResource("3_wood"), ExtResource("4_stone")])
