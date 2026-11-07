@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://dckbb78hkj8xn"]
+
+[ext_resource type="Texture2D" uid="uid://d13d5xtv18ee0" path="res://textures/craftpix/goblin-character-sprites-pixel-art/Goblin_1/Idle.png" id="1_idle"]
+
+[resource]
+atlas = ExtResource("1_idle")
+region = Rect2(54, 71, 23, 22)
