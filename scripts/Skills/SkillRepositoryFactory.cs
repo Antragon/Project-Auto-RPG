@@ -9,7 +9,7 @@ public sealed class SkillRepositoryFactory(SaveRepository saveRepository)
     public SkillRepository Create()
     {
         var skills = new Dictionary<Guid, Skill>();
-        foreach (var savedSkill in saveRepository.SaveData.Skills)
+        foreach (var savedSkill in saveRepository.SaveData.Progress.Skills)
         {
             var skillData = SkillDataRepository.Load(savedSkill.Name);
             if (skillData is not null)

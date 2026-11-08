@@ -8,6 +8,8 @@ public partial class EnemySlot : Node2D
 {
     private EnemyDefeatRepository EnemyDefeatRepository => field ??= this.Root.Get<EnemyDefeatRepository>();
 
+    private Dungeon Dungeon => field ??= this.GetAncestor<Dungeon>();
+
     private bool _defeatRecorded;
 
     public UnitSlot UnitSlot => field ??= this.GetChildOfType<UnitSlot>();
@@ -46,6 +48,7 @@ public partial class EnemySlot : Node2D
         }
 
         _defeatRecorded = true;
+        Dungeon.RecordEnemyDefeat();
         EnemyDefeatRepository.RecordDefeat(Enemy.EnemyData.Name);
     }
 }

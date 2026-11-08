@@ -1,6 +1,7 @@
 namespace Game.scripts.Persistence;
 
 using System;
+using System.Linq;
 using System.Text.Json;
 using Godot;
 
@@ -25,10 +26,12 @@ public sealed class SaveRepository
             var saveData = JsonSerializer.Deserialize<SaveData>(file.GetAsText());
             file.Close();
 
-            if (saveData?.Characters is null || saveData.Skills is null || saveData.Equipments is null
-                || saveData.Loot is null || saveData.EnemyDefeatCounts is null)
+            if (saveData?.Progress is not { } progress || saveData.PlayerState is null
+                || progress.Characters is null || progress.Skills is null || progress.Equipments is null
+                || progress.Loot is null || progress.EnemyDefeatCounts is null || progress.DungeonProgress is null
+                || progress.DungeonProgress.Values.Any(dungeon => dungeon is null || dungeon.Defeats is null))
             {
-                throw new JsonException("Save file contains invalid character, skill, equipment, loot, or enemy defeat data.");
+                throw new JsonException("Save file contains invalid game data.");
             }
 
             return saveData;
@@ -44,10 +47,13 @@ public sealed class SaveRepository
     {
         return new SaveData
         {
-            Characters =
-            [
-                new SavedCharacter { Name = CharacterName },
-            ],
+            Progress = new SavedProgress
+            {
+                Characters =
+                [
+                    new SavedCharacter { Name = CharacterName },
+                ],
+            },
         };
     }
 }

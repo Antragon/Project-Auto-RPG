@@ -10,6 +10,8 @@ public partial class Dungeon : Node2D
 {
     private SaveDataWriter SaveDataWriter => field ??= this.Root.Get<SaveDataWriter>();
 
+    private SaveRepository SaveRepository => field ??= this.Root.Get<SaveRepository>();
+
     private CharacterFormation CharacterFormation => field ??= this.GetChildOfType<CharacterFormation>();
 
     private EnemyFormation EnemyFormation => field ??= this.GetChildOfType<EnemyFormation>();
@@ -18,9 +20,17 @@ public partial class Dungeon : Node2D
 
     public event Action<DungeonState>? StateChanged;
 
+    public event Action? TiersChanged;
+
     public DungeonData? Data { get; private set; }
 
     public DungeonState State { get; private set; }
+
+    public SavedDungeonProgress? Progress { get; private set; }
+
+    public int SelectedTier => SaveRepository.SaveData.PlayerState.SelectedTier;
+
+    public int EncounterTier { get; private set; } = 1;
 
     public override void _Ready()
     {
@@ -54,10 +64,58 @@ public partial class Dungeon : Node2D
 
     public void Enter(string name)
     {
-        Data = DungeonDataRepository.Load(name);
+        var data = DungeonDataRepository.Load(name);
+        if (data is null)
+        {
+            return;
+        }
+
+        Data = data;
+        var save = SaveRepository.SaveData;
+        if (!save.Progress.DungeonProgress.TryGetValue(name, out var progress))
+        {
+            progress = new SavedDungeonProgress();
+            save.Progress.DungeonProgress[name] = progress;
+        }
+
+        Progress = progress;
+        var selectionChanged = save.PlayerState.EnterDungeon(name, progress, data.Tiers.Count);
+
         State = DungeonState.Idle;
         PushStateToFormations();
         StateChanged?.Invoke(State);
+        TiersChanged?.Invoke();
+        if (selectionChanged) SaveDataWriter.Save();
+    }
+
+    public void SelectTier(int tier)
+    {
+        if (Data is null || Progress is null || !Progress.IsUnlocked(tier, Data.Tiers.Count)) return;
+        var selectionChanged = SaveRepository.SaveData.PlayerState.SelectTier(tier, Progress, Data.Tiers.Count);
+        State = DungeonState.Idle;
+        PushStateToFormations();
+        StateChanged?.Invoke(State);
+        TiersChanged?.Invoke();
+        if (selectionChanged) SaveDataWriter.Save();
+    }
+
+    public DungeonTierData? PrepareEncounter()
+    {
+        if (Data is null || Progress is null || !Progress.IsUnlocked(SelectedTier, Data.Tiers.Count))
+        {
+            return null;
+        }
+
+        EncounterTier = SelectedTier;
+        return Data.Tiers[EncounterTier - 1];
+    }
+
+    public void RecordEnemyDefeat()
+    {
+        if (Data is null || Progress is null) return;
+        Progress.RecordDefeat(EncounterTier, Data.Tiers.Count);
+        TiersChanged?.Invoke();
+        SaveDataWriter.Save();
     }
 
     private void UpdateIdle()

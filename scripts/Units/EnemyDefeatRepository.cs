@@ -10,7 +10,7 @@ public sealed class EnemyDefeatRepository(SaveRepository saveRepository)
 
     public int GetCount(string enemyName)
     {
-        return saveRepository.SaveData.EnemyDefeatCounts.GetValueOrDefault(enemyName);
+        return saveRepository.SaveData.Progress.EnemyDefeatCounts.GetValueOrDefault(enemyName);
     }
 
     public void RecordDefeat(string enemyName)
@@ -18,7 +18,7 @@ public sealed class EnemyDefeatRepository(SaveRepository saveRepository)
         var count = GetCount(enemyName);
         if (count == int.MaxValue) return;
 
-        saveRepository.SaveData.EnemyDefeatCounts[enemyName] = count + 1;
+        saveRepository.SaveData.Progress.EnemyDefeatCounts[enemyName] = count + 1;
         Changed?.Invoke();
     }
 }

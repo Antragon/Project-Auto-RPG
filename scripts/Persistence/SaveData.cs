@@ -6,6 +6,17 @@ using System.Text.Json.Serialization;
 
 public sealed class SaveData
 {
+    [JsonPropertyName("progress")]
+    [JsonRequired]
+    public SavedProgress Progress { get; set; } = new();
+
+    [JsonPropertyName("playerState")]
+    [JsonRequired]
+    public SavedPlayerState PlayerState { get; set; } = new();
+}
+
+public sealed class SavedProgress
+{
     [JsonPropertyName("characters")]
     public List<SavedCharacter> Characters { get; set; } = [];
 
@@ -20,6 +31,35 @@ public sealed class SaveData
 
     [JsonPropertyName("enemyDefeatCounts")]
     public Dictionary<string, int> EnemyDefeatCounts { get; set; } = [];
+
+    [JsonPropertyName("dungeonProgress")]
+    public Dictionary<string, SavedDungeonProgress> DungeonProgress { get; set; } = [];
+}
+
+public sealed class SavedPlayerState
+{
+    public const string DefaultDungeon = "forest";
+
+    [JsonPropertyName("selectedDungeon")]
+    public string SelectedDungeon { get; set; } = DefaultDungeon;
+
+    [JsonPropertyName("selectedTier")]
+    public int SelectedTier { get; set; } = 1;
+
+    public bool EnterDungeon(string name, SavedDungeonProgress progress, int tierCount)
+    {
+        if (SelectedDungeon == name && progress.IsUnlocked(SelectedTier, tierCount)) return false;
+        SelectedDungeon = name;
+        SelectedTier = 1;
+        return true;
+    }
+
+    public bool SelectTier(int tier, SavedDungeonProgress progress, int tierCount)
+    {
+        if (SelectedTier == tier || !progress.IsUnlocked(tier, tierCount)) return false;
+        SelectedTier = tier;
+        return true;
+    }
 }
 
 public sealed class SavedLoot

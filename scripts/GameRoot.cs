@@ -1,6 +1,7 @@
 namespace Game.scripts;
 
 using Equipment;
+using Extensions;
 using Loot;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence;
@@ -12,9 +13,13 @@ public partial class GameRoot : SceneRootBase
 {
     private DungeonNode Dungeon => field ??= GetNode<DungeonNode>("Dungeon");
 
+    private SaveRepository SaveRepository => field ??= this.Root.Get<SaveRepository>();
+
     public override void _Ready()
     {
-        Dungeon.Enter("forest");
+        var dungeon = SaveRepository.SaveData.PlayerState.SelectedDungeon;
+        Dungeon.Enter(string.IsNullOrWhiteSpace(dungeon) ? SavedPlayerState.DefaultDungeon : dungeon);
+        if (Dungeon.Data is null) Dungeon.Enter(SavedPlayerState.DefaultDungeon);
     }
 
     protected override void AddLocalDependencies(ServiceCollection services)

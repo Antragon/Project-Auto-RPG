@@ -9,7 +9,7 @@ public sealed class EquipmentRepositoryFactory(SaveRepository saveRepository)
     public EquipmentRepository Create()
     {
         var equipments = new Dictionary<Guid, Equipment>();
-        foreach (var savedEquipment in saveRepository.SaveData.Equipments)
+        foreach (var savedEquipment in saveRepository.SaveData.Progress.Equipments)
         {
             var equipmentData = EquipmentDataRepository.Load(savedEquipment.Name);
             if (equipmentData is not null)

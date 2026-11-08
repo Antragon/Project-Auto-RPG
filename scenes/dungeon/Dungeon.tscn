@@ -15,6 +15,7 @@
 [ext_resource type="Script" path="res://scripts/Dungeon/DungeonLoot.cs" id="10_dungeon_loot"]
 [ext_resource type="PackedScene" path="res://scenes/ui/LootInventoryUI.tscn" id="11_loot_inventory_ui"]
 [ext_resource type="PackedScene" path="res://scenes/ui/CompendiumUI.tscn" id="12_compendium_ui"]
+[ext_resource type="Script" path="res://scripts/UI/DungeonTierUI.cs" id="13_tier_ui"]
 
 [node name="Dungeon" type="Node2D" unique_id=373558476]
 script = ExtResource("5_dungeon")
@@ -78,6 +79,19 @@ position = Vector2(420, 0)
 
 [node name="Interface" type="CanvasLayer" parent="." unique_id=1774537139]
 layer = 10
+
+[node name="DungeonTierUI" type="HBoxContainer" parent="Interface"]
+anchors_preset = 1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 20.0
+offset_right = 200.0
+offset_bottom = 68.0
+grow_horizontal = 2
+theme_override_constants/separation = 8
+alignment = 1
+script = ExtResource("13_tier_ui")
 
 [node name="LootInventoryUI" parent="Interface" instance=ExtResource("11_loot_inventory_ui")]
 

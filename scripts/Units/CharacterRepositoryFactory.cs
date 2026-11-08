@@ -20,7 +20,7 @@ public sealed class CharacterRepositoryFactory(
     public CharacterRepository Create()
     {
         var characters = new Dictionary<Guid, Character>();
-        var savedCharacters = saveRepository.SaveData.Characters
+        var savedCharacters = saveRepository.SaveData.Progress.Characters
             .Select(savedCharacter => (SavedCharacter: savedCharacter, UnitData: UnitDataRepository.Load(savedCharacter.Name)))
             .Where(character => character.UnitData is not null);
 

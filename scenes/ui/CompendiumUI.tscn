@@ -148,14 +148,14 @@ theme_override_constants/h_separation = 24
 theme_override_constants/v_separation = 8
 columns = 2
 
-[node name="BonusesBlock" type="VBoxContainer" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary"]
+[node name="BonusesBlock" type="VBoxContainer" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary" unique_id=1008969224]
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 theme_override_constants/separation = 8
 
-[node name="BonusesHeading" type="Label" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary/BonusesBlock"]
+[node name="BonusesHeading" type="Label" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary/BonusesBlock" unique_id=1652752721]
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "Bonuses"
@@ -169,20 +169,20 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 18
 autowrap_mode = 3
 
-[node name="Next" type="Label" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary/BonusesBlock"]
+[node name="Next" type="Label" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary/BonusesBlock" unique_id=1893390589]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
 text = "Next:"
 
-[node name="Milestones" type="HBoxContainer" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary/BonusesBlock"]
+[node name="Milestones" type="HBoxContainer" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary/BonusesBlock" unique_id=132608293]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="LastMilestone" type="Label" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary/BonusesBlock/Milestones"]
+[node name="LastMilestone" type="Label" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary/BonusesBlock/Milestones" unique_id=1053848469]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
 
-[node name="Progress" type="ProgressBar" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary/BonusesBlock/Milestones"]
+[node name="Progress" type="ProgressBar" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary/BonusesBlock/Milestones" unique_id=1325651482]
 custom_minimum_size = Vector2(120, 20)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -192,7 +192,7 @@ max_value = 1.0
 step = 0.0
 show_percentage = false
 
-[node name="TargetMilestone" type="Label" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary/BonusesBlock/Milestones"]
+[node name="TargetMilestone" type="Label" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary/BonusesBlock/Milestones" unique_id=800974716]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
 horizontal_alignment = 2

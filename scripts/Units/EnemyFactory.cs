@@ -27,15 +27,15 @@ public partial class EnemyFactory : Node
 
     private void OnDungeonStateChanged(DungeonState state)
     {
-        if (state == DungeonState.Idle && Dungeon.Data is { } dungeonData)
+        if (state == DungeonState.Idle && Dungeon.PrepareEncounter() is { } tier)
         {
-            SpawnEnemy(dungeonData);
+            SpawnEnemy(tier);
         }
     }
 
-    private bool SpawnEnemy(DungeonData dungeonData)
+    private bool SpawnEnemy(DungeonTierData tier)
     {
-        if (dungeonData is not { Enemies.Count: > 0 })
+        if (tier is not { Enemies.Count: > 0 })
         {
             return false;
         }
@@ -53,7 +53,7 @@ public partial class EnemyFactory : Node
 
         do
         {
-            var enemyData = dungeonData.Enemies[Random.RandiRange(0, dungeonData.Enemies.Count - 1)];
+            var enemyData = tier.Enemies[Random.RandiRange(0, tier.Enemies.Count - 1)];
             if (enemyData is null)
             {
                 return false;
@@ -67,6 +67,7 @@ public partial class EnemyFactory : Node
 
             var unit = new Unit(unitData)
             {
+                Level = tier.Level,
                 Skill1 = CreateSkill(enemyData.Skill1),
                 Skill2 = CreateSkill(enemyData.Skill2),
                 Skill3 = CreateSkill(enemyData.Skill3),

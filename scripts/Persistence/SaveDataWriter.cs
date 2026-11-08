@@ -44,7 +44,7 @@ public sealed class SaveDataWriter(
     {
         foreach (var (characterId, character) in characterRepository.Characters)
         {
-            var savedCharacter = saveRepository.SaveData.Characters
+            var savedCharacter = saveRepository.SaveData.Progress.Characters
                 .FirstOrDefault(saved => saved.Id == characterId);
             if (savedCharacter is null)
             {
@@ -53,7 +53,7 @@ public sealed class SaveDataWriter(
                     Id = characterId,
                     Name = character.Unit.UnitData.Name,
                 };
-                saveRepository.SaveData.Characters.Add(savedCharacter);
+                saveRepository.SaveData.Progress.Characters.Add(savedCharacter);
             }
 
             savedCharacter.Xp = character.Xp;
@@ -74,11 +74,11 @@ public sealed class SaveDataWriter(
     {
         foreach (var skill in skillRepository.Skills.Values)
         {
-            var savedSkill = saveRepository.SaveData.Skills.FirstOrDefault(saved => saved.Id == skill.Id);
+            var savedSkill = saveRepository.SaveData.Progress.Skills.FirstOrDefault(saved => saved.Id == skill.Id);
             if (savedSkill is null)
             {
                 savedSkill = new SavedSkill { Id = skill.Id };
-                saveRepository.SaveData.Skills.Add(savedSkill);
+                saveRepository.SaveData.Progress.Skills.Add(savedSkill);
             }
 
             savedSkill.Name = skill.SkillData.Name;
@@ -89,12 +89,12 @@ public sealed class SaveDataWriter(
     {
         foreach (var equipment in equipmentRepository.Equipments.Values)
         {
-            var savedEquipment = saveRepository.SaveData.Equipments
+            var savedEquipment = saveRepository.SaveData.Progress.Equipments
                 .FirstOrDefault(saved => saved.Id == equipment.Id);
             if (savedEquipment is null)
             {
                 savedEquipment = new SavedEquipment { Id = equipment.Id };
-                saveRepository.SaveData.Equipments.Add(savedEquipment);
+                saveRepository.SaveData.Progress.Equipments.Add(savedEquipment);
             }
 
             savedEquipment.Name = equipment.EquipmentData.Name;
@@ -103,40 +103,55 @@ public sealed class SaveDataWriter(
 
     private static SaveData CreateSnapshot(SaveData saveData)
     {
+        var progress = saveData.Progress;
         return new SaveData
         {
-            Characters = saveData.Characters.Select(character => new SavedCharacter
+            PlayerState = new SavedPlayerState
             {
-                Id = character.Id,
-                Name = character.Name,
-                Xp = character.Xp,
-                Skill1Id = character.Skill1Id,
-                Skill2Id = character.Skill2Id,
-                Skill3Id = character.Skill3Id,
-                Skill4Id = character.Skill4Id,
-                HelmetId = character.HelmetId,
-                BodyArmorId = character.BodyArmorId,
-                LegArmorId = character.LegArmorId,
-                WeaponId = character.WeaponId,
-                Accessory1Id = character.Accessory1Id,
-                Accessory2Id = character.Accessory2Id,
-            }).ToList(),
-            Skills = saveData.Skills.Select(skill => new SavedSkill
+                SelectedDungeon = saveData.PlayerState.SelectedDungeon,
+                SelectedTier = saveData.PlayerState.SelectedTier,
+            },
+            Progress = new SavedProgress
             {
-                Id = skill.Id,
-                Name = skill.Name,
-            }).ToList(),
-            Equipments = saveData.Equipments.Select(equipment => new SavedEquipment
-            {
-                Id = equipment.Id,
-                Name = equipment.Name,
-            }).ToList(),
-            Loot = saveData.Loot.Select(loot => new SavedLoot
-            {
-                Name = loot.Name,
-                Amount = loot.Amount,
-            }).ToList(),
-            EnemyDefeatCounts = new(saveData.EnemyDefeatCounts),
+                Characters = progress.Characters.Select(character => new SavedCharacter
+                {
+                    Id = character.Id,
+                    Name = character.Name,
+                    Xp = character.Xp,
+                    Skill1Id = character.Skill1Id,
+                    Skill2Id = character.Skill2Id,
+                    Skill3Id = character.Skill3Id,
+                    Skill4Id = character.Skill4Id,
+                    HelmetId = character.HelmetId,
+                    BodyArmorId = character.BodyArmorId,
+                    LegArmorId = character.LegArmorId,
+                    WeaponId = character.WeaponId,
+                    Accessory1Id = character.Accessory1Id,
+                    Accessory2Id = character.Accessory2Id,
+                }).ToList(),
+                Skills = progress.Skills.Select(skill => new SavedSkill
+                {
+                    Id = skill.Id,
+                    Name = skill.Name,
+                }).ToList(),
+                Equipments = progress.Equipments.Select(equipment => new SavedEquipment
+                {
+                    Id = equipment.Id,
+                    Name = equipment.Name,
+                }).ToList(),
+                Loot = progress.Loot.Select(loot => new SavedLoot
+                {
+                    Name = loot.Name,
+                    Amount = loot.Amount,
+                }).ToList(),
+                EnemyDefeatCounts = new(progress.EnemyDefeatCounts),
+                DungeonProgress = progress.DungeonProgress.ToDictionary(
+                    entry => entry.Key,
+                    entry => new SavedDungeonProgress
+                    {
+                        Defeats = new(entry.Value.Defeats),
+                    }),
+            },
         };
     }
 

@@ -1,10 +1,13 @@
 [gd_resource type="Resource" script_class="DungeonData" format=3 uid="uid://cveiv6pl2y1ms"]
 
 [ext_resource type="Script" uid="uid://b0nl8pyrvvs1k" path="res://scripts/Dungeon/DungeonData.cs" id="1_dungeon_data"]
-[ext_resource type="Script" uid="uid://db4qbcr74exag" path="res://scripts/Units/EnemyData.cs" id="2_enemy_data"]
-[ext_resource type="Resource" path="res://resources/enemies/green_slime.tres" id="3_green_slime"]
-[ext_resource type="Resource" path="res://resources/enemies/green_goblin.tres" id="4_green_goblin"]
+[ext_resource type="Script" uid="uid://4ougqhvakgdh" path="res://scripts/Dungeon/DungeonTierData.cs" id="5_tier_data"]
+[ext_resource type="Resource" path="res://resources/dungeons/forest/tier_1.tres" id="tier_1"]
+[ext_resource type="Resource" path="res://resources/dungeons/forest/tier_2.tres" id="tier_2"]
+[ext_resource type="Resource" path="res://resources/dungeons/forest/tier_3.tres" id="tier_3"]
+[ext_resource type="Resource" path="res://resources/dungeons/forest/tier_4.tres" id="tier_4"]
+[ext_resource type="Resource" path="res://resources/dungeons/forest/tier_5.tres" id="tier_5"]
 
 [resource]
 script = ExtResource("1_dungeon_data")
-Enemies = Array[ExtResource("2_enemy_data")]([ExtResource("3_green_slime"), ExtResource("4_green_goblin")])
+Tiers = Array[ExtResource("5_tier_data")]([ExtResource("tier_1"), ExtResource("tier_2"), ExtResource("tier_3"), ExtResource("tier_4"), ExtResource("tier_5")])

@@ -9,7 +9,7 @@ public sealed class LootRepository(SaveRepository saveRepository)
 {
     public event Action? Changed;
 
-    public IReadOnlyList<SavedLoot> Loot => saveRepository.SaveData.Loot;
+    public IReadOnlyList<SavedLoot> Loot => saveRepository.SaveData.Progress.Loot;
 
     public void Add(string name, int amount)
     {
@@ -18,11 +18,11 @@ public sealed class LootRepository(SaveRepository saveRepository)
             return;
         }
 
-        var savedLoot = saveRepository.SaveData.Loot.FirstOrDefault(loot => loot.Name == name);
+        var savedLoot = saveRepository.SaveData.Progress.Loot.FirstOrDefault(loot => loot.Name == name);
         if (savedLoot is null)
         {
             savedLoot = new SavedLoot { Name = name };
-            saveRepository.SaveData.Loot.Add(savedLoot);
+            saveRepository.SaveData.Progress.Loot.Add(savedLoot);
         }
 
         savedLoot.Amount += amount;
