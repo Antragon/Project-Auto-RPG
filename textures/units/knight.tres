@@ -8,103 +8,128 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xwd25"]
 atlas = ExtResource("attack_texture")
-region = Rect2(0, 0, 120, 128)
+region = Rect2(0, 0, 119, 128)
+margin = Rect2(9, 0, 9, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ve0lx"]
 atlas = ExtResource("attack_texture")
-region = Rect2(128, 0, 120, 128)
+region = Rect2(128, 0, 119, 128)
+margin = Rect2(9, 0, 9, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fiace"]
 atlas = ExtResource("attack_texture")
-region = Rect2(256, 0, 120, 128)
+region = Rect2(256, 0, 119, 128)
+margin = Rect2(9, 0, 9, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3lblq"]
 atlas = ExtResource("attack_texture")
-region = Rect2(384, 0, 120, 128)
+region = Rect2(384, 0, 119, 128)
+margin = Rect2(9, 0, 9, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8dudo"]
 atlas = ExtResource("attack_texture")
-region = Rect2(512, 0, 120, 128)
+region = Rect2(512, 0, 128, 128)
+margin = Rect2(18, 0, 18, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6005b"]
 atlas = ExtResource("death_texture")
-region = Rect2(0, 0, 92, 128)
+region = Rect2(0, 0, 99, 128)
+margin = Rect2(29, 0, 29, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3rkg3"]
 atlas = ExtResource("death_texture")
-region = Rect2(128, 0, 92, 128)
+region = Rect2(128, 0, 99, 128)
+margin = Rect2(29, 0, 29, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0qjjl"]
 atlas = ExtResource("death_texture")
-region = Rect2(256, 0, 92, 128)
+region = Rect2(256, 0, 99, 128)
+margin = Rect2(29, 0, 29, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5uaqq"]
 atlas = ExtResource("death_texture")
-region = Rect2(384, 0, 92, 128)
+region = Rect2(384, 0, 99, 128)
+margin = Rect2(29, 0, 29, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4rogu"]
 atlas = ExtResource("death_texture")
-region = Rect2(512, 0, 92, 128)
+region = Rect2(512, 0, 99, 128)
+margin = Rect2(29, 0, 29, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rotle"]
 atlas = ExtResource("death_texture")
-region = Rect2(640, 0, 92, 128)
+region = Rect2(640, 0, 112, 128)
+margin = Rect2(16, 0, 16, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yidcl"]
 atlas = ExtResource("hurt_texture")
-region = Rect2(0, 0, 80, 128)
+region = Rect2(0, 0, 107, 128)
+margin = Rect2(21, 0, 21, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fka7d"]
 atlas = ExtResource("hurt_texture")
-region = Rect2(128, 0, 80, 128)
+region = Rect2(128, 0, 107, 128)
+margin = Rect2(21, 0, 21, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q3i4m"]
 atlas = ExtResource("idle_texture")
-region = Rect2(0, 0, 64, 128)
+region = Rect2(0, 0, 97, 128)
+margin = Rect2(31, 0, 31, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0v74b"]
 atlas = ExtResource("idle_texture")
-region = Rect2(128, 0, 64, 128)
+region = Rect2(128, 0, 97, 128)
+margin = Rect2(31, 0, 31, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_472j1"]
 atlas = ExtResource("idle_texture")
-region = Rect2(256, 0, 64, 128)
+region = Rect2(256, 0, 97, 128)
+margin = Rect2(31, 0, 31, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qtq4q"]
 atlas = ExtResource("idle_texture")
-region = Rect2(384, 0, 64, 128)
+region = Rect2(384, 0, 97, 128)
+margin = Rect2(31, 0, 31, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7gk35"]
 atlas = ExtResource("walk_texture")
-region = Rect2(0, 0, 64, 128)
+region = Rect2(0, 0, 94, 128)
+margin = Rect2(34, 0, 34, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oltib"]
 atlas = ExtResource("walk_texture")
-region = Rect2(128, 0, 64, 128)
+region = Rect2(128, 0, 98, 128)
+margin = Rect2(30, 0, 30, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3blv6"]
 atlas = ExtResource("walk_texture")
-region = Rect2(256, 0, 64, 128)
+region = Rect2(256, 0, 98, 128)
+margin = Rect2(30, 0, 30, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_btopd"]
 atlas = ExtResource("walk_texture")
-region = Rect2(384, 0, 64, 128)
+region = Rect2(384, 0, 98, 128)
+margin = Rect2(30, 0, 30, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jm1nq"]
 atlas = ExtResource("walk_texture")
-region = Rect2(512, 0, 64, 128)
+region = Rect2(512, 0, 98, 128)
+margin = Rect2(30, 0, 30, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iekcd"]
 atlas = ExtResource("walk_texture")
-region = Rect2(640, 0, 64, 128)
+region = Rect2(640, 0, 98, 128)
+margin = Rect2(30, 0, 30, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i4sdl"]
 atlas = ExtResource("walk_texture")
-region = Rect2(768, 0, 64, 128)
+region = Rect2(768, 0, 98, 128)
+margin = Rect2(30, 0, 30, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x6l1b"]
 atlas = ExtResource("walk_texture")
-region = Rect2(896, 0, 64, 128)
+region = Rect2(896, 0, 98, 128)
+margin = Rect2(30, 0, 30, 0)
 
 [resource]
 animations = [{
