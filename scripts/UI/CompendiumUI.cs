@@ -3,16 +3,23 @@ namespace Game.scripts.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dungeon;
 using Extensions;
 using Godot;
+using Persistence;
 using Skills;
 using Units;
+using DungeonNode = Dungeon.Dungeon;
 
 public partial class CompendiumUI : CanvasLayer
 {
     private EnemyDefeatRepository EnemyDefeatRepository => field ??= this.Root.Get<EnemyDefeatRepository>();
 
     private EnemyScalingService EnemyScalingService => field ??= this.Root.Get<EnemyScalingService>();
+
+    private SaveRepository SaveRepository => field ??= this.Root.Get<SaveRepository>();
+
+    private DungeonNode Dungeon => field ??= this.GetAncestor<DungeonNode>();
 
     private Button OpenButton => field ??= this.GetChildOfType<Button>();
 
@@ -34,9 +41,13 @@ public partial class CompendiumUI : CanvasLayer
 
     private Label ScalingBonus => field ??= Bonuses.GetNode<Label>("ScalingBonus");
 
+    private TextureRect _lootIcon = null!;
+
+    private Label _lootName = null!;
+
     private Label NextBonus => field ??= Bonuses.GetNode<Label>("Next");
 
-    private HBoxContainer Milestones => field ??= Bonuses.GetChildOfType<HBoxContainer>();
+    private HBoxContainer Milestones => field ??= Bonuses.GetNode<HBoxContainer>("Milestones");
 
     private Label LastMilestone => field ??= Milestones.GetNode<Label>("LastMilestone");
 
@@ -54,20 +65,39 @@ public partial class CompendiumUI : CanvasLayer
 
     private GridContainer Skills => field ??= Details.GetNode<GridContainer>("Skills");
 
+    private HBoxContainer Summary => field ??= Details.GetNode<HBoxContainer>("Summary");
+
+    private Label SkillsHeading => field ??= Details.GetNode<Label>("SkillsHeading");
+
     private PackedScene SkillDetailsPanelScene => field ??= SceneRepository.Load("ui/SkillDetailsPanel")!;
 
-    private readonly List<EnemyData> _enemies = [];
+    private readonly Dictionary<int, (string Dungeon, EnemyData Enemy)> _enemies = [];
 
     private int _selectedIndex = -1;
 
     public override void _Ready()
     {
+        var loot = new HBoxContainer();
+        loot.AddThemeConstantOverride("separation", 8);
+        _lootIcon = new TextureRect
+        {
+            CustomMinimumSize = new Vector2(32, 32),
+            ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+            StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
+        };
+        _lootName = CreateLabel(string.Empty);
+        _lootName.SizeFlagsVertical = Control.SizeFlags.ShrinkCenter;
+        loot.AddChild(_lootIcon);
+        loot.AddChild(_lootName);
+        Bonuses.AddChild(loot);
+        Bonuses.MoveChild(loot, NextBonus.GetIndex());
         OpenButton.Pressed += Open;
         CloseButton.Pressed += Close;
         EnemyList.ItemSelected += OnEnemySelected;
         Preview.Resized += FitPreview;
         GetViewport().GuiFocusChanged += OnGuiFocusChanged;
-        EnemyDefeatRepository.Changed += RefreshDefeatCount;
+        EnemyDefeatRepository.Changed += OnDefeatsChanged;
+        Dungeon.StateChanged += OnDungeonStateChanged;
         PopulateEnemies();
     }
 
@@ -78,7 +108,8 @@ public partial class CompendiumUI : CanvasLayer
         EnemyList.ItemSelected -= OnEnemySelected;
         Preview.Resized -= FitPreview;
         GetViewport().GuiFocusChanged -= OnGuiFocusChanged;
-        EnemyDefeatRepository.Changed -= RefreshDefeatCount;
+        EnemyDefeatRepository.Changed -= OnDefeatsChanged;
+        Dungeon.StateChanged -= OnDungeonStateChanged;
     }
 
     public override void _Input(InputEvent @event)
@@ -94,9 +125,9 @@ public partial class CompendiumUI : CanvasLayer
     {
         OpenButton.Hide();
         Overlay.Show();
+        PopulateEnemies();
         if (_selectedIndex >= 0)
         {
-            ShowEnemy(_selectedIndex);
             EnemyList.EnsureCurrentIsVisible();
         }
 
@@ -121,23 +152,58 @@ public partial class CompendiumUI : CanvasLayer
 
     private void PopulateEnemies()
     {
-        foreach (var enemy in DirAccess.GetResourceFilesRecursivelyAt("res://resources/enemies")
-                     .Select(GD.Load<EnemyData>)
-                     .OrderBy(enemy => enemy.Name, StringComparer.OrdinalIgnoreCase))
+        var selected = _enemies.GetValueOrDefault(_selectedIndex);
+        _enemies.Clear();
+        EnemyList.Clear();
+        _selectedIndex = -1;
+        var unknownIcon = GD.Load<Texture2D>("res://textures/ui/unknown_enemy.svg");
+        foreach (var file in DirAccess.GetFilesAt("res://resources/dungeons")
+                     .Where(file => file.EndsWith(".tres", StringComparison.OrdinalIgnoreCase))
+                     .OrderBy(file => file, StringComparer.OrdinalIgnoreCase))
         {
-            _enemies.Add(enemy);
-            EnemyList.AddItem(enemy.Name, IconRepository.GetUnit(enemy.Name));
+            var dungeonName = System.IO.Path.GetFileNameWithoutExtension(file);
+            if (!SaveRepository.SaveData.Progress.DungeonProgress.TryGetValue(dungeonName, out var progress)
+                || progress.EncounteredEnemies is not { Count: > 0 } encountered
+                || DungeonDataRepository.Load(dungeonName) is not { } dungeon) continue;
+
+            var enemies = dungeon.Tiers.SelectMany(tier => tier.Enemies)
+                .DistinctBy(enemy => enemy.Name)
+                .OrderBy(enemy => enemy.Name, StringComparer.OrdinalIgnoreCase)
+                .ToArray();
+            if (!enemies.Any(enemy => encountered.Contains(enemy.Name))) continue;
+
+            var headingIndex = EnemyList.ItemCount;
+            EnemyList.AddItem(dungeonName.Replace('_', ' ').Capitalize());
+            EnemyList.SetItemSelectable(headingIndex, false);
+            foreach (var enemy in enemies)
+            {
+                var index = EnemyList.ItemCount;
+                var known = encountered.Contains(enemy.Name);
+                EnemyList.AddItem(known ? enemy.Name : "???", known ? IconRepository.GetUnit(enemy.Name) : unknownIcon);
+                if (!known)
+                {
+                    EnemyList.SetItemSelectable(index, false);
+                    continue;
+                }
+
+                _enemies[index] = (dungeonName, enemy);
+                if (_selectedIndex < 0 || (selected.Dungeon == dungeonName && selected.Enemy?.Name == enemy.Name))
+                    _selectedIndex = index;
+            }
         }
 
-        if (_enemies.Count > 0)
+        if (_selectedIndex >= 0)
         {
-            _selectedIndex = 0;
-            EnemyList.Select(0);
+            EnemyList.Select(_selectedIndex);
+            ShowEnemy(_selectedIndex);
         }
         else
         {
-            EnemyName.Text = "No enemies available";
-            PreviewMessage.Text = "No enemy resources were found.";
+            Sprite.Stop();
+            EnemyName.Text = "No enemies encountered yet";
+            Summary.Hide();
+            SkillsHeading.Hide();
+            Skills.Hide();
         }
     }
 
@@ -150,6 +216,9 @@ public partial class CompendiumUI : CanvasLayer
 
     private void ShowEnemy(int index)
     {
+        Summary.Show();
+        SkillsHeading.Show();
+        Skills.Show();
         Sprite.Stop();
         Sprite.SpriteFrames = null;
         Sprite.Hide();
@@ -158,7 +227,8 @@ public partial class CompendiumUI : CanvasLayer
         ClearChildren(Stats);
         ClearChildren(Skills);
 
-        var enemy = _enemies[index];
+        var enemy = _enemies[index].Enemy;
+        var count = EnemyDefeatRepository.GetCount(enemy.Name);
         EnemyName.Text = enemy.Name;
         RefreshDefeatCount();
         var frames = UnitSpriteFramesRepository.Load(enemy.Name);
@@ -178,25 +248,33 @@ public partial class CompendiumUI : CanvasLayer
         }
         else
         {
-            AddStat("Max HP", new Unit(unitData).MaxHp);
-            AddStat("Vitality", unitData.Vitality);
-            AddStat("Strength", unitData.Strength);
-            AddStat("Dexterity", unitData.Dexterity);
-            AddStat("Magic", unitData.Magic);
-            AddStat("Speed", unitData.Speed);
+            AddStat("Max HP", new Unit(unitData).MaxHp, count >= 20);
+            AddStat("Vitality", unitData.Vitality, count >= 20);
+            AddStat("Strength", unitData.Strength, count >= 20);
+            AddStat("Dexterity", unitData.Dexterity, count >= 20);
+            AddStat("Magic", unitData.Magic, count >= 20);
+            AddStat("Speed", unitData.Speed, count >= 20);
         }
+
+        _lootIcon.Texture = enemy.Loot?.Icon;
+        _lootIcon.Visible = enemy.Loot is not null;
+        _lootName.Text = enemy.Loot is { } loot ? $"Loot: {loot.Name}" : "Loot: None";
 
         SkillData?[] skills = [enemy.Skill1 ?? unitData?.BaseSkill, enemy.Skill2, enemy.Skill3, enemy.Skill4];
-        foreach (var skill in skills.OfType<SkillData>())
+        if (count < 30)
         {
-            AddSkill(skill, skill == unitData?.BaseSkill);
+            Skills.AddChild(CreateLabel("?"));
         }
-
-        if (Skills.GetChildCount() == 0)
+        else
         {
-            Skills.AddChild(CreateLabel("No skills available"));
+            foreach (var skill in skills.OfType<SkillData>())
+            {
+                AddSkill(skill, skill == unitData?.BaseSkill);
+            }
+            if (Skills.GetChildCount() == 0)
+                Skills.AddChild(CreateLabel("No skills available"));
         }
-        else if (Skills.GetChildCount() % 2 != 0)
+        if (Skills.GetChildCount() % 2 != 0)
         {
             // Reserve the second column even when only one skill is present.
             Skills.AddChild(new Control
@@ -211,12 +289,12 @@ public partial class CompendiumUI : CanvasLayer
     {
         if (_selectedIndex >= 0)
         {
-            var enemy = _enemies[_selectedIndex];
+            var enemy = _enemies[_selectedIndex].Enemy;
             var progress = EnemyScalingService.GetProgress(enemy);
             var count = EnemyDefeatRepository.GetCount(enemy.Name);
             var last = progress.LastThreshold;
             DefeatCount.Text = $"Defeated: {count}";
-            ScalingBonus.Text = $"All: +{progress.Bonus} {enemy.ScalingStat}";
+            ScalingBonus.Text = $"All: {(count >= 10 ? $"+{progress.Bonus}" : "?")} {enemy.ScalingStat}";
             LastMilestone.Text = last.ToString();
             if (progress.NextThreshold is { } next)
             {
@@ -231,6 +309,16 @@ public partial class CompendiumUI : CanvasLayer
                 MilestoneProgress.Value = 1;
             }
         }
+    }
+
+    private void OnDefeatsChanged()
+    {
+        if (_selectedIndex >= 0) ShowEnemy(_selectedIndex);
+    }
+
+    private void OnDungeonStateChanged(DungeonState state)
+    {
+        if (state == DungeonState.Combat && Overlay.Visible) PopulateEnemies();
     }
 
     private void FitPreview()
@@ -255,10 +343,10 @@ public partial class CompendiumUI : CanvasLayer
         Sprite.Scale = Vector2.One * Mathf.Min(available.X / size.X, available.Y / size.Y);
     }
 
-    private void AddStat(string name, int value)
+    private void AddStat(string name, int value, bool revealed)
     {
         Stats.AddChild(CreateLabel(name));
-        Stats.AddChild(CreateLabel(value.ToString()));
+        Stats.AddChild(CreateLabel(revealed ? value.ToString() : "?"));
     }
 
     private void AddSkill(SkillData skill, bool baseSkill)

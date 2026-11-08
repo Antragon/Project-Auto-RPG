@@ -1,7 +1,10 @@
 namespace Game.scripts.Persistence;
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json;
+using Dungeon;
+using Extensions;
 using Godot;
 
 public sealed class SaveRepository
@@ -33,6 +36,22 @@ public sealed class SaveRepository
             }
 
             saveData.PlayerState.Team ??= [];
+            foreach (var (name, dungeonProgress) in progress.DungeonProgress)
+            {
+                if (dungeonProgress.EncounteredEnemies is not null) continue;
+                dungeonProgress.EncounteredEnemies = [];
+                var dungeon = DungeonDataRepository.Load(name);
+                if (dungeon is null) continue;
+                for (var index = 0; index < dungeon.Tiers.Count; index++)
+                {
+                    if (dungeonProgress.GetDefeats(index + 1) == 0) continue;
+                    foreach (var enemy in dungeon.Tiers[index].Enemies)
+                    {
+                        if (progress.EnemyDefeatCounts.GetValueOrDefault(enemy.Name) > 0)
+                            dungeonProgress.EncounteredEnemies.Add(enemy.Name);
+                    }
+                }
+            }
             return saveData;
         }
         catch (Exception exception)

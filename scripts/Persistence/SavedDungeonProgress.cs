@@ -12,6 +12,9 @@ public sealed class SavedDungeonProgress
     [JsonPropertyName("defeats")]
     public Dictionary<int, int> Defeats { get; set; } = [];
 
+    [JsonPropertyName("encounteredEnemies")]
+    public HashSet<string>? EncounteredEnemies { get; set; }
+
     public int GetDefeats(int tier) => Defeats.GetValueOrDefault(tier);
 
     public bool IsUnlocked(int tier, int tierCount)

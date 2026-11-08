@@ -158,6 +158,7 @@ public sealed class SaveDataWriter(
                     entry => new SavedDungeonProgress
                     {
                         Defeats = new(entry.Value.Defeats),
+                        EncounteredEnemies = entry.Value.EncounteredEnemies is { } encounters ? new(encounters) : null,
                     }),
             },
         };

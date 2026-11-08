@@ -122,6 +122,18 @@ public partial class Dungeon : Node2D
     {
         if (Mathf.IsEqualApprox(EnemyFormation.Position.X, _enemyFormationDefaultPosition.X))
         {
+            if (Progress is not null)
+            {
+                Progress.EncounteredEnemies ??= [];
+                var changed = false;
+                foreach (var slot in EnemyFormation.EnemySlots)
+                {
+                    if (slot.Enemy is { } enemy)
+                        changed |= Progress.EncounteredEnemies.Add(enemy.EnemyData.Name);
+                }
+
+                if (changed) SaveDataWriter.Save();
+            }
             State = DungeonState.Combat;
         }
     }
