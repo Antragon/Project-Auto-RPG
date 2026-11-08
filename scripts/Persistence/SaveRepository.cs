@@ -1,7 +1,6 @@
 namespace Game.scripts.Persistence;
 
 using System;
-using System.Linq;
 using System.Text.Json;
 using Godot;
 
@@ -28,8 +27,7 @@ public sealed class SaveRepository
 
             if (saveData?.Progress is not { } progress || saveData.PlayerState is null
                 || progress.Characters is null || progress.Skills is null || progress.Equipments is null
-                || progress.Loot is null || progress.EnemyDefeatCounts is null || progress.DungeonProgress is null
-                || progress.DungeonProgress.Values.Any(dungeon => dungeon is null || dungeon.Defeats is null))
+                || progress.Loot is null || progress.EnemyDefeatCounts is null || progress.DungeonProgress is null)
             {
                 throw new JsonException("Save file contains invalid game data.");
             }

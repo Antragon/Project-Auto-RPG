@@ -23,7 +23,7 @@ public partial class DungeonLoot : Node2D
         {
             var slot = enemySlot.UnitSlot;
             var animation = slot.GetChildOfType<UnitAnimation>();
-            Action handler = () => OnAnimationFinished(slot, animation);
+            var handler = () => OnAnimationFinished(slot, animation);
             slot.PropertyChanged += OnSlotPropertyChanged;
             slot.UnitPropertyChanged += OnUnitPropertyChanged;
             animation.AnimationFinished += handler;
@@ -71,11 +71,6 @@ public partial class DungeonLoot : Node2D
         var drops = new Dictionary<LootData, int>();
         foreach (var lootData in enemy.EnemyData.Loot)
         {
-            if (lootData is null)
-            {
-                continue;
-            }
-
             LootRepository.Add(lootData.Name, 1);
             drops.TryGetValue(lootData, out var amount);
             drops[lootData] = amount + 1;

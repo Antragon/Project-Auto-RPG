@@ -9,7 +9,6 @@ public sealed class EnemyScalingService(EnemyDefeatRepository enemyDefeatReposit
 {
     private EnemyData[] Enemies => field ??= DirAccess.GetResourceFilesRecursivelyAt("res://resources/enemies")
         .Select(GD.Load<EnemyData>)
-        .OfType<EnemyData>()
         .ToArray();
 
     public EnemyScalingProgress GetProgress(EnemyData enemy)

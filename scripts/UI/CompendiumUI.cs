@@ -123,7 +123,6 @@ public partial class CompendiumUI : CanvasLayer
     {
         foreach (var enemy in DirAccess.GetResourceFilesRecursivelyAt("res://resources/enemies")
                      .Select(GD.Load<EnemyData>)
-                     .OfType<EnemyData>()
                      .OrderBy(enemy => enemy.Name, StringComparer.OrdinalIgnoreCase))
         {
             _enemies.Add(enemy);

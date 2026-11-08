@@ -54,11 +54,6 @@ public partial class EnemyFactory : Node
         do
         {
             var enemyData = tier.Enemies[Random.RandiRange(0, tier.Enemies.Count - 1)];
-            if (enemyData is null)
-            {
-                return false;
-            }
-
             var unitData = UnitDataRepository.Load(enemyData.Name);
             if (unitData is null)
             {
