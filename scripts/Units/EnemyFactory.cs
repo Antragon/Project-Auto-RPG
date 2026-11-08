@@ -51,6 +51,8 @@ public partial class EnemyFactory : Node
             return false;
         }
 
+        var maxEnemies = Math.Clamp(tier.MaxEnemies, 1, availableSlots.Count);
+        var spawned = 0;
         do
         {
             var enemyData = tier.Enemies[Random.RandiRange(0, tier.Enemies.Count - 1)];
@@ -68,11 +70,13 @@ public partial class EnemyFactory : Node
                 Skill3 = CreateSkill(enemyData.Skill3),
                 Skill4 = CreateSkill(enemyData.Skill4),
             };
+            unit.SetHp(unit.MaxHp);
             var slotIndex = Random.RandiRange(0, availableSlots.Count - 1);
             availableSlots[slotIndex].Assign(new Enemy(enemyData, unit));
             availableSlots.RemoveAt(slotIndex);
+            spawned++;
         }
-        while (availableSlots.Count > 0 && Random.Randf() < 0.5f);
+        while (spawned < maxEnemies && Random.Randf() < 0.5f);
 
         return true;
     }

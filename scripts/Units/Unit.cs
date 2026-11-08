@@ -79,7 +79,7 @@ public sealed class Unit
             if (field == value) return;
             field = value;
             MaxHp = CalculateMaxHp();
-            Hp = MaxHp;
+            if (Hp > MaxHp) SetHp(MaxHp);
             PropertyChanged?.Invoke(this, nameof(Level));
         }
     } = 1;

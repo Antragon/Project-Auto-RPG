@@ -46,6 +46,9 @@ public sealed class SavedPlayerState
     [JsonPropertyName("selectedTier")]
     public int SelectedTier { get; set; } = 1;
 
+    [JsonPropertyName("team")]
+    public Dictionary<int, Guid> Team { get; set; } = [];
+
     public bool EnterDungeon(string name, SavedDungeonProgress progress, int tierCount)
     {
         if (SelectedDungeon == name && progress.IsUnlocked(SelectedTier, tierCount)) return false;
@@ -81,6 +84,9 @@ public sealed class SavedCharacter
 
     [JsonPropertyName("xp")]
     public int Xp { get; set; }
+
+    [JsonPropertyName("hp")]
+    public int? Hp { get; set; }
 
     [JsonPropertyName("skill1Id")]
     public Guid? Skill1Id { get; set; }

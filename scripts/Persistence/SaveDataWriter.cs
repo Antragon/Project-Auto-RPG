@@ -15,7 +15,7 @@ public sealed class SaveDataWriter(
     SaveRepository saveRepository,
     CharacterRepository characterRepository,
     EquipmentRepository equipmentRepository,
-    SkillRepository skillRepository)
+    SkillRepository skillRepository) : IDisposable
 {
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
@@ -23,6 +23,11 @@ public sealed class SaveDataWriter(
     };
 
     private Task _pendingWrite = Task.CompletedTask;
+
+    public void Dispose()
+    {
+        _pendingWrite.GetAwaiter().GetResult();
+    }
 
     public void Save()
     {
@@ -57,6 +62,7 @@ public sealed class SaveDataWriter(
             }
 
             savedCharacter.Xp = character.Xp;
+            savedCharacter.Hp = character.Unit.Hp;
             savedCharacter.Skill1Id = character.Unit.Skill1?.Id;
             savedCharacter.Skill2Id = character.Unit.Skill2?.Id;
             savedCharacter.Skill3Id = character.Unit.Skill3?.Id;
@@ -110,6 +116,7 @@ public sealed class SaveDataWriter(
             {
                 SelectedDungeon = saveData.PlayerState.SelectedDungeon,
                 SelectedTier = saveData.PlayerState.SelectedTier,
+                Team = new(saveData.PlayerState.Team),
             },
             Progress = new SavedProgress
             {
@@ -118,6 +125,7 @@ public sealed class SaveDataWriter(
                     Id = character.Id,
                     Name = character.Name,
                     Xp = character.Xp,
+                    Hp = character.Hp,
                     Skill1Id = character.Skill1Id,
                     Skill2Id = character.Skill2Id,
                     Skill3Id = character.Skill3Id,

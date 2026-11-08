@@ -34,6 +34,10 @@ public partial class UnitAnimation : AnimatedSprite2D
         if (Animation == "death")
         {
             UnitIsDead = true;
+            if (UnitSlot.GetParent() is EnemySlot enemySlot)
+            {
+                enemySlot.Hide();
+            }
         }
         else if (Animation == "attack")
         {

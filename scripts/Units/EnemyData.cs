@@ -1,7 +1,6 @@
 namespace Game.scripts.Units;
 
 using Godot;
-using Godot.Collections;
 using Loot;
 using Skills;
 
@@ -10,7 +9,9 @@ public partial class EnemyData : Resource
 {
     [Export] public BaseStat ScalingStat { get; set; } = BaseStat.Vitality;
 
-    [Export] public Array<LootData> Loot { get; set; } = [];
+    [Export] public int BaseXp { get; set; }
+
+    [Export] public LootData? Loot { get; set; }
 
     [Export] public SkillData? Skill1 { get; set; }
 

@@ -8,7 +8,7 @@
 script = ExtResource("1_w861l")
 Icon = ExtResource("3_attack_icon")
 Cooldown = 3.0
-Power = 40
+Power = 20
 metadata/_custom_type_script = "uid://ti7s6ptdsbvr"
 
 [resource]

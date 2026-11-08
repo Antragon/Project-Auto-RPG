@@ -6,8 +6,6 @@ using Units;
 
 public partial class CharacterExperience : Node
 {
-    private const int EnemyDeathXp = 5;
-
     private CharacterFormation CharacterFormation => field ??= this.Root.Get<CharacterFormation>();
 
     private CharacterSlot[] CharacterSlots => field ??= CharacterFormation.GetChildrenOfType<CharacterSlot>();
@@ -32,7 +30,8 @@ public partial class CharacterExperience : Node
 
     private void OnEnemyUnitPropertyChanged(UnitSlot sender, string propertyName)
     {
-        if (propertyName != nameof(Unit.IsDead) || sender.Unit?.IsDead != true)
+        if (propertyName != nameof(Unit.IsDead) || sender.Unit?.IsDead != true
+            || sender.GetParent<EnemySlot>().Enemy is not { } enemy)
         {
             return;
         }
@@ -41,7 +40,7 @@ public partial class CharacterExperience : Node
         {
             if (characterSlot.Character is { Unit.IsDead: false } character)
             {
-                character.AddXp(EnemyDeathXp);
+                character.AddXp(enemy.XpReward);
             }
         }
     }

@@ -9,3 +9,4 @@
 script = ExtResource("1_tier_data")
 Enemies = Array[ExtResource("2_enemy_data")]([ExtResource("3_green_slime"), ExtResource("4_green_goblin")])
 Level = 3
+MaxEnemies = 2

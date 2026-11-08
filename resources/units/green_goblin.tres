@@ -7,8 +7,7 @@
 [sub_resource type="Resource" id="Resource_base_attack"]
 script = ExtResource("1_skill_data")
 Icon = ExtResource("3_attack_icon")
-Cooldown = 2.5
-Power = 5
+Power = 15
 Scaling = 1
 
 [resource]

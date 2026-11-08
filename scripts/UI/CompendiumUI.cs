@@ -214,7 +214,7 @@ public partial class CompendiumUI : CanvasLayer
             var enemy = _enemies[_selectedIndex];
             var progress = EnemyScalingService.GetProgress(enemy);
             var count = EnemyDefeatRepository.GetCount(enemy.Name);
-            var last = progress.Bonus == 0 ? 0 : Fibonacci.Get(progress.Bonus - 1);
+            var last = progress.LastThreshold;
             DefeatCount.Text = $"Defeated: {count}";
             ScalingBonus.Text = $"All: +{progress.Bonus} {enemy.ScalingStat}";
             LastMilestone.Text = last.ToString();

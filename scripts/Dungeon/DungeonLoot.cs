@@ -15,7 +15,7 @@ public partial class DungeonLoot : Node2D
 
     private readonly List<(UnitSlot Slot, UnitAnimation Animation, Action Handler)> _subscriptions = [];
     private readonly HashSet<UnitSlot> _awardedSlots = [];
-    private readonly Dictionary<UnitSlot, (Vector2 Position, Dictionary<LootData, int> Drops)> _pending = [];
+    private readonly Dictionary<UnitSlot, (Vector2 Position, LootData? Loot, int Xp)> _pending = [];
 
     public override void _Ready()
     {
@@ -68,18 +68,13 @@ public partial class DungeonLoot : Node2D
             return;
         }
 
-        var drops = new Dictionary<LootData, int>();
-        foreach (var lootData in enemy.EnemyData.Loot)
+        var loot = enemy.EnemyData.Loot;
+        if (loot is not null)
         {
-            LootRepository.Add(lootData.Name, 1);
-            drops.TryGetValue(lootData, out var amount);
-            drops[lootData] = amount + 1;
+            LootRepository.Add(loot.Name, 1);
         }
 
-        if (drops.Count > 0)
-        {
-            _pending[sender] = (sender.GlobalPosition + Vector2.Up * 96, drops);
-        }
+        _pending[sender] = (sender.GlobalPosition + Vector2.Up * 96, loot, enemy.XpReward);
     }
 
     private void OnAnimationFinished(UnitSlot slot, UnitAnimation animation)
@@ -91,7 +86,7 @@ public partial class DungeonLoot : Node2D
         }
 
         var popup = new LootDropPopup { ZIndex = 1 };
-        popup.SetDrops(pending.Drops);
+        popup.SetRewards(pending.Loot, pending.Xp);
         AddChild(popup);
         popup.GlobalPosition = pending.Position;
         popup.Animate();

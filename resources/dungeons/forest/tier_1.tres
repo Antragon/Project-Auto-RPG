@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://4ougqhvakgdh" path="res://scripts/Dungeon/DungeonTierData.cs" id="1_tier_data"]
 [ext_resource type="Script" uid="uid://db4qbcr74exag" path="res://scripts/Units/EnemyData.cs" id="2_enemy_data"]
 [ext_resource type="Resource" uid="uid://2h8duyd8diu4" path="res://resources/enemies/green_slime.tres" id="3_green_slime"]
-[ext_resource type="Resource" uid="uid://c7701ag006r4" path="res://resources/enemies/green_goblin.tres" id="4_green_goblin"]
 
 [resource]
 script = ExtResource("1_tier_data")
-Enemies = Array[ExtResource("2_enemy_data")]([ExtResource("3_green_slime"), ExtResource("4_green_goblin")])
+Enemies = Array[ExtResource("2_enemy_data")]([ExtResource("3_green_slime")])
+MaxEnemies = 1

@@ -110,14 +110,6 @@ public partial class Dungeon : Node2D
         return Data.Tiers[EncounterTier - 1];
     }
 
-    public void RecordEnemyDefeat()
-    {
-        if (Data is null || Progress is null) return;
-        Progress.RecordDefeat(EncounterTier, Data.Tiers.Count);
-        TiersChanged?.Invoke();
-        SaveDataWriter.Save();
-    }
-
     private void UpdateIdle()
     {
         if (Data is not null && CharacterFormation.CanStartEncounter)
@@ -136,8 +128,15 @@ public partial class Dungeon : Node2D
 
     private void UpdateCombat()
     {
-        if (EnemyFormation.AllUnitsDead || CharacterFormation.AllUnitsDead)
+        var encounterWon = EnemyFormation.AllUnitsDead;
+        if (encounterWon || CharacterFormation.AllUnitsDead)
         {
+            if (encounterWon && Data is not null && Progress is not null)
+            {
+                Progress.RecordDefeat(EncounterTier, Data.Tiers.Count);
+                TiersChanged?.Invoke();
+            }
+
             State = DungeonState.Idle;
             SaveDataWriter.Save();
         }

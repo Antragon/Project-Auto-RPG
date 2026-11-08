@@ -11,4 +11,6 @@ public sealed class Enemy
     public EnemyData EnemyData { get; }
 
     public Unit Unit { get; }
+
+    public int XpReward => EnemyData.BaseXp + Unit.Level;
 }

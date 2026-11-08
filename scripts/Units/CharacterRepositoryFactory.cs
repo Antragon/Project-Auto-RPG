@@ -29,7 +29,6 @@ public sealed class CharacterRepositoryFactory(
             var unit = new Unit(unitData!);
             var character = new Character(savedCharacter.Id, unit, savedCharacter.Xp);
             enemyScalingService.Apply(unit);
-            unit.SetHp(unit.MaxHp);
             characters.Add(character.Id, character);
 
             unit.PropertyChanged += (changedUnit, propertyName) =>
@@ -44,6 +43,7 @@ public sealed class CharacterRepositoryFactory(
             character.SetEquipment(EquipmentType.Weapon, LoadEquipment(savedCharacter.WeaponId));
             character.SetEquipment(EquipmentType.Accessory1, LoadEquipment(savedCharacter.Accessory1Id));
             character.SetEquipment(EquipmentType.Accessory2, LoadEquipment(savedCharacter.Accessory2Id));
+            unit.SetHp(savedCharacter.Hp ?? unit.MaxHp);
         }
 
         var characterRepository = new CharacterRepository(characters, enemyDefeatRepository, enemyScalingService);

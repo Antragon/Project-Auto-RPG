@@ -32,6 +32,7 @@ public sealed class SaveRepository
                 throw new JsonException("Save file contains invalid game data.");
             }
 
+            saveData.PlayerState.Team ??= [];
             return saveData;
         }
         catch (Exception exception)

@@ -8,6 +8,7 @@ public sealed class SavedDungeonProgress
 {
     public const int DefeatsToUnlock = 10;
 
+    // Keep the existing save key; its values now count completed encounters.
     [JsonPropertyName("defeats")]
     public Dictionary<int, int> Defeats { get; set; } = [];
 

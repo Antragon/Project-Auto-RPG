@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://2h8duyd8diu4"]
 
 [ext_resource type="Script" uid="uid://db4qbcr74exag" path="res://scripts/Units/EnemyData.cs" id="1_enemy_data"]
-[ext_resource type="Script" uid="uid://c1a5af6b2d8e" path="res://scripts/Loot/LootData.cs" id="2_loot_data"]
 [ext_resource type="Resource" path="res://resources/loot/goop.tres" id="3_goop"]
 
 [resource]
 script = ExtResource("1_enemy_data")
-Loot = Array[ExtResource("2_loot_data")]([ExtResource("3_goop")])
+BaseXp = 2
+Loot = ExtResource("3_goop")

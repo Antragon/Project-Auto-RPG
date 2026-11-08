@@ -11,4 +11,7 @@ public partial class DungeonTierData : Resource
 
     [Export(PropertyHint.Range, "1,1000,1,or_greater")]
     public int Level { get; set; } = 1;
+
+    [Export(PropertyHint.Range, "1,4,1,or_greater")]
+    public int MaxEnemies { get; set; } = 4;
 }

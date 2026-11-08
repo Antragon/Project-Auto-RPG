@@ -100,7 +100,7 @@ public partial class DungeonTierUI : HBoxContainer
             button.AddThemeStyleboxOverride("pressed", SelectedStyle);
             button.AddThemeStyleboxOverride("disabled", LockedStyle);
             button.TooltipText = !unlocked
-                ? $"Defeat {SavedDungeonProgress.DefeatsToUnlock} enemies in tier {tier - 1} ({progress.GetDefeats(tier - 1)}/{SavedDungeonProgress.DefeatsToUnlock})"
+                ? $"Win {SavedDungeonProgress.DefeatsToUnlock} encounters in tier {tier - 1} ({progress.GetDefeats(tier - 1)}/{SavedDungeonProgress.DefeatsToUnlock})"
                 : $"Tier {tier}";
         }
     }
