@@ -3,6 +3,11 @@
 [ext_resource type="Script" uid="uid://blmp5nc3k3olv" path="res://scripts/UI/CompendiumUI.cs" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://bhvvx1k7ltscd" path="res://textures/ui/compendium.tres" id="2_icon"]
 [ext_resource type="PackedScene" path="res://scenes/ui/CloseButton.tscn" id="3_close"]
+[ext_resource type="Script" uid="uid://dksoie04apgi4" path="res://scripts/UI/CompendiumEnemyList.cs" id="4_list"]
+[ext_resource type="Script" uid="uid://cgagy844hqg5f" path="res://scripts/UI/CompendiumEnemyPreview.cs" id="5_preview"]
+[ext_resource type="Script" uid="uid://cg3j23sg3eixu" path="res://scripts/UI/CompendiumEnemyStats.cs" id="6_stats"]
+[ext_resource type="Script" uid="uid://e3pywaldo8cl" path="res://scripts/UI/CompendiumEnemyBonuses.cs" id="7_bonuses"]
+[ext_resource type="Script" uid="uid://kdiri43xlmbh" path="res://scripts/UI/CompendiumEnemySkills.cs" id="8_skills"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_overlay"]
 bg_color = Color(0.08, 0.1, 0.14, 1)
@@ -89,6 +94,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 20
 fixed_icon_size = Vector2i(48, 48)
+script = ExtResource("4_list")
 
 [node name="DetailsScroll" type="ScrollContainer" parent="Overlay/Margin/Columns" unique_id=2048114606]
 layout_mode = 2
@@ -115,6 +121,7 @@ custom_minimum_size = Vector2(256, 256)
 clip_contents = true
 layout_mode = 2
 mouse_filter = 2
+script = ExtResource("5_preview")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary/Preview" unique_id=935930305]
 visible = false
@@ -147,6 +154,7 @@ layout_mode = 2
 theme_override_constants/h_separation = 24
 theme_override_constants/v_separation = 8
 columns = 2
+script = ExtResource("6_stats")
 
 [node name="BonusesBlock" type="VBoxContainer" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary" unique_id=1008969224]
 custom_minimum_size = Vector2(220, 0)
@@ -154,6 +162,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 theme_override_constants/separation = 8
+script = ExtResource("7_bonuses")
 
 [node name="BonusesHeading" type="Label" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary/BonusesBlock" unique_id=1652752721]
 layout_mode = 2
@@ -166,6 +175,27 @@ theme_override_font_sizes/font_size = 18
 
 [node name="ScalingBonus" type="Label" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary/BonusesBlock" unique_id=99477081]
 layout_mode = 2
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 3
+
+[node name="Loot" type="HBoxContainer" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary/BonusesBlock" unique_id=532367390]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary/BonusesBlock/Loot" unique_id=934159456]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Loot:"
+
+[node name="Icon" type="TextureRect" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary/BonusesBlock/Loot" unique_id=1035287370]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="Overlay/Margin/Columns/DetailsScroll/Details/Summary/BonusesBlock/Loot" unique_id=1121709035]
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 18
 autowrap_mode = 3
 
@@ -207,3 +237,4 @@ layout_mode = 2
 theme_override_constants/h_separation = 20
 theme_override_constants/v_separation = 20
 columns = 2
+script = ExtResource("8_skills")
